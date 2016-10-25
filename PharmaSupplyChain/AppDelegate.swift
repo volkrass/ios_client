@@ -16,7 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let username = "test1"
+        let password = "test1"
+        let serverManager = ServerManager()
+        serverManager.authenticateUser(WithUsername: username, WithPassword: password)
+        
+        sleep(3)
         return true
     }
 

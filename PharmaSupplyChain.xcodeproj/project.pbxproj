@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; };
+		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
 		D2BA8DE11DBF3B320023F581 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DE01DBF3B320023F581 /* ViewController.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
@@ -14,6 +16,7 @@
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
+		D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F126DE1DBF78AF00964B7D /* ServerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.release.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.release.xcconfig"; sourceTree = "<group>"; };
+		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
+		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BA8DE01DBF3B320023F581 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +44,8 @@
 		D2BA8DF21DBF3B320023F581 /* PharmaSupplyChainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PharmaSupplyChainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmaSupplyChainTests.swift; sourceTree = "<group>"; };
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2F126DE1DBF78AF00964B7D /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
+		E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PharmaSupplyChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,12 +67,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52F625D25F2DDC916711151D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		70B3F0934285FB4DC1C72DC5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */,
+				45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D2BA8DD21DBF3B320023F581 = {
 			isa = PBXGroup;
 			children = (
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,
 				D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */,
 				D2BA8DDC1DBF3B320023F581 /* Products */,
+				70B3F0934285FB4DC1C72DC5 /* Pods */,
+				52F625D25F2DDC916711151D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,7 +107,9 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D2F126DD1DBF533100964B7D /* EtheriumService */,
 				D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */,
+				D28FD59B1DBF83310077579A /* Utils.swift */,
 				D2BA8DE01DBF3B320023F581 /* ViewController.swift */,
 				D2BA8DE21DBF3B320023F581 /* Main.storyboard */,
 				D2BA8DE81DBF3B320023F581 /* Assets.xcassets */,
@@ -99,6 +129,14 @@
 			path = PharmaSupplyChainTests;
 			sourceTree = "<group>";
 		};
+		D2F126DD1DBF533100964B7D /* EtheriumService */ = {
+			isa = PBXGroup;
+			children = (
+				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
+			);
+			name = EtheriumService;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,9 +144,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2BA8DFB1DBF3B320023F581 /* Build configuration list for PBXNativeTarget "PharmaSupplyChain" */;
 			buildPhases = (
+				EBC7780CC6B53595CB11C36E /* [CP] Check Pods Manifest.lock */,
 				D2BA8DD71DBF3B320023F581 /* Sources */,
 				D2BA8DD81DBF3B320023F581 /* Frameworks */,
 				D2BA8DD91DBF3B320023F581 /* Resources */,
+				CD0206DE5D411F5AD5B088BA /* [CP] Embed Pods Frameworks */,
+				E53D31266D144D2460F88424 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,11 +240,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CD0206DE5D411F5AD5B088BA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E53D31266D144D2460F88424 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EBC7780CC6B53595CB11C36E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D2BA8DD71DBF3B320023F581 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
+				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2BA8DE11DBF3B320023F581 /* ViewController.swift in Sources */,
 				D2BA8DE71DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
@@ -341,6 +432,7 @@
 		};
 		D2BA8DFC1DBF3B320023F581 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 48D572G72F;
@@ -354,6 +446,7 @@
 		};
 		D2BA8DFD1DBF3B320023F581 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 48D572G72F;
@@ -414,6 +507,7 @@
 				D2BA8DFD1DBF3B320023F581 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2BA8DFE1DBF3B320023F581 /* Build configuration list for PBXNativeTarget "PharmaSupplyChainTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +516,7 @@
 				D2BA8E001DBF3B320023F581 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
