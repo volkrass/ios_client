@@ -14,12 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let username = "test1"
-        let password = "test1"
+        let credentials = UserCredentials(username: "test1", password: "test1")
         let serverManager = ServerManager()
-        serverManager.authenticateUser(WithUsername: username, WithPassword: password)
+        serverManager.authenticateUser(WithUserCredentials: credentials, completionHandler: {
+            (error: Error?) in
+            
+            if let error = error {
+                log("Error authenticating: \(error.localizedDescription)")
+            }
+        })
         
         sleep(3)
         return true
