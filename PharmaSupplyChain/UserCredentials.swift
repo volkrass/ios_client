@@ -12,8 +12,22 @@ struct UserCredentials : JSONSerializable {
     var username: String
     var password: String
     
+    init?(username: String, password: String) {
+        if UserCredentials.validate(username: username, password: password) {
+            self.username = username
+            self.password = password
+        } else {
+            return nil
+        }
+    }
+    
     func toJSON() -> Parameters? {
         return ["Username" : username as AnyObject, "Password" : password as AnyObject]
+    }
+    
+    fileprivate static func validate(username: String, password: String) -> Bool {
+        // Add validation code for user credentials here
+        return true
     }
     
 }

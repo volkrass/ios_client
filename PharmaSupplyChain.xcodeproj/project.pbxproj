@@ -8,11 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; };
+		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
+		D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */; };
+		D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */; };
+		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
+		D27786D91DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift */; };
+		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
+		D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */; };
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D28FD59E1DBF87190077579A /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* UserCredentials.swift */; };
 		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
-		D2BA8DE11DBF3B320023F581 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DE01DBF3B320023F581 /* ViewController.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
 		D2BA8DE71DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DE51DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld */; };
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
@@ -34,12 +40,18 @@
 /* Begin PBXFileReference section */
 		45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.release.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.release.xcconfig"; sourceTree = "<group>"; };
 		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
+		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerEnabledController.swift; sourceTree = "<group>"; };
+		D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataEnabledController.swift; sourceTree = "<group>"; };
+		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
+		D27786D81DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelInfoTableViewCell.swift; sourceTree = "<group>"; };
+		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
+		D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* UserCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D2BA8DE01DBF3B320023F581 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D2BA8DE31DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2BA8DE61DBF3B320023F581 /* PharmaSupplyChain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChain.xcdatamodel; sourceTree = "<group>"; };
 		D2BA8DE81DBF3B320023F581 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,10 +100,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */,
+				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
+				D27786D81DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		D28FD5A01DBF87A50077579A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				D28FD5A11DBF87B60077579A /* JSONSerializable.swift */,
+				D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */,
+				D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -119,11 +143,11 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D27786D61DC2520F007D3FB5 /* ViewControllers */,
 				D28FD5A01DBF87A50077579A /* Protocols */,
-				D2F126DD1DBF533100964B7D /* EtheriumService */,
+				D2F126DD1DBF533100964B7D /* Server */,
 				D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */,
 				D28FD59B1DBF83310077579A /* Utils.swift */,
-				D2BA8DE01DBF3B320023F581 /* ViewController.swift */,
 				D2BA8DE21DBF3B320023F581 /* Main.storyboard */,
 				D2BA8DE81DBF3B320023F581 /* Assets.xcassets */,
 				D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */,
@@ -142,13 +166,15 @@
 			path = PharmaSupplyChainTests;
 			sourceTree = "<group>";
 		};
-		D2F126DD1DBF533100964B7D /* EtheriumService */ = {
+		D2F126DD1DBF533100964B7D /* Server */ = {
 			isa = PBXGroup;
 			children = (
 				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
 				D28FD59D1DBF87190077579A /* UserCredentials.swift */,
+				D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */,
+				D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */,
 			);
-			name = EtheriumService;
+			name = Server;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,12 +333,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D27786D91DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift in Sources */,
+				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
+				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
+				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
-				D2BA8DE11DBF3B320023F581 /* ViewController.swift in Sources */,
 				D2BA8DE71DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
+				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
+				D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */,
+				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
 				D28FD59E1DBF87190077579A /* UserCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

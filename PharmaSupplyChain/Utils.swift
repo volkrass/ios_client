@@ -7,6 +7,12 @@
 //
 
 import Foundation
+import UIKit
+
+/* COLORS */
+
+let MODUM_LIGHT_BLUE: UIColor = UIColor(red: 48, green: 170, blue: 223, alpha: 1.0)
+let MODUM_DARK_BLUE: UIColor = UIColor(red: 18, green: 85, blue: 122, alpha: 1.0)
 
 /*
  The function to be used for logging throughout the project
