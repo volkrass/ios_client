@@ -26,8 +26,7 @@ struct UserCredentials : JSONSerializable {
     }
     
     fileprivate static func validate(username: String, password: String) -> Bool {
-        // Add validation code for user credentials here
-        return true
+        return username.characters.count >= 3 && password.characters.count >= 3
     }
     
 }
