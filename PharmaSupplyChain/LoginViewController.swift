@@ -9,7 +9,11 @@
 import UIKit
 import QuartzCore
 
-class LoginViewController: UIViewController, ServerEnabledController {
+class LoginViewController: UIViewController, ServerEnabledController, CoreDataEnabledController {
+    
+    // MARK: CoreDataEnabledController
+    
+    var coreDataManager: CoreDataManager?
     
     // MARK: ServerEnabledController
     
@@ -42,8 +46,8 @@ class LoginViewController: UIViewController, ServerEnabledController {
         let username = usernameTextField.text!
         let password = passwordTextField.text!
         
-        if let userCredentials = UserCredentials(username: username, password: password) {
-            serverManager!.authenticateUser(WithUserCredentials: userCredentials, completionHandler: {
+        if let loginCredentials = LoginCredentials(username: username, password: password) {
+            serverManager!.authenticateUser(WithCredentials: loginCredentials, completionHandler: {
                 [weak self]
                 error in
                 
@@ -61,7 +65,14 @@ class LoginViewController: UIViewController, ServerEnabledController {
                                 return
                         }
                     } else {
-                        loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
+                        loginViewController.serverManager!.getUserParcels {
+                            [weak loginViewController]
+                            success in
+                            
+                            if let loginViewController = loginViewController {
+                                loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
+                            }
+                        }
                     }
                 }
             })
@@ -83,6 +94,9 @@ class LoginViewController: UIViewController, ServerEnabledController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard coreDataManager != nil else {
+            fatalError("LoginViewController.viewDidLoad(): nil instance of CoreDataManager")
+        }
         guard serverManager != nil else {
             fatalError("LoginViewController.viewDidLoad(): nil instance of ServerManager")
         }
@@ -96,10 +110,27 @@ class LoginViewController: UIViewController, ServerEnabledController {
         passwordTextField.layer.borderWidth = 1.0
         passwordTextField.layer.cornerRadius = 3.0
         passwordTextField.layer.borderColor = view.tintColor.cgColor
+        
+        /* configure gesture recognizer for keyboard dismissing */
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.numberOfTouchesRequired = 1
+        gestureRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(gestureRecognizer)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navController = segue.destination as? UINavigationController, var coreDataController = navController.childViewControllers[0] as? CoreDataEnabledController {
+            coreDataController.coreDataManager = coreDataManager
+        }
     }
     
 }

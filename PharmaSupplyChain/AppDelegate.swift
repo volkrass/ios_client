@@ -14,24 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var serverManager: ServerManager?
+    var coreDataManager: CoreDataManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let credentials = UserCredentials(username: "test1", password: "test1")
-        serverManager = ServerManager()
-        
+        coreDataManager = CoreDataManager()
+        serverManager = ServerManager(WithCoreDataManager: coreDataManager!)
+
         if let loginViewController = window?.rootViewController as? LoginViewController {
             loginViewController.serverManager = serverManager
+            loginViewController.coreDataManager = coreDataManager
         }
-        
-//        serverManager.authenticateUser(WithUserCredentials: credentials, completionHandler: {
-//            (error: Error?) in
-//            
-//            if let error = error {
-//                log("Error authenticating: \(error.localizedDescription)")
-//            }
-//        })
-//        
-//        sleep(3)
         return true
     }
 

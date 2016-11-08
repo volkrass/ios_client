@@ -1,4 +1,4 @@
-//
+///
 //  ServerManager.swift
 //  PharmaSupplyChain
 //
@@ -9,26 +9,38 @@
 import Alamofire
 import SwiftyJSON
 import Foundation
+import CoreData
 
 class ServerManager {
     
     // MARK: Constants
     
-    fileprivate let API_URL = "https://core.modum.io/api/login"
+    fileprivate let API_URL = "https://core.modum.io/api/"
     
     // MARK: Properties
     
-    typealias AuthenticationToken = (String, Date)
-    fileprivate var authenticationToken: AuthenticationToken?
+    fileprivate let coreDataManager: CoreDataManager
+    
+    fileprivate var authenticationToken: String?
+    /* User ID that can be extracted from authentication token */
+    fileprivate var userID: Int?
+    
+    fileprivate func getAuthorizationHeader() -> String {
+        return "Bearer " + (authenticationToken == nil ? "" : authenticationToken!)
+    }
+    
+    init(WithCoreDataManager coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
+    }
     
     /*
      Given UserCredentials object and completionHandler, attempts to login the user with given credentials.
      If authentication was successful, executes completionHandler with no parameters
      Otherwise, executes completionHandler with the error occured.
     */
-    func authenticateUser(WithUserCredentials userCredentials: UserCredentials, completionHandler: @escaping (AuthenticationError?) -> Void) {
-        if let jsonUserCredentials = userCredentials.toJSON() {
-            Alamofire.request(API_URL, method: .post, parameters: jsonUserCredentials, encoding: JSONEncoding.default, headers: nil).responseJSON(completionHandler: {
+    func authenticateUser(WithCredentials loginCredentials: LoginCredentials, completionHandler: @escaping (AuthenticationError?) -> Void) {
+        if let jsonLoginCredentials = loginCredentials.toJSON(), let parameters = ServerUtils.parameters(FromJSON: jsonLoginCredentials) {
+            Alamofire.request(API_URL + "login", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON(completionHandler: {
                 [weak self]
                 response in
                 
@@ -36,9 +48,11 @@ class ServerManager {
                     switch response.result {
                         case .success(let data):
                             let responseData = JSON(data)
-                            if let authToken = responseData["token"].string, let expiryDateString = responseData["expire"].string, let expiryDate = date(FromServerString: expiryDateString) {
+                            if let authToken = responseData["token"].string, let expiryDateString = responseData["expire"].string, let expiryDate = ServerUtils.date(FromServerString: expiryDateString) {
                                 log("Received authentication token: \(authToken) with expiry date: \(expiryDate)")
-                                serverManager.authenticationToken = AuthenticationToken(authToken, expiryDate)
+                                
+                                serverManager.authenticationToken = authToken
+                                serverManager.userID = serverManager.extractUserID(FromAuthenticationToken: authToken)
                                 completionHandler(nil)
                             } else if let errorCode = responseData["code"].int, let errorMessage = responseData["message"].string {
                                 log("Received error \(errorCode): \(errorMessage)")
@@ -58,4 +72,47 @@ class ServerManager {
             })
         }
     }
+    
+    /*
+     Extracts user ID from authentication token
+     If invalid authentication token is given, returns nil
+     */
+    fileprivate func extractUserID(FromAuthenticationToken authToken: String) -> Int? {
+        let splitToken = authToken.characters.split(separator: ".").map(String.init)
+        if let decodedData = splitToken[1].base64DecodedData() {
+            let authTokenJson = JSON(data: decodedData)
+            return authTokenJson["userId"].int
+        } else {
+            return nil
+        }
+    }
+    
+    /* */
+    func getUserParcels(completionHandler: @escaping (_ success: Bool) -> Void) {
+        if let userID = userID {
+            Alamofire.request(API_URL + "users/\(userID)/parcels", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : getAuthorizationHeader()]).responseJSON(completionHandler: {
+                [weak self]
+                response in
+                
+                if let serverManager = self {
+                    switch response.result {
+                        case .success(let data):
+                            let responseData = JSON(data)
+                            if let parcels = responseData.array {
+                                for parcelJSON in parcels {
+                                    let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
+                                    parcel.fromJSON(object: parcelJSON)
+                                }
+                                serverManager.coreDataManager.save(managedContext: serverManager.coreDataManager.viewingContext)
+                                completionHandler(true)
+                            }
+                        case .failure(let error):
+                            log("Error is \(error.localizedDescription)")
+                        completionHandler(false)
+                    }
+                }
+            })
+        }
+    }
+    
 }

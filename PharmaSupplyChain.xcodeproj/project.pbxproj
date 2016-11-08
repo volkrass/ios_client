@@ -8,22 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; };
+		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */; };
 		D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
-		D27786D91DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift */; };
+		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
 		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
 		D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */; };
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
-		D28FD59E1DBF87190077579A /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* UserCredentials.swift */; };
+		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
 		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
-		D2BA8DE71DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DE51DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld */; };
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
+		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
+		D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */; };
+		D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */; };
+		D2E1EEDE1DD28D5B00B26463 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */; };
+		D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */; };
+		D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */; };
+		D2E6DF001DD2480100431AA1 /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */; };
+		D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */; };
 		D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F126DE1DBF78AF00964B7D /* ServerManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,26 +48,34 @@
 /* Begin PBXFileReference section */
 		45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.release.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.release.xcconfig"; sourceTree = "<group>"; };
 		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
+		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerEnabledController.swift; sourceTree = "<group>"; };
 		D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataEnabledController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
-		D27786D81DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelInfoTableViewCell.swift; sourceTree = "<group>"; };
+		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
 		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
 		D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		D28FD59D1DBF87190077579A /* UserCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
+		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BA8DE31DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D2BA8DE61DBF3B320023F581 /* PharmaSupplyChain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChain.xcdatamodel; sourceTree = "<group>"; };
 		D2BA8DE81DBF3B320023F581 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2BA8DEB1DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D2BA8DED1DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2BA8DF21DBF3B320023F581 /* PharmaSupplyChainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PharmaSupplyChainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmaSupplyChainTests.swift; sourceTree = "<group>"; };
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
+		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueManagedObject.swift; sourceTree = "<group>"; };
+		D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
+		D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
 		D2F126DE1DBF78AF00964B7D /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PharmaSupplyChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -100,12 +116,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D22376461DD0B01B00877A6D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D22376471DD0B02C00877A6D /* String+Extension.swift */,
+				D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */,
+				D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */,
 				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
-				D27786D81DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift */,
+				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -143,6 +169,9 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
+				D2E6DEF91DD2476E00431AA1 /* CoreData */,
+				D22376461DD0B01B00877A6D /* Extensions */,
 				D27786D61DC2520F007D3FB5 /* ViewControllers */,
 				D28FD5A01DBF87A50077579A /* Protocols */,
 				D2F126DD1DBF533100964B7D /* Server */,
@@ -152,7 +181,6 @@
 				D2BA8DE81DBF3B320023F581 /* Assets.xcassets */,
 				D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */,
 				D2BA8DED1DBF3B320023F581 /* Info.plist */,
-				D2BA8DE51DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld */,
 			);
 			path = PharmaSupplyChain;
 			sourceTree = "<group>";
@@ -160,17 +188,37 @@
 		D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */ = {
 			isa = PBXGroup;
 			children = (
+				D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */,
 				D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */,
 				D2BA8DF81DBF3B320023F581 /* Info.plist */,
 			);
 			path = PharmaSupplyChainTests;
 			sourceTree = "<group>";
 		};
+		D2E6DEF91DD2476E00431AA1 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */,
+				D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */,
+				D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */ = {
+			isa = PBXGroup;
+			children = (
+				D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */,
+				D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */,
+			);
+			name = CoreDataObjects;
+			sourceTree = "<group>";
+		};
 		D2F126DD1DBF533100964B7D /* Server */ = {
 			isa = PBXGroup;
 			children = (
 				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
-				D28FD59D1DBF87190077579A /* UserCredentials.swift */,
+				D28FD59D1DBF87190077579A /* LoginCredentials.swift */,
 				D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */,
 				D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */,
 			);
@@ -225,7 +273,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Modum;
 				TargetAttributes = {
 					D2BA8DDA1DBF3B320023F581 = {
@@ -333,19 +381,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D27786D91DC2529A007D3FB5 /* ParcelInfoTableViewCell.swift in Sources */,
+				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
+				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
+				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
+				D2E1EEDE1DD28D5B00B26463 /* Date+Extension.swift in Sources */,
+				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
+				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
+				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
 				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
-				D2BA8DE71DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */,
 				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
-				D28FD59E1DBF87190077579A /* UserCredentials.swift in Sources */,
+				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
+				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,
+				D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2E6DF001DD2480100431AA1 /* CoreDataManagerTests.swift in Sources */,
 				D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,14 +629,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		D2BA8DE51DBF3B320023F581 /* PharmaSupplyChain.xcdatamodeld */ = {
+		D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				D2BA8DE61DBF3B320023F581 /* PharmaSupplyChain.xcdatamodel */,
+				D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */,
 			);
-			currentVersion = D2BA8DE61DBF3B320023F581 /* PharmaSupplyChain.xcdatamodel */;
-			path = PharmaSupplyChain.xcdatamodeld;
-			sourceTree = "<group>";
+			currentVersion = D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */;
+			path = PharmaSupplyChainDataModel.xcdatamodeld;
+			sourceTree = SOURCE_ROOT;
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
