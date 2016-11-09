@@ -32,6 +32,7 @@
 		D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */; };
 		D2E6DF001DD2480100431AA1 /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */; };
 		D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */; };
+		D2EFD2271DD2A81400E02684 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */; };
 		D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F126DE1DBF78AF00964B7D /* ServerManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
+		D29E18EC1DD2A96B00CBE83C /* PharmaSupplyChain_Bridging_Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PharmaSupplyChain_Bridging_Header.h; path = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BA8DE31DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueManagedObject.swift; sourceTree = "<group>"; };
 		D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 		D2BA8DD21DBF3B320023F581 = {
 			isa = PBXGroup;
 			children = (
+				D29E18EC1DD2A96B00CBE83C /* PharmaSupplyChain_Bridging_Header.h */,
+				D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */,
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,
 				D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */,
 				D2BA8DDC1DBF3B320023F581 /* Products */,
@@ -278,7 +283,6 @@
 				TargetAttributes = {
 					D2BA8DDA1DBF3B320023F581 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 48D572G72F;
 						ProvisioningStyle = Automatic;
 					};
 					D2BA8DF11DBF3B320023F581 = {
@@ -314,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */,
+				D2EFD2271DD2A81400E02684 /* GoogleService-Info.plist in Resources */,
 				D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */,
 				D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */,
 			);
@@ -542,12 +547,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 48D572G72F;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PharmaSupplyChain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = modum.io.PharmaSupplyChain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";
 			};
 			name = Debug;
 		};
@@ -557,12 +564,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 48D572G72F;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PharmaSupplyChain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = modum.io.PharmaSupplyChain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";
 			};
 			name = Release;
 		};

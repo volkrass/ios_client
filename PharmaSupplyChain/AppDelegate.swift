@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Google
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var coreDataManager: CoreDataManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        setupGoogleAnalytics()
         coreDataManager = CoreDataManager()
         serverManager = ServerManager(WithCoreDataManager: coreDataManager!)
 
@@ -25,6 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             loginViewController.coreDataManager = coreDataManager
         }
         return true
+    }
+    
+    fileprivate func setupGoogleAnalytics() {
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
