@@ -98,6 +98,7 @@ class ServerManager {
                     switch response.result {
                         case .success(let data):
                             let responseData = JSON(data)
+                            log("Received parcels: \(responseData)")
                             if let parcels = responseData.array {
                                 for parcelJSON in parcels {
                                     let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
@@ -108,7 +109,7 @@ class ServerManager {
                             }
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
-                        completionHandler(false)
+                            completionHandler(false)
                     }
                 }
             })

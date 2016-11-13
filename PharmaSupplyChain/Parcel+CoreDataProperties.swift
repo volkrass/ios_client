@@ -17,8 +17,8 @@ extension Parcel {
     /* Metadata properties */
     @NSManaged public var identifier: String
     
-    @NSManaged public var createdAt: Date
-    @NSManaged public var updatedAt: Date
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
     @NSManaged public var deletedAt: Date?
     @NSManaged public var dateReceived: Date?
     @NSManaged public var dateSent: Date?

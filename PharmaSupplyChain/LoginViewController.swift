@@ -65,14 +65,15 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
                                 return
                         }
                     } else {
-                        loginViewController.serverManager!.getUserParcels {
-                            [weak loginViewController]
-                            success in
-                            
-                            if let loginViewController = loginViewController {
-                                loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
-                            }
-                        }
+//                        loginViewController.serverManager!.getUserParcels {
+//                            [weak loginViewController]
+//                            success in
+//                            
+//                            if let loginViewController = loginViewController {
+//                                loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
+//                            }
+//                        }
+                        loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
                     }
                 }
             })
@@ -145,6 +146,9 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navController = segue.destination as? UINavigationController, var coreDataController = navController.childViewControllers[0] as? CoreDataEnabledController {
             coreDataController.coreDataManager = coreDataManager
+        }
+        if let navController = segue.destination as? UINavigationController, var serverEnabledController = navController.childViewControllers[0] as? ServerEnabledController {
+            serverEnabledController.serverManager = serverManager
         }
     }
     

@@ -116,11 +116,11 @@ class CoreDataManager {
                     if let completionHandler = completionHandler {
                         completionHandler(true)
                     }
-                } catch {
+                } catch let error as NSError {
                     if let completionHandler = completionHandler {
                         completionHandler(false)
                     }
-                    log("Failed saving to CoreData: \(error.localizedDescription)")
+                    log("Failed saving to CoreData: \(error.localizedDescription). Detailed information: \(error.userInfo.description)")
                     return
                 }
             }

@@ -10,6 +10,14 @@ import UIKit
 
 class ParcelDetailTableViewController : UITableViewController {
     
+    // MARK: CoreData Properties
     
+    var parcel: Parcel?
+    
+    override func viewDidLoad() {
+        guard let parcel = parcel else {
+            fatalError("ParcelDetailTableViewController.viewDidLoad(): nil instance of Parcel")
+        }
+    }
     
 }

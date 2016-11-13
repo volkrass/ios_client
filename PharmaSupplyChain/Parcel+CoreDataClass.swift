@@ -17,10 +17,10 @@ public class Parcel : NSManagedObject, UniqueManagedObject, JSONSerializable {
         let jsonParcel = JSON([
                                 "contractAddress" : contractAddress,
                                 "tntNumber" : tntNumber,
-                                "CreatedAt" : ServerUtils.serverDateString(FromDate: createdAt),
+                                "CreatedAt" : createdAt == nil ? nil : ServerUtils.serverDateString(FromDate: createdAt!),
                                 "ID" : parcelId,
                                 "receiver" : receiverId,
-                                "UpdatedAt" : ServerUtils.serverDateString(FromDate: updatedAt),
+                                "UpdatedAt" : updatedAt == nil ? nil : ServerUtils.serverDateString(FromDate: updatedAt!),
                                 "isReceived" : isReceived,
                                 "sensorUUID" : sensorUUID,
                                 "txHash" : txHash,

@@ -28,20 +28,20 @@
                                     <constraint firstAttribute="height" constant="275" id="bff-OF-N4v"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sRt-P3-GoO">
-                                <rect key="frame" x="24" y="355" width="327" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sRt-P3-GoO">
+                                <rect key="frame" x="24" y="355" width="327" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="255" verticalCompressionResistancePriority="755" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSx-eU-rJL">
-                                <rect key="frame" x="31" y="360" width="313" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="255" verticalCompressionResistancePriority="755" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSx-eU-rJL">
+                                <rect key="frame" x="31" y="410" width="313" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="265" verticalCompressionResistancePriority="765" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="42k-X1-rHc">
-                                <rect key="frame" x="31" y="362" width="313" height="40"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="265" verticalCompressionResistancePriority="765" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="42k-X1-rHc">
+                                <rect key="frame" x="31" y="412" width="313" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="eHz-YG-3Mt"/>
                                 </constraints>
@@ -52,8 +52,8 @@
                                     <action selector="usernameTextFieldEditingChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="Vgw-CU-ODD"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="270" verticalCompressionResistancePriority="770" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6B-Id-lnp">
-                                <rect key="frame" x="31" y="432" width="313" height="48"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="270" verticalCompressionResistancePriority="770" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6B-Id-lnp">
+                                <rect key="frame" x="31" y="480" width="313" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -86,7 +86,6 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="X6B-Id-lnp" firstAttribute="top" secondItem="42k-X1-rHc" secondAttribute="bottom" constant="30" id="2jc-TI-h3L"/>
                             <constraint firstItem="fQh-Yx-TJd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7Ly-OH-xc3"/>
                             <constraint firstItem="fQh-Yx-TJd" firstAttribute="top" secondItem="wwF-hk-PkF" secondAttribute="bottom" constant="15" id="977-0X-Z8I"/>
                             <constraint firstAttribute="trailingMargin" secondItem="42k-X1-rHc" secondAttribute="trailing" constant="15" id="B81-mH-UYl"/>
@@ -94,6 +93,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="sRt-P3-GoO" secondAttribute="trailing" constant="8" id="Jsg-TC-7qd"/>
                             <constraint firstItem="X6B-Id-lnp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="15" id="KLa-hT-w2s"/>
                             <constraint firstItem="LgB-IS-TCk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="LMd-MQ-xx0"/>
+                            <constraint firstItem="wwF-hk-PkF" firstAttribute="top" secondItem="42k-X1-rHc" secondAttribute="bottom" constant="30" id="N8e-Fu-Ctx"/>
                             <constraint firstItem="sRt-P3-GoO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="WAS-1c-Egs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wwF-hk-PkF" secondAttribute="trailing" constant="15" id="XK6-6f-Epj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="X6B-Id-lnp" secondAttribute="trailing" constant="15" id="YEM-l9-DdE"/>
@@ -200,11 +200,11 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="contractStatusLabel" destination="znv-wA-ncT" id="zxw-3q-hM7"/>
-                                    <outlet property="parcelTitleLabel" destination="qO1-3y-rof" id="ryE-tp-fpt"/>
                                     <outlet property="receivedTimeLabel" destination="d4z-Qk-4Kh" id="B2X-Vx-RP1"/>
                                     <outlet property="sentTimeLabel" destination="f1l-A9-GD0" id="IBX-Ev-6iZ"/>
                                     <outlet property="statusIconImageView" destination="HDm-N4-Tyl" id="lO5-Mi-DGv"/>
                                     <outlet property="temperatureCategoryLabel" destination="W5i-AE-vjD" id="SlY-EM-DoH"/>
+                                    <outlet property="tntNumberLabel" destination="qO1-3y-rof" id="3XG-Zb-bpb"/>
                                     <segue destination="TxQ-Pe-viL" kind="show" id="SQQ-rG-WOf"/>
                                 </connections>
                             </tableViewCell>
@@ -214,7 +214,13 @@
                             <outlet property="delegate" destination="HDb-dB-TRz" id="Gv8-qp-fnI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="5MX-WE-A9p"/>
+                    <navigationItem key="navigationItem" id="5MX-WE-A9p">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="editButtons" id="QHE-9Z-hCw">
+                            <connections>
+                                <action selector="switchModeButtonDidTouchDown:" destination="HDb-dB-TRz" id="EOu-wj-nB8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uay-5e-pDf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -487,6 +493,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="editButtons" width="50" height="17"/>
         <image name="modum_logo" width="1800" height="495"/>
     </resources>
 </document>
