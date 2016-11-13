@@ -103,7 +103,7 @@ class ServerManager {
                                     let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
                                     parcel.fromJSON(object: parcelJSON)
                                 }
-                                serverManager.coreDataManager.save(managedContext: serverManager.coreDataManager.viewingContext)
+                                serverManager.coreDataManager.saveLocally(managedContext: serverManager.coreDataManager.viewingContext)
                                 completionHandler(true)
                             }
                         case .failure(let error):

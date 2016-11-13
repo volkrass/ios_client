@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; };
+		AA6BF04AC8BF8041B54418DE /* Pods_PharmaSupplyChainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
+		D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */; };
 		D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */; };
@@ -16,6 +18,9 @@
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
 		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
 		D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */; };
+		D2848A8E1DD7517300BE2D95 /* Test2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D2848A8D1DD7517300BE2D95 /* Test2.sqlite */; };
+		D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */; };
+		D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */; };
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
 		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
@@ -48,8 +53,11 @@
 
 /* Begin PBXFileReference section */
 		45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.release.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.release.xcconfig"; sourceTree = "<group>"; };
+		4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PharmaSupplyChainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChainTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelDetailTableViewController.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerEnabledController.swift; sourceTree = "<group>"; };
 		D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataEnabledController.swift; sourceTree = "<group>"; };
@@ -57,6 +65,9 @@
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
 		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
 		D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
+		D2848A8D1DD7517300BE2D95 /* Test2.sqlite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test2.sqlite; sourceTree = "<group>"; };
+		D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
@@ -80,6 +91,7 @@
 		D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
 		D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
 		D2F126DE1DBF78AF00964B7D /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
+		D6934B7AFD929DDAC4C1BC93 /* Pods-PharmaSupplyChainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChainTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests.release.xcconfig"; sourceTree = "<group>"; };
 		E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PharmaSupplyChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -96,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA6BF04AC8BF8041B54418DE /* Pods_PharmaSupplyChainTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */,
+				4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -115,6 +129,8 @@
 			children = (
 				7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */,
 				45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */,
+				5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */,
+				D6934B7AFD929DDAC4C1BC93 /* Pods-PharmaSupplyChainTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -135,6 +151,7 @@
 				D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */,
 				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
 				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
+				D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -193,6 +210,7 @@
 		D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */ = {
 			isa = PBXGroup;
 			children = (
+				D2848A8D1DD7517300BE2D95 /* Test2.sqlite */,
 				D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */,
 				D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */,
 				D2BA8DF81DBF3B320023F581 /* Info.plist */,
@@ -215,6 +233,8 @@
 			children = (
 				D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */,
 				D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */,
+				D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */,
+				D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */,
 			);
 			name = CoreDataObjects;
 			sourceTree = "<group>";
@@ -257,9 +277,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2BA8DFE1DBF3B320023F581 /* Build configuration list for PBXNativeTarget "PharmaSupplyChainTests" */;
 			buildPhases = (
+				B39B465D7F69BF8C0321C6E2 /* [CP] Check Pods Manifest.lock */,
 				D2BA8DEE1DBF3B320023F581 /* Sources */,
 				D2BA8DEF1DBF3B320023F581 /* Frameworks */,
 				D2BA8DF01DBF3B320023F581 /* Resources */,
+				EC567223F8126D7858BECEC0 /* [CP] Embed Pods Frameworks */,
+				E8BBB9BE4C620655E3AEFFB1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -328,12 +351,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2848A8E1DD7517300BE2D95 /* Test2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		B39B465D7F69BF8C0321C6E2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		CD0206DE5D411F5AD5B088BA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -364,6 +403,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E8BBB9BE4C620655E3AEFFB1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EBC7780CC6B53595CB11C36E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -379,6 +433,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		EC567223F8126D7858BECEC0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -389,9 +458,11 @@
 				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
+				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2E1EEDE1DD28D5B00B26463 /* Date+Extension.swift in Sources */,
+				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
@@ -399,6 +470,7 @@
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
 				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
+				D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */,
@@ -577,14 +649,28 @@
 		};
 		D2BA8DFF1DBF3B320023F581 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 48D572G72F;
+				HEADER_SEARCH_PATHS = (
+					"${PODS_ROOT}/Google/Headers",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public/\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+				);
 				INFOPLIST_FILE = PharmaSupplyChainTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = modum.io.PharmaSupplyChainTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PharmaSupplyChain.app/PharmaSupplyChain";
 			};
@@ -592,14 +678,28 @@
 		};
 		D2BA8E001DBF3B320023F581 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6934B7AFD929DDAC4C1BC93 /* Pods-PharmaSupplyChainTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 48D572G72F;
+				HEADER_SEARCH_PATHS = (
+					"${PODS_ROOT}/Google/Headers",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public/\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+				);
 				INFOPLIST_FILE = PharmaSupplyChainTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = modum.io.PharmaSupplyChainTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PharmaSupplyChain.app/PharmaSupplyChain";
 			};

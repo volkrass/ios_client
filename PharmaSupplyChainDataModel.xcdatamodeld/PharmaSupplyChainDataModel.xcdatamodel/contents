@@ -20,7 +20,14 @@
         <attribute name="txHash" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
     </entity>
+    <entity name="TestEntity" representedClassName=".TestEntity" syncable="YES">
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="optional" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Parcel" positionX="-63" positionY="-18" width="128" height="315"/>
+        <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
     </elements>
 </model>

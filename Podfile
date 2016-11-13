@@ -6,3 +6,9 @@ target 'PharmaSupplyChain' do
   pod 'SwiftyJSON'
   pod 'Google/Analytics'
 end
+
+target 'PharmaSupplyChainTests' do
+	pod 'Alamofire'
+	pod 'SwiftyJSON'
+	pod 'Google/Analytics'
+end

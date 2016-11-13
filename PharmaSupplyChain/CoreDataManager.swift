@@ -90,45 +90,38 @@ class CoreDataManager {
         return backgroundContext
     }
     
-    /*
-     Saves changes in given NSManagedObjectContext to persistent store (if given context has parent context, they are also saved), optionally syncing the data to CloudKit
-     */
-    func save(managedContext: NSManagedObjectContext, WithCompletionHandler completionHandler: ((_ success: Bool) -> Void)? = nil) {
+    /* Saves given NSManagedContext changes to NSPersistentStore providing optional completionHandler */
+    func saveLocally(managedContext: NSManagedObjectContext, WithCompletionHandler completionHandler: ((_ success: Bool) -> Void)? = nil) {
         /* saves given context and all parent contexts apart from topmost context which writes to database */
         let topmostContext = managedContext.saveRecursively()
         
         topmostContext.performAndWait {
-            [weak self] in
             
-            if let coreDataManager = self {
-                if topmostContext.hasChanges {
-                    
-                    #if DEBUG
-                        for createdObject in topmostContext.insertedObjects {
-                            log("Created object in CoreData: \(createdObject.description)")
-                        }
-                        for modifiedObject in topmostContext.updatedObjects {
-                            log("Modified object in CoreData: \(modifiedObject.description)")
-                        }
-                        for deletedObject in topmostContext.deletedObjects {
-                            log("Deleted object in CoreData: \(deletedObject.description)")
-                        }
-                    #endif
-                    
-                    let createdObjects = topmostContext.insertedObjects.map({ $0 as! UniqueManagedObject })
-                    let modifiedObjects = topmostContext.updatedObjects.map({ $0 as! UniqueManagedObject })
-                    let deletedObjects = topmostContext.deletedObjects
-                    
-                    do {
-                        try topmostContext.save()
-                        if let completionHandler = completionHandler {
-                            completionHandler(true)
-                        }
-                    } catch {
-                        if let completionHandler = completionHandler {
-                            completionHandler(false)
-                        }
+            if topmostContext.hasChanges {
+                
+                #if DEBUG
+                    for createdObject in topmostContext.insertedObjects {
+                        log("Created object in CoreData: \(createdObject.description)")
                     }
+                    for modifiedObject in topmostContext.updatedObjects {
+                        log("Modified object in CoreData: \(modifiedObject.description)")
+                    }
+                    for deletedObject in topmostContext.deletedObjects {
+                        log("Deleted object in CoreData: \(deletedObject.description)")
+                    }
+                #endif
+                
+                do {
+                    try topmostContext.save()
+                    if let completionHandler = completionHandler {
+                        completionHandler(true)
+                    }
+                } catch {
+                    if let completionHandler = completionHandler {
+                        completionHandler(false)
+                    }
+                    log("Failed saving to CoreData: \(error.localizedDescription)")
+                    return
                 }
             }
         }
@@ -206,11 +199,6 @@ class CoreDataManager {
     /* For testing purposes: destroys persistent store in given URL if store exists */
     class func destroyPersistentStore(AtURL url: URL) {
         let directoryUrl = url.deletingLastPathComponent()
-        //        do {
-        //            try persistentStoreCoordinator.destroyPersistentStoreAtURL(url, withType: NSSQLiteStoreType, options: persistentStoreOptions)
-        //        } catch let error {
-        //            log("\(error)")
-        //        }
         do {
             let directoryContents = try FileManager.default.contentsOfDirectory(at: directoryUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
             let sqliteFiles = directoryContents.filter({
