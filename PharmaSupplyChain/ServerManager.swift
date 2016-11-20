@@ -81,6 +81,7 @@ class ServerManager {
         let splitToken = authToken.characters.split(separator: ".").map(String.init)
         if let decodedData = splitToken[1].base64DecodedData() {
             let authTokenJson = JSON(data: decodedData)
+            log("\(authTokenJson)")
             return authTokenJson["userId"].int
         } else {
             return nil

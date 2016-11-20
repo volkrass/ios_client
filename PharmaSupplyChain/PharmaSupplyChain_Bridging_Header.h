@@ -10,5 +10,6 @@
 #define PharmaSupplyChain_Bridging_Header_h
 
 #import "Google/Analytics.h"
+#
 
 #endif /* PharmaSupplyChain_Bridging_Header_h */

@@ -63,7 +63,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         fetchedResultsController.delegate = self
         
         /* UI settings */
-        tableView.estimatedRowHeight = 150
+        tableView.estimatedRowHeight = 120
         
         /* create a bottom view for button */
         modeView = createModeView()
@@ -81,7 +81,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
             success in
             
             if let parcelsTableViewController = self {
-                parcelsTableViewController.tableView.refreshControl!.endRefreshing()
+                parcelsTableViewController.refreshControl!.endRefreshing()
                 if !success {
                     //TODO: design a view indicating fetch error
                 }
@@ -141,6 +141,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedParcel = fetchedResultsController.object(at: indexPath)
+        performSegue(withIdentifier: "showParcelDetail", sender: self)
     }
     
     // MARK: UIScrollViewDelegate

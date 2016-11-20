@@ -145,6 +145,13 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		D26B38F51DE224BF00F9AD93 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Graph;
+			sourceTree = "<group>";
+		};
 		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +198,7 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D26B38F51DE224BF00F9AD93 /* Graph */,
 				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E6DEF91DD2476E00431AA1 /* CoreData */,
 				D22376461DD0B01B00877A6D /* Extensions */,
@@ -618,7 +626,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -639,7 +647,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45FD987DACF708B5A415DD50 /* Pods-PharmaSupplyChain.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -660,7 +668,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 48D572G72F;
 				HEADER_SEARCH_PATHS = (
@@ -689,7 +697,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D6934B7AFD929DDAC4C1BC93 /* Pods-PharmaSupplyChainTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 48D572G72F;
 				HEADER_SEARCH_PATHS = (

@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (4.0.1)
+  - Charts (3.0.1):
+    - Charts/Core (= 3.0.1)
+  - Charts/Core (3.0.1)
   - FirebaseAnalytics (3.5.1):
     - FirebaseCore (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
@@ -26,11 +29,13 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Charts
   - Google/Analytics
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  Charts: 0e84f4418e87dad6a9edde221fba37ebb51d3ba7
   FirebaseAnalytics: 6e58fc9b397664369ac7617fb0ba93fab6ba7b5b
   FirebaseCore: d0ed25f27b6f9158eccc439f1be6f92e81207e28
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
@@ -41,6 +46,6 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
-PODFILE CHECKSUM: 3146679fb4a5886b9faa63a2f2aef8190070af05
+PODFILE CHECKSUM: d2a682c5f3f39a78ae42a2504fa75c84051a93ae
 
 COCOAPODS: 1.1.1
