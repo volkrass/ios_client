@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; };
 		AA6BF04AC8BF8041B54418DE /* Pods_PharmaSupplyChainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */; };
+		D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D212D9DE1DEB3BCD0075C54E /* QRScannerViewController.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
 		D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
@@ -56,6 +57,7 @@
 		4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PharmaSupplyChainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChainTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
+		D212D9DE1DEB3BCD0075C54E /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelDetailTableViewController.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D212D9DD1DEB3BBA0075C54E /* QR Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				D212D9DE1DEB3BCD0075C54E /* QRScannerViewController.swift */,
+			);
+			name = "QR Scanner";
+			sourceTree = "<group>";
+		};
 		D22376461DD0B01B00877A6D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +208,7 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D212D9DD1DEB3BBA0075C54E /* QR Scanner */,
 				D26B38F51DE224BF00F9AD93 /* Graph */,
 				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E6DEF91DD2476E00431AA1 /* CoreData */,
@@ -479,6 +490,7 @@
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
 				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
+				D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */,
 				D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,

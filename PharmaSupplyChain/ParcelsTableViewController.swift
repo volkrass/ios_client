@@ -23,24 +23,34 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     // MARK: Properties
     
     fileprivate var fetchedResultsController: NSFetchedResultsController<Parcel>!
-    
     fileprivate var selectedParcel: Parcel?
     
+    /* indicates the mode of the view controller */
+    fileprivate enum Mode : String {
+        case Sender = "Sender"
+        case Receiver = "Receiver"
+    }
+    fileprivate var currentMode: Mode = .Sender
     /* view indicating which mode is user currently in(sender/receiver) */
     fileprivate var modeView: UIView?
     
     // MARK: Actions
     
-    @IBAction func switchModeButtonDidTouchDown(_ sender: UIBarButtonItem) {
-        
+    @IBAction fileprivate func modeSwitchValueChanged(_ sender: UISwitch) {
+        currentMode = sender.isOn ? .Receiver : .Sender
+        navigationItem.title = currentMode.rawValue + " Mode"
+        if let modeView = modeView {
+            modeView.removeFromSuperview()
+        }
+        modeView = createModeView(ForMode: currentMode)
     }
     
     @IBAction fileprivate func sendButtonDidTouchDown(sender: UIButton) {
-        
+        performSegue(withIdentifier: "scanQRcode", sender: self)
     }
     
     @IBAction fileprivate func receiveButtonDidTouchDown(sender: UIButton) {
-        
+        performSegue(withIdentifier: "scanQRcode", sender: self)
     }
     
     override func viewDidLoad() {
@@ -65,14 +75,26 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         /* UI settings */
         tableView.estimatedRowHeight = 120
         
-        /* create a bottom view for button */
-        modeView = createModeView()
-        
         /* adding 'pull-to-refresh'*/
         refreshControl = UIRefreshControl()
         refreshControl!.attributedTitle = NSAttributedString(string: "Updating parcels...")
         refreshControl!.tintColor = MODUM_LIGHT_BLUE
         refreshControl!.addTarget(self, action: #selector(refreshParcels(_:)), for: UIControlEvents.valueChanged)
+        
+        /* create a bottom view for button */
+        modeView = createModeView(ForMode: currentMode)
+        
+        /* configuring switch for receiver/sender mode */
+        /* off state = sender mode, on state = receiver mode */
+        let modeSwitch = UISwitch()
+        modeSwitch.onTintColor = MODUM_LIGHT_BLUE
+        modeSwitch.backgroundColor = MODUM_DARK_BLUE
+        modeSwitch.layer.cornerRadius = 16.0
+        modeSwitch.tintColor = MODUM_DARK_BLUE
+        modeSwitch.addTarget(self, action: #selector(modeSwitchValueChanged), for: .valueChanged)
+        let switchBarButtonItem = UIBarButtonItem(customView: modeSwitch)
+        navigationItem.rightBarButtonItem = switchBarButtonItem
+        navigationItem.title = currentMode.rawValue + " Mode"
     }
     
     @objc fileprivate func refreshParcels(_ sender: AnyObject) {
@@ -166,19 +188,28 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     
     // MARK: Helper functions
     
-    fileprivate func createModeView() -> UIView? {
+    fileprivate func createModeView(ForMode mode: Mode) -> UIView? {
         let screenWidth = UIScreen.main.bounds.size.width
         let screenHeight = UIScreen.main.bounds.size.height
         let distanceFromBottom: CGFloat = 113.0
         let modeView = UIView(frame: CGRect(x: 0, y: screenHeight - distanceFromBottom, width: screenWidth, height: 50))
-        let tittleButton = UIButton(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
-        tittleButton.setTitle("SEND", for: .normal)
-        tittleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        tittleButton.titleLabel?.textAlignment = .center
-        tittleButton.setTitleColor(UIColor.white, for: .normal)
-        tittleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
-        tittleButton.backgroundColor = UIColor.orange
-        modeView.addSubview(tittleButton)
+        let titleButton = UIButton(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
+        if mode == .Sender {
+            titleButton.setTitle("SEND", for: .normal)
+            titleButton.backgroundColor = UIColor.orange
+            titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
+        } else if mode == .Receiver {
+            titleButton.setTitle("RECEIVE", for: .normal)
+            titleButton.backgroundColor = MODUM_LIGHT_GRAY
+            titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)
+        } else {
+            log("Unknown mode \(mode.rawValue)!")
+            return nil
+        }
+        titleButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16.0)
+        titleButton.titleLabel?.textAlignment = .center
+        titleButton.setTitleColor(UIColor.white, for: .normal)
+        modeView.addSubview(titleButton)
         view.addSubview(modeView)
         return modeView
     }

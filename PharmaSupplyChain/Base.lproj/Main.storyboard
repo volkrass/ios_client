@@ -136,7 +136,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IwD-Qy-lcT" id="muX-V5-H3I">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HDm-N4-Tyl">
@@ -203,20 +203,15 @@
                             <outlet property="delegate" destination="HDb-dB-TRz" id="Gv8-qp-fnI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="5MX-WE-A9p">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="editButtons" id="QHE-9Z-hCw">
-                            <connections>
-                                <action selector="switchModeButtonDidTouchDown:" destination="HDb-dB-TRz" id="EOu-wj-nB8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="5MX-WE-A9p"/>
                     <connections>
                         <segue destination="TxQ-Pe-viL" kind="show" identifier="showParcelDetail" id="GVZ-Jl-IwM"/>
+                        <segue destination="Yo5-bV-vMp" kind="show" identifier="scanQRcode" id="zbf-2t-XAs"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uay-5e-pDf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1752.8" y="115.59220389805098"/>
+            <point key="canvasLocation" x="1780" y="116"/>
         </scene>
         <!--Parcel Detail Table View Controller-->
         <scene sceneID="9Fo-Lw-wsN">
@@ -583,6 +578,44 @@
             </objects>
             <point key="canvasLocation" x="2504.8000000000002" y="115.59220389805098"/>
         </scene>
+        <!--Scanner View Controller-->
+        <scene sceneID="1mA-dP-NsW">
+            <objects>
+                <viewController id="Yo5-bV-vMp" customClass="QRScannerViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NQX-MR-vB4"/>
+                        <viewControllerLayoutGuide type="bottom" id="h0s-Jc-MW5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TYI-Rc-0VV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No QR Code is detected" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AZz-2t-iQZ">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="5b7-bf-BdR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="AZz-2t-iQZ" secondAttribute="trailing" id="Izl-dc-yuv"/>
+                            <constraint firstItem="h0s-Jc-MW5" firstAttribute="top" secondItem="AZz-2t-iQZ" secondAttribute="bottom" id="M7c-UT-RGG"/>
+                            <constraint firstItem="AZz-2t-iQZ" firstAttribute="leading" secondItem="TYI-Rc-0VV" secondAttribute="leading" id="vRz-o7-C6y"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="infoLabel" destination="AZz-2t-iQZ" id="2hA-Hv-Jq5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rLO-Qv-wRH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1022" y="-566"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="ncs-Zj-Iot">
             <objects>
@@ -603,7 +636,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="editButtons" width="50" height="17"/>
         <image name="modum_logo" width="1800" height="495"/>
     </resources>
 </document>
