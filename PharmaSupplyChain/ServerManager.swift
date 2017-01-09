@@ -15,7 +15,8 @@ class ServerManager {
     
     // MARK: Constants
     
-    fileprivate let API_URL = "https://core.modum.io/api/"
+    //fileprivate let API_URL = "https://core.modum.io/api/"
+    fileprivate let API_URL = "http://dev.modum.io/api/"
     
     // MARK: Properties
     
@@ -91,7 +92,7 @@ class ServerManager {
     /* */
     func getUserParcels(completionHandler: @escaping (_ success: Bool) -> Void) {
         if let userID = userID {
-            Alamofire.request(API_URL + "users/\(userID)/parcels", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : getAuthorizationHeader()]).responseJSON(completionHandler: {
+            Alamofire.request(API_URL + "parcels", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : getAuthorizationHeader()]).responseJSON(completionHandler: {
                 [weak self]
                 response in
                 

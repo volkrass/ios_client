@@ -16,6 +16,8 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     fileprivate var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     fileprivate var qrCodeFrameView: UIView?
     
+    fileprivate var isSensorMACDiscovered: Bool = false
+    
     // MARK: Outlets
     
     @IBOutlet weak fileprivate var infoLabel: UILabel!
@@ -88,9 +90,20 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             let barCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
             qrCodeFrameView?.frame = barCodeObject.bounds;
             
-            if metadataObject.stringValue != nil {
+            if metadataObject.stringValue != nil && !isSensorMACDiscovered {
                 infoLabel.text = metadataObject.stringValue
+//                if isValidMacAddress(metadataObject.stringValue) {
+//                    isSensorMACDiscovered = true
+//                    infoLabel.backgroundColor = UIColor.green
+//                    let sensorConnectController = SensorConnectViewController(nibName: nil, bundle: nil)
+//                    present(sensorConnectController, animated: false, completion: nil)
+//                } else {
+//                    infoLabel.backgroundColor = UIColor.red
+//                }
+                isSensorMACDiscovered = true
                 infoLabel.backgroundColor = UIColor.green
+                let sensorConnectController = SensorConnectViewController(nibName: nil, bundle: nil)
+                present(sensorConnectController, animated: false, completion: nil)
             }
         }
     }

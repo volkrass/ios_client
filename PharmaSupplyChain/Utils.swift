@@ -34,3 +34,15 @@ func uniq<S: Sequence, E: Hashable>(_ source: S) -> [E] where E == S.Iterator.El
     var seen = [E: Bool]()
     return source.filter { seen.updateValue(true, forKey: $0) == nil }
 }
+
+/*
+ Returns true if given String is 'valid' MAC address string
+ Otherwise, returns false
+ Note: 'valid' MAC address strings are considered if MAC address is given without any separators
+ */
+func isValidMacAddress(_ macAddressStr: String) -> Bool {
+    guard macAddressStr.characters.count == 12 else {
+        return false
+    }
+    return macAddressStr.isValidHexString()
+}

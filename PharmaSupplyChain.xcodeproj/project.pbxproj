@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; };
+		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		AA6BF04AC8BF8041B54418DE /* Pods_PharmaSupplyChainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */; };
 		D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D212D9DE1DEB3BCD0075C54E /* QRScannerViewController.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
@@ -30,6 +30,7 @@
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
+		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
 		D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */; };
 		D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */; };
@@ -83,6 +84,8 @@
 		D2BA8DF21DBF3B320023F581 /* PharmaSupplyChainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PharmaSupplyChainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmaSupplyChainTests.swift; sourceTree = "<group>"; };
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2BCD5E21E24490B009D2197 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Pods/SwiftyJSON; sourceTree = "<group>"; };
+		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
 		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		52F625D25F2DDC916711151D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D2BCD5E21E24490B009D2197 /* SwiftyJSON */,
 				E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */,
 				4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */,
 			);
@@ -150,7 +154,6 @@
 			children = (
 				D22376471DD0B02C00877A6D /* String+Extension.swift */,
 				D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */,
-				D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 		D28FD5A01DBF87A50077579A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */,
 				D28FD5A11DBF87B60077579A /* JSONSerializable.swift */,
 				D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */,
 				D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */,
@@ -208,6 +212,7 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D2DDC9FC1DFEE6BD0057686D /* Bluetooth */,
 				D212D9DD1DEB3BBA0075C54E /* QR Scanner */,
 				D26B38F51DE224BF00F9AD93 /* Graph */,
 				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
@@ -218,8 +223,8 @@
 				D2F126DD1DBF533100964B7D /* Server */,
 				D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */,
 				D28FD59B1DBF83310077579A /* Utils.swift */,
-				D2BA8DE21DBF3B320023F581 /* Main.storyboard */,
 				D2BA8DE81DBF3B320023F581 /* Assets.xcassets */,
+				D2BA8DE21DBF3B320023F581 /* Main.storyboard */,
 				D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */,
 				D2BA8DED1DBF3B320023F581 /* Info.plist */,
 			);
@@ -235,6 +240,14 @@
 				D2BA8DF81DBF3B320023F581 /* Info.plist */,
 			);
 			path = PharmaSupplyChainTests;
+			sourceTree = "<group>";
+		};
+		D2DDC9FC1DFEE6BD0057686D /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */,
+			);
+			name = Bluetooth;
 			sourceTree = "<group>";
 		};
 		D2E6DEF91DD2476E00431AA1 /* CoreData */ = {
@@ -325,7 +338,7 @@
 				TargetAttributes = {
 					D2BA8DDA1DBF3B320023F581 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = VJ4LAFTH95;
+						DevelopmentTeam = JRXNTN8W4B;
 						ProvisioningStyle = Manual;
 					};
 					D2BA8DF11DBF3B320023F581 = {
@@ -477,6 +490,7 @@
 			files = (
 				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
+				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
@@ -642,13 +656,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = VJ4LAFTH95;
+				DEVELOPMENT_TEAM = JRXNTN8W4B;
 				INFOPLIST_FILE = PharmaSupplyChain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.modum.PharmaSupplyChain;
+				PRODUCT_BUNDLE_IDENTIFIER = modum.io.iosclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f5921b07-adf9-4fd3-94c9-29163c8cd563";
-				PROVISIONING_PROFILE_SPECIFIER = PharmaSupplyChain;
+				PROVISIONING_PROFILE = "d8d3aa7c-f246-4a34-b954-b5c4fff7e4f4";
+				PROVISIONING_PROFILE_SPECIFIER = modum.io.iOSdevelopment;
 				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";
@@ -663,13 +677,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = VJ4LAFTH95;
+				DEVELOPMENT_TEAM = JRXNTN8W4B;
 				INFOPLIST_FILE = PharmaSupplyChain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.modum.PharmaSupplyChain;
+				PRODUCT_BUNDLE_IDENTIFIER = modum.io.iosclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f5921b07-adf9-4fd3-94c9-29163c8cd563";
-				PROVISIONING_PROFILE_SPECIFIER = PharmaSupplyChain;
+				PROVISIONING_PROFILE = "d8d3aa7c-f246-4a34-b954-b5c4fff7e4f4";
+				PROVISIONING_PROFILE_SPECIFIER = modum.io.iOSdevelopment;
 				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";

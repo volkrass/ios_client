@@ -48,4 +48,16 @@ extension String {
         }
     }
     
+    /*
+     Returns true if String contains all valid hex symbols: [0-9][aA-fF]
+     Otherwise, returns false
+     */
+    func isValidHexString() -> Bool {
+        let hexCharset = CharacterSet(charactersIn: "0123456789ABCDEF")
+        guard uppercased().rangeOfCharacter(from: hexCharset) != nil else {
+            return false
+        }
+        return true
+    }
+    
 }
