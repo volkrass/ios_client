@@ -4,13 +4,13 @@ use_frameworks!
 target 'PharmaSupplyChain' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
-  pod 'Google/Analytics'
+  pod 'Firebase/Core'
   pod 'Charts'
 end
 
 target 'PharmaSupplyChainTests' do
 	pod 'Alamofire'
 	pod 'SwiftyJSON'
-	pod 'Google/Analytics'
+	pod 'Firebase/Core'
 	pod 'Charts'
 end

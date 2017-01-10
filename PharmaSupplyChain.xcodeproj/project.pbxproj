@@ -31,6 +31,9 @@
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
 		D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */; };
+		D2BCD5EA1E251AFE009D2197 /* BluetoothReadCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E91E251AFE009D2197 /* BluetoothReadCharacteristic.swift */; };
+		D2BCD5EC1E251B39009D2197 /* BluetoothWriteCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5EB1E251B39009D2197 /* BluetoothWriteCharacteristic.swift */; };
+		D2BCD5EE1E251B8B009D2197 /* BluetoothCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5ED1E251B8B009D2197 /* BluetoothCharacteristic.swift */; };
 		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
 		D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */; };
@@ -75,7 +78,6 @@
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
-		D29E18EC1DD2A96B00CBE83C /* PharmaSupplyChain_Bridging_Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PharmaSupplyChain_Bridging_Header.h; path = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BA8DE31DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,6 +89,9 @@
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2BCD5E21E24490B009D2197 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Pods/SwiftyJSON; sourceTree = "<group>"; };
 		D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		D2BCD5E91E251AFE009D2197 /* BluetoothReadCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothReadCharacteristic.swift; sourceTree = "<group>"; };
+		D2BCD5EB1E251B39009D2197 /* BluetoothWriteCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothWriteCharacteristic.swift; sourceTree = "<group>"; };
+		D2BCD5ED1E251B8B009D2197 /* BluetoothCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothCharacteristic.swift; sourceTree = "<group>"; };
 		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
 		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -193,7 +198,6 @@
 		D2BA8DD21DBF3B320023F581 = {
 			isa = PBXGroup;
 			children = (
-				D29E18EC1DD2A96B00CBE83C /* PharmaSupplyChain_Bridging_Header.h */,
 				D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */,
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,
 				D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */,
@@ -249,6 +253,9 @@
 			isa = PBXGroup;
 			children = (
 				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
+				D2BCD5E91E251AFE009D2197 /* BluetoothReadCharacteristic.swift */,
+				D2BCD5EB1E251B39009D2197 /* BluetoothWriteCharacteristic.swift */,
+				D2BCD5ED1E251B8B009D2197 /* BluetoothCharacteristic.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";
@@ -494,14 +501,17 @@
 				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
+				D2BCD5EC1E251B39009D2197 /* BluetoothWriteCharacteristic.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
+				D2BCD5EA1E251AFE009D2197 /* BluetoothReadCharacteristic.swift in Sources */,
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2E1EEDE1DD28D5B00B26463 /* Date+Extension.swift in Sources */,
 				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
+				D2BCD5EE1E251B8B009D2197 /* BluetoothCharacteristic.swift in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
@@ -667,7 +677,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d8d3aa7c-f246-4a34-b954-b5c4fff7e4f4";
 				PROVISIONING_PROFILE_SPECIFIER = modum.io.iOSdevelopment;
-				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";
 			};
@@ -688,7 +698,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d8d3aa7c-f246-4a34-b954-b5c4fff7e4f4";
 				PROVISIONING_PROFILE_SPECIFIER = modum.io.iOSdevelopment;
-				SWIFT_OBJC_BRIDGING_HEADER = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";
 			};

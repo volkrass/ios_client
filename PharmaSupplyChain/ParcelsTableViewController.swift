@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import Google
 
 class ParcelsTableViewController : UITableViewController, NSFetchedResultsControllerDelegate, CoreDataEnabledController, ServerEnabledController {
     
@@ -109,25 +108,6 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
                 }
             }
         })
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        /* Google Analytics setup */
-        let tracker = GAI.sharedInstance().defaultTracker
-        if let tracker = tracker {
-            tracker.set(kGAIScreenName, value: "ParcelsTableView")
-            
-            let builder = GAIDictionaryBuilder.createScreenView()
-            if let builder = builder {
-                tracker.send(builder.build() as [NSObject : AnyObject])
-            }
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: UITableViewDelegate

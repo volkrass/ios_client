@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Google
 
 class LoginViewController: UIViewController, ServerEnabledController, CoreDataEnabledController {
     
@@ -122,21 +121,6 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        /* Google Analytics setup */
-        let tracker = GAI.sharedInstance().defaultTracker
-        if let tracker = tracker {
-            tracker.set(kGAIScreenName, value: "LoginView")
-            
-            let builder = GAIDictionaryBuilder.createScreenView()
-            if let builder = builder {
-                tracker.send(builder.build() as [NSObject : AnyObject])
-            }
-        }
     }
     
     func hideKeyboard() {

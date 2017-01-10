@@ -7,6 +7,7 @@
 //
 
 import CoreBluetooth
+import UIKit
 
 class SensorConnectViewController : UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     

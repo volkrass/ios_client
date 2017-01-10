@@ -7,6 +7,7 @@
 //
 
 import AVFoundation
+import UIKit
 
 class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
