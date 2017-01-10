@@ -30,6 +30,7 @@
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
+		D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */; };
 		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
 		D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */; };
@@ -85,6 +86,7 @@
 		D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmaSupplyChainTests.swift; sourceTree = "<group>"; };
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2BCD5E21E24490B009D2197 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Pods/SwiftyJSON; sourceTree = "<group>"; };
+		D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
 		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */,
 				D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */,
 				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
 				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
@@ -245,7 +248,7 @@
 		D2DDC9FC1DFEE6BD0057686D /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */,
+				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 			files = (
 				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
+				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
