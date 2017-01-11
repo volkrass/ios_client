@@ -8,70 +8,67 @@
 
 import CoreBluetooth
 
-class BluetoothManager {
+protocol BluetoothDiscoveryDelegate {
+    
+    func sensorDiscovered()
+    
+    func bluetoothErrorOccurred()
+    
+}
+
+final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+    
+    /* Bluetooth Manager is a singleton */
+    static let shared = BluetoothManager()
     
     // MARK: Properties
     
-    fileprivate var characteristics: [CBCharacteristic] = []
+    var bluetoothDiscoveryDelegate: BluetoothDiscoveryDelegate?
+    var sensorServiceDelegate: SensorServiceDelegate?
+
+    fileprivate let centralManager: CBCentralManager
     
-    // MARK: Constants
+    private override init() {
+        centralManager = CBCentralManager.init(delegate: nil, queue: DispatchQueue.global(qos: .userInteractive))
+        
+        super.init()
+        
+        centralManager.delegate = self
+    }
     
-    /* sensor battery level characterstic UUID, in % */
-    fileprivate let batteryLevelUUID: CBUUID = CBUUID(string: "00002a19-0000-1000-8000-00805f9b34fb")
+    // MARK: CBCentralManagerDelegate
     
-    /* characteristic from where the actual measurements are read */
-    fileprivate let measurementsUUID: CBUUID = CBUUID(string: "f000aa01-0451-4000-b000-000000000000")
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        log("\(peripheral.name) connected")
+        
+        let sensorService = SensorService(WithSensor: peripheral, WithDelegate: sensorServiceDelegate)
+        sensorService.start()
+    }
     
-    /* characteristic determining whether sensor is currently recording */
-    fileprivate let isRecordingUUID: CBUUID = CBUUID(string: "f000aa02-0451-4000-b000-000000000000")
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        if let peripheralName = peripheral.name {
+            log("Discovered \(peripheralName)")
+            if isValidMacAddress(peripheralName) || peripheralName == "SensorTag 2.0" || peripheralName == "CC2650 SensorTag" {
+                centralManager.stopScan()
     
-    /* characteristic determining how often sensor takes measurements (in <units>)*/
-    fileprivate let recordingTimeIntervalUUID: CBUUID = CBUUID(string: "f000aa03-0451-4000-b000-000000000000")
-    
-    /* characteristic determining how many temperature measurements are there (in <units>) */
-    fileprivate let measurementsCountUUID: CBUUID = CBUUID(string: "f000aa04-0451-4000-b000-000000000000")
-    
-    /* characteristic determining the index to the temperature measurements array */
-    fileprivate let measurementsReadIndexUUID: CBUUID = CBUUID(string: "f000aa05-0451-4000-b000-000000000000")
-    
-    /* smart contract ID characteristic UUID */
-    fileprivate let contractIDUUID: CBUUID = CBUUID(string: "f000aa06-0451-4000-b000-000000000000")
-    
-    /* characteristic determining the start time of recording */
-    fileprivate let startTimeUUID: CBUUID = CBUUID(string: "f000aa07-0451-4000-b000-000000000000")
-    
-    
-    func addCharacteristic(_ characteristic: CBCharacteristic) {
-        if isRecognizedCharacteristic(characteristic) {
-            characteristics.append(characteristic)
+                if let bluetoothDiscoveryDelegate = bluetoothDiscoveryDelegate {
+                    bluetoothDiscoveryDelegate.sensorDiscovered()
+                }
+                centralManager.connect(peripheral, options: nil)
+            }
         }
     }
     
-//    /* returns sensor battery level, in % */
-//    func getSensorBatteryLevel(WithSensorPeripheral peripheral: CBPeripheral) -> Int? {
-//        per
-//    }
-    
-    // MARK: Helper functions
-    
-    fileprivate func isRecognizedCharacteristic(_ characteristic: CBCharacteristic) -> Bool {
-        switch characteristic.uuid {
-            case batteryLevelUUID, isRecordingUUID, measurementsUUID, recordingTimeIntervalUUID, measurementsCountUUID,  measurementsReadIndexUUID, contractIDUUID, startTimeUUID:
-                    return true
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        switch central.state {
+            case .poweredOff, .unsupported, .unauthorized, .unknown:
+                if let bluetoothDiscoveryDelegate = bluetoothDiscoveryDelegate {
+                    bluetoothDiscoveryDelegate.bluetoothErrorOccurred()
+                }
+            case .poweredOn:
+                centralManager.scanForPeripherals(withServices: nil, options: nil)
             default:
-                return false
-        }
-    }
-    
-    fileprivate func getCharacteristic(ByUUID uuid: CBUUID) -> CBCharacteristic? {
-        if let index = characteristics.index(where: {
-            characteristic in
-            
-            return characteristic.uuid == uuid
-        }) {
-            return characteristics[index]
-        } else {
-            return nil
+                log("Unexpected state \(central.state)")
         }
     }
     

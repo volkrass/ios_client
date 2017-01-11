@@ -30,10 +30,8 @@
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
+		D2BB83E61E267A4D00D03CD6 /* SensorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BB83E51E267A4D00D03CD6 /* SensorService.swift */; };
 		D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */; };
-		D2BCD5EA1E251AFE009D2197 /* BluetoothReadCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E91E251AFE009D2197 /* BluetoothReadCharacteristic.swift */; };
-		D2BCD5EC1E251B39009D2197 /* BluetoothWriteCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5EB1E251B39009D2197 /* BluetoothWriteCharacteristic.swift */; };
-		D2BCD5EE1E251B8B009D2197 /* BluetoothCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5ED1E251B8B009D2197 /* BluetoothCharacteristic.swift */; };
 		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
 		D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */; };
@@ -87,11 +85,9 @@
 		D2BA8DF21DBF3B320023F581 /* PharmaSupplyChainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PharmaSupplyChainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmaSupplyChainTests.swift; sourceTree = "<group>"; };
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2BB83E51E267A4D00D03CD6 /* SensorService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorService.swift; sourceTree = "<group>"; };
 		D2BCD5E21E24490B009D2197 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Pods/SwiftyJSON; sourceTree = "<group>"; };
 		D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
-		D2BCD5E91E251AFE009D2197 /* BluetoothReadCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothReadCharacteristic.swift; sourceTree = "<group>"; };
-		D2BCD5EB1E251B39009D2197 /* BluetoothWriteCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothWriteCharacteristic.swift; sourceTree = "<group>"; };
-		D2BCD5ED1E251B8B009D2197 /* BluetoothCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothCharacteristic.swift; sourceTree = "<group>"; };
 		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
 		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -253,9 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
-				D2BCD5E91E251AFE009D2197 /* BluetoothReadCharacteristic.swift */,
-				D2BCD5EB1E251B39009D2197 /* BluetoothWriteCharacteristic.swift */,
-				D2BCD5ED1E251B8B009D2197 /* BluetoothCharacteristic.swift */,
+				D2BB83E51E267A4D00D03CD6 /* SensorService.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";
@@ -501,21 +495,19 @@
 				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
-				D2BCD5EC1E251B39009D2197 /* BluetoothWriteCharacteristic.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
-				D2BCD5EA1E251AFE009D2197 /* BluetoothReadCharacteristic.swift in Sources */,
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2E1EEDE1DD28D5B00B26463 /* Date+Extension.swift in Sources */,
 				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
-				D2BCD5EE1E251B8B009D2197 /* BluetoothCharacteristic.swift in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
+				D2BB83E61E267A4D00D03CD6 /* SensorService.swift in Sources */,
 				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
 				D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */,
