@@ -23,12 +23,14 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.0):
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - SwiftyJSON (3.1.1)
+  - UXCam (2.5.8)
 
 DEPENDENCIES:
   - Alamofire
   - Charts
   - Firebase/Core
   - SwiftyJSON
+  - UXCam
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
@@ -41,7 +43,8 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
+  UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
-PODFILE CHECKSUM: 9aab21bf4aa74b0cf560f4fd95f1c80f98819403
+PODFILE CHECKSUM: 32f41816b5a69c0b1833077ee7e8460555ad9a83
 
 COCOAPODS: 1.1.1

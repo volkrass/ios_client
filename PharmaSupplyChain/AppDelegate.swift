@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import UXCam
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         /* setting up analytics */
         FIRApp.configure()
+        UXCam.start(withKey: "4e331aa53d215bd")
         
         coreDataManager = CoreDataManager()
         serverManager = ServerManager(WithCoreDataManager: coreDataManager!)
