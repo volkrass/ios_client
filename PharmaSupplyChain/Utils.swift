@@ -46,3 +46,9 @@ func isValidMacAddress(_ macAddressStr: String) -> Bool {
     }
     return macAddressStr.isValidHexString()
 }
+
+/* Converts given value to byte array */
+func toByteArray<T>(_ value: T) -> [UInt8] {
+    var value = value
+    return withUnsafeBytes(of: &value) { Array($0) }
+}
