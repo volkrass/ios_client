@@ -8,11 +8,18 @@
 
 import CoreBluetooth
 
-protocol BluetoothDiscoveryDelegate {
+protocol BluetoothManagerDelegate {
     
-    func sensorDiscovered()
+    /* BluetoothManager states */
+    func bluetoothManagerBluetoothPoweredOff()
+    func bluetoothManagerBluetoothUnavailable()
+    func bluetoothManagerIsReady()
     
-    func bluetoothErrorOccurred()
+    /* Peripheral discovery */
+    func bluetoothManagerDiscoveredPeripheral(_ peripheral: CBPeripheral)
+    
+    /* Peripheral connection */
+    func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool, _ connectedServices: [BluetoothService]?)
     
 }
 
@@ -23,10 +30,12 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralD
     
     // MARK: Properties
     
-    var bluetoothDiscoveryDelegate: BluetoothDiscoveryDelegate?
+    var bluetoothManagerDelegate: BluetoothManagerDelegate?
     var sensorServiceDelegate: SensorServiceDelegate?
+    var batteryLevelServiceDelegate: BatteryLevelServiceDelegate?
 
     fileprivate let centralManager: CBCentralManager
+    fileprivate var connectedServices: [BluetoothService] = []
     
     private override init() {
         centralManager = CBCentralManager.init(delegate: nil, queue: DispatchQueue.global(qos: .userInteractive))
@@ -36,37 +45,85 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralD
         centralManager.delegate = self
     }
     
+    // MARK: Public Methods
+    
+    func startScanning() {
+        if !centralManager.isScanning {
+            centralManager.scanForPeripherals(withServices: nil, options: nil)
+        }
+    }
+    
+    func stopScanning() {
+        centralManager.stopScan()
+    }
+    
+    func connect(Peripheral peripheral: CBPeripheral) {
+        centralManager.connect(peripheral, options: nil)
+    }
+    
+    func disconnect(Peripheral peripheral: CBPeripheral) {
+        centralManager.cancelPeripheralConnection(peripheral)
+    }
+    
     // MARK: CBCentralManagerDelegate
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         log("\(peripheral.name) connected")
         
         let sensorService = SensorService(WithSensor: peripheral, WithDelegate: sensorServiceDelegate)
-        sensorService.start()
+        let batteryLevelService = BatteryLevelService(WithSensor: peripheral, WithDelegate: batteryLevelServiceDelegate)
+        if !connectedServices.contains(where: {
+            service in
+            
+            return service.uuid == sensorService.uuid
+        }) {
+            connectedServices.append(sensorService)
+            sensorService.start()
+        }
+        if !connectedServices.contains(where: {
+            service in
+            
+            return service.uuid == batteryLevelService.uuid
+        }) {
+            connectedServices.append(batteryLevelService)
+            batteryLevelService.start()
+        }
+        
+        if let bluetoothManagerDelegate = bluetoothManagerDelegate {
+            bluetoothManagerDelegate.bluetoothManagerPeripheralConnected(peripheral, true, connectedServices)
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        log("Failed to connect with \(peripheral.name): \(error?.localizedDescription)")
+        if let bluetoothManagerDelegate = bluetoothManagerDelegate {
+            bluetoothManagerDelegate.bluetoothManagerPeripheralConnected(peripheral, false, nil)
+        }
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         if let peripheralName = peripheral.name {
             log("Discovered \(peripheralName)")
-            if isValidMacAddress(peripheralName) || peripheralName == "SensorTag 2.0" || peripheralName == "CC2650 SensorTag" {
-                centralManager.stopScan()
-    
-                if let bluetoothDiscoveryDelegate = bluetoothDiscoveryDelegate {
-                    bluetoothDiscoveryDelegate.sensorDiscovered()
-                }
-                centralManager.connect(peripheral, options: nil)
-            }
+        }
+        if let bluetoothManagerDelegate = bluetoothManagerDelegate {
+            bluetoothManagerDelegate.bluetoothManagerDiscoveredPeripheral(peripheral)
         }
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
-            case .poweredOff, .unsupported, .unauthorized, .unknown:
-                if let bluetoothDiscoveryDelegate = bluetoothDiscoveryDelegate {
-                    bluetoothDiscoveryDelegate.bluetoothErrorOccurred()
+            case .poweredOff:
+                if let bluetoothManagerDelegate = bluetoothManagerDelegate {
+                    bluetoothManagerDelegate.bluetoothManagerBluetoothPoweredOff()
+                }
+            case .unsupported, .unauthorized, .unknown:
+                if let bluetoothManagerDelegate = bluetoothManagerDelegate {
+                    bluetoothManagerDelegate.bluetoothManagerBluetoothUnavailable()
                 }
             case .poweredOn:
-                centralManager.scanForPeripherals(withServices: nil, options: nil)
+                if let bluetoothManagerDelegate = bluetoothManagerDelegate {
+                    bluetoothManagerDelegate.bluetoothManagerIsReady()
+                }
             default:
                 log("Unexpected state \(central.state)")
         }

@@ -25,6 +25,8 @@
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
 		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
+		D2A73CF11E294E55000E1C0E /* BluetoothService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A73CF01E294E55000E1C0E /* BluetoothService.swift */; };
+		D2A73CF31E295203000E1C0E /* BatteryLevelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A73CF21E295203000E1C0E /* BatteryLevelService.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
@@ -76,6 +78,8 @@
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
+		D2A73CF01E294E55000E1C0E /* BluetoothService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothService.swift; sourceTree = "<group>"; };
+		D2A73CF21E295203000E1C0E /* BatteryLevelService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatteryLevelService.swift; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BA8DE31DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -250,6 +254,8 @@
 			children = (
 				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
 				D2BB83E51E267A4D00D03CD6 /* SensorService.swift */,
+				D2A73CF01E294E55000E1C0E /* BluetoothService.swift */,
+				D2A73CF21E295203000E1C0E /* BatteryLevelService.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";
@@ -496,6 +502,7 @@
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
+				D2A73CF31E295203000E1C0E /* BatteryLevelService.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
@@ -508,6 +515,7 @@
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
 				D2BB83E61E267A4D00D03CD6 /* SensorService.swift in Sources */,
+				D2A73CF11E294E55000E1C0E /* BluetoothService.swift in Sources */,
 				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
 				D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */,
