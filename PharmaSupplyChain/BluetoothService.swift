@@ -10,7 +10,7 @@ import CoreBluetooth
 
 protocol BluetoothService {
 
-    var uuid: CBUUID { get }
+    static var uuid: CBUUID { get }
     
     func start()
     

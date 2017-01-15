@@ -20,14 +20,14 @@ class BatteryLevelService : NSObject, CBPeripheralDelegate, BluetoothService {
     
     // MARK: BluetoothService
     
-    var uuid: CBUUID = CBUUID(string: "0000180f-0000-1000-8000-00805f9b34fb")
+    static var uuid: CBUUID = CBUUID(string: "0000180f-0000-1000-8000-00805f9b34fb")
     
     // MARK: Properties
     
     fileprivate var delegate: BatteryLevelServiceDelegate?
     fileprivate var sensor: CBPeripheral
     
-    fileprivate var batteryLevelService: CBService?
+    fileprivate var batteryLevelService: CBService
     
     fileprivate var batteryLevelCharacteristic: CBCharacteristic?
     
@@ -37,8 +37,9 @@ class BatteryLevelService : NSObject, CBPeripheralDelegate, BluetoothService {
     fileprivate let batteryLevelUUID: CBUUID = CBUUID(string: "00002a19-0000-1000-8000-00805f9b34fb")
     
     
-    init(WithSensor sensor: CBPeripheral, WithDelegate delegate: BatteryLevelServiceDelegate?) {
+    init(WithSensor sensor: CBPeripheral, WithService service: CBService, WithDelegate delegate: BatteryLevelServiceDelegate?) {
         self.sensor = sensor
+        self.batteryLevelService = service
         self.delegate = delegate
         
         super.init()
@@ -53,7 +54,7 @@ class BatteryLevelService : NSObject, CBPeripheralDelegate, BluetoothService {
      Upon successful initialization, delegate method sensorIsReady() called
      */
     func start() {
-        sensor.discoverServices([uuid])
+        sensor.discoverCharacteristics([batteryLevelUUID], for: batteryLevelService)
     }
     
     /*
@@ -70,30 +71,30 @@ class BatteryLevelService : NSObject, CBPeripheralDelegate, BluetoothService {
     
     // MARK: CBPeripheralDelegate
     
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        guard error == nil else {
-            log("Error discovering services: \(error!.localizedDescription)")
-            return
-        }
-        guard peripheral == sensor else {
-            log("Discovered services for wrong peripheral \(peripheral.name)")
-            return
-        }
-        
-        if let services = peripheral.services, !services.isEmpty {
-            services.forEach({
-                service in
-                
-                if service.uuid == uuid {
-                    batteryLevelService = service
-                }
-            })
-            
-            if let batteryLevelService = batteryLevelService {
-                sensor.discoverCharacteristics([batteryLevelUUID], for: batteryLevelService)
-            }
-        }
-    }
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+//        guard error == nil else {
+//            log("Error discovering services: \(error!.localizedDescription)")
+//            return
+//        }
+//        guard peripheral == sensor else {
+//            log("Discovered services for wrong peripheral \(peripheral.name)")
+//            return
+//        }
+//        
+//        if let services = peripheral.services, !services.isEmpty {
+//            services.forEach({
+//                service in
+//                
+//                if service.uuid == uuid {
+//                    batteryLevelService = service
+//                }
+//            })
+//            
+//            if let batteryLevelService = batteryLevelService {
+//                sensor.discoverCharacteristics([batteryLevelUUID], for: batteryLevelService)
+//            }
+//        }
+//    }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil else {
@@ -104,12 +105,8 @@ class BatteryLevelService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Discovered service characteristics for wrong peripheral \(peripheral.name)")
             return
         }
-        if let batteryLevelService = batteryLevelService {
-            guard service == batteryLevelService else {
-                log("Discovered characteristics for wrong service \(service.description)")
-                return
-            }
-        } else {
+        guard service == batteryLevelService else {
+            log("Discovered characteristics for wrong service \(service.description)")
             return
         }
         
@@ -135,12 +132,9 @@ class BatteryLevelService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Updated value for characteristic on wrong peripheral: \(peripheral.name)")
             return
         }
-        if let batteryLevelService = batteryLevelService {
-            guard characteristic.service == batteryLevelService else {
-                log("Updated characteristic value for wrong service: \(characteristic.service.description)")
-                return
-            }
-        } else {
+        
+        guard characteristic.service == batteryLevelService else {
+            log("Discovered characteristics for wrong service \(characteristic.service.description)")
             return
         }
         

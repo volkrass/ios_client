@@ -36,16 +36,13 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
     
     // MARK: BluetoothService
     
-    var uuid: CBUUID = CBUUID(string: "f000aa00-0451-4000-b000-000000000000")
+    static var uuid: CBUUID = CBUUID(string: "f000aa00-0451-4000-b000-000000000000")
     
     // MARK: Properties
     
     fileprivate var delegate: SensorServiceDelegate?
     fileprivate var sensor: CBPeripheral
-    
-    /**********  Services **********/
-    
-    fileprivate var sensorService: CBService?
+    fileprivate var sensorService: CBService
     
     /**********  Characteristics **********/
     
@@ -83,13 +80,14 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
     fileprivate let startTimeUUID: CBUUID = CBUUID(string: "f000aa07-0451-4000-b000-000000000000")
     
     
-    init(WithSensor sensor: CBPeripheral, WithDelegate delegate: SensorServiceDelegate?) {
+    init(WithSensor sensor: CBPeripheral, WithService service: CBService, WithDelegate delegate: SensorServiceDelegate?) {
         self.sensor = sensor
         self.delegate = delegate
+        self.sensorService = service
         
         super.init()
         
-        sensor.delegate = self
+        self.sensor.delegate = self
     }
     
     // MARK: Public methods
@@ -99,7 +97,7 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
      Upon successful initialization, delegate method sensorServiceIsReady() called
      */
     func start() {
-        sensor.discoverServices([uuid])
+        sensor.discoverCharacteristics([measurementsUUID, measurementsCountUUID, measurementsReadIndexUUID, isRecordingUUID, startTimeUUID, recordingTimeIntervalUUID, contractIDUUID], for: sensorService)
     }
     
     /*
@@ -137,30 +135,30 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
     
     // MARK: CBPeripheralDelegate
     
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        guard error == nil else {
-            log("Error discovering services: \(error!.localizedDescription)")
-            return
-        }
-        guard peripheral == sensor else {
-            log("Discovered services for wrong peripheral \(peripheral.name)")
-            return
-        }
-        
-        if let services = peripheral.services, !services.isEmpty {
-            services.forEach({
-                service in
-                
-                if service.uuid == uuid {
-                    sensorService = service
-                }
-            })
-            
-            if let sensorService = sensorService {
-                sensor.discoverCharacteristics([measurementsUUID, measurementsCountUUID, measurementsReadIndexUUID, isRecordingUUID, startTimeUUID, recordingTimeIntervalUUID, contractIDUUID], for: sensorService)
-            }
-        }
-    }
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+//        guard error == nil else {
+//            log("Error discovering services: \(error!.localizedDescription)")
+//            return
+//        }
+//        guard peripheral == sensor else {
+//            log("Discovered services for wrong peripheral \(peripheral.name)")
+//            return
+//        }
+//        
+//        if let services = peripheral.services, !services.isEmpty {
+//            services.forEach({
+//                service in
+//                
+//                if service.uuid == SensorService.uuid {
+//                    sensorService = service
+//                }
+//            })
+//            
+//            if let sensorService = sensorService {
+//                sensor.discoverCharacteristics([measurementsUUID, measurementsCountUUID, measurementsReadIndexUUID, isRecordingUUID, startTimeUUID, recordingTimeIntervalUUID, contractIDUUID], for: sensorService)
+//            }
+//        }
+//    }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil else {
@@ -171,12 +169,8 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Discovered service characteristics for wrong peripheral \(peripheral.name)")
             return
         }
-        if let sensorService = sensorService {
-            guard service == sensorService else {
-                log("Discovered characteristics for wrong service \(service.description)")
-                return
-            }
-        } else {
+        guard service == sensorService else {
+            log("Discovered characteristics for wrong service \(service.description)")
             return
         }
         
@@ -215,15 +209,11 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Received write indication for wrong peripheral \(peripheral.name)")
             return
         }
-        if let sensorService = sensorService {
-            guard characteristic.service == sensorService else {
-                log("Received write indication for wrong service \(characteristic.service.description)")
-                return
-            }
-        } else {
+        guard characteristic.service == sensorService else {
+            log("Received write indication for wrong service \(characteristic.service.description)")
             return
         }
-        
+    
         switch characteristic.uuid {
             case contractIDUUID:
                 if let delegate = delegate {
@@ -275,12 +265,8 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Updated value for characteristic on wrong peripheral: \(peripheral.name)")
             return
         }
-        if let sensorService = sensorService {
-            guard characteristic.service == sensorService else {
-                log("Updated characteristic value for wrong service: \(characteristic.service.description)")
-                return
-            }
-        } else {
+        guard characteristic.service == sensorService else {
+            log("Updated characteristic value for wrong service: \(characteristic.service.description)")
             return
         }
         

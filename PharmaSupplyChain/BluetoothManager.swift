@@ -19,7 +19,10 @@ protocol BluetoothManagerDelegate {
     func bluetoothManagerDiscoveredPeripheral(_ peripheral: CBPeripheral)
     
     /* Peripheral connection */
-    func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool, _ connectedServices: [BluetoothService]?)
+    func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool)
+    
+    /* Service discovery */
+    func bluetoothManagerServicesDiscovered(_ peripheral: CBPeripheral, _ services: [CBService]?)
     
 }
 
@@ -30,11 +33,10 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralD
     
     // MARK: Properties
     
-    var bluetoothManagerDelegate: BluetoothManagerDelegate?
-    var sensorServiceDelegate: SensorServiceDelegate?
-    var batteryLevelServiceDelegate: BatteryLevelServiceDelegate?
+    var delegate: BluetoothManagerDelegate?
 
     fileprivate let centralManager: CBCentralManager
+    fileprivate var peripheral: CBPeripheral?
     fileprivate var connectedServices: [BluetoothService] = []
     
     private override init() {
@@ -47,22 +49,39 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralD
     
     // MARK: Public Methods
     
-    func startScanning() {
+    func start() {
         if !centralManager.isScanning {
             centralManager.scanForPeripherals(withServices: nil, options: nil)
         }
     }
     
-    func stopScanning() {
-        centralManager.stopScan()
-    }
-    
     func connect(Peripheral peripheral: CBPeripheral) {
-        centralManager.connect(peripheral, options: nil)
+        if centralManager.isScanning {
+            centralManager.stopScan()
+        }
+        self.peripheral = peripheral
+        self.peripheral!.delegate = self
+        centralManager.connect(self.peripheral!, options: nil)
     }
     
     func disconnect(Peripheral peripheral: CBPeripheral) {
         centralManager.cancelPeripheralConnection(peripheral)
+    }
+    
+    /* Allows to scan given peripheral for list */
+    func discoverServices(ForPeripheral peripheral: CBPeripheral, _ services: [CBUUID]) {
+        self.peripheral = peripheral
+        peripheral.delegate = self
+        
+        if let existingServices = peripheral.services {
+            let existingServicesUUIDs: Set = Set(existingServices.map{ $0.uuid })
+            let servicesUUIDs: Set = Set(services)
+            if let delegate = delegate, servicesUUIDs.isSubset(of: existingServicesUUIDs) {
+                delegate.bluetoothManagerServicesDiscovered(peripheral, existingServices)
+            }
+        } else {
+            peripheral.discoverServices(services)
+        }
     }
     
     // MARK: CBCentralManagerDelegate
@@ -70,34 +89,15 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralD
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         log("\(peripheral.name) connected")
         
-        let sensorService = SensorService(WithSensor: peripheral, WithDelegate: sensorServiceDelegate)
-        let batteryLevelService = BatteryLevelService(WithSensor: peripheral, WithDelegate: batteryLevelServiceDelegate)
-        if !connectedServices.contains(where: {
-            service in
-            
-            return service.uuid == sensorService.uuid
-        }) {
-            connectedServices.append(sensorService)
-            sensorService.start()
-        }
-        if !connectedServices.contains(where: {
-            service in
-            
-            return service.uuid == batteryLevelService.uuid
-        }) {
-            connectedServices.append(batteryLevelService)
-            batteryLevelService.start()
-        }
-        
-        if let bluetoothManagerDelegate = bluetoothManagerDelegate {
-            bluetoothManagerDelegate.bluetoothManagerPeripheralConnected(peripheral, true, connectedServices)
+        if let delegate = delegate {
+            delegate.bluetoothManagerPeripheralConnected(peripheral, true)
         }
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         log("Failed to connect with \(peripheral.name): \(error?.localizedDescription)")
-        if let bluetoothManagerDelegate = bluetoothManagerDelegate {
-            bluetoothManagerDelegate.bluetoothManagerPeripheralConnected(peripheral, false, nil)
+        if let bluetoothManagerDelegate = delegate {
+            bluetoothManagerDelegate.bluetoothManagerPeripheralConnected(peripheral, false)
         }
     }
     
@@ -105,27 +105,43 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralD
         if let peripheralName = peripheral.name {
             log("Discovered \(peripheralName)")
         }
-        if let bluetoothManagerDelegate = bluetoothManagerDelegate {
-            bluetoothManagerDelegate.bluetoothManagerDiscoveredPeripheral(peripheral)
+        if let delegate = delegate {
+            delegate.bluetoothManagerDiscoveredPeripheral(peripheral)
         }
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
             case .poweredOff:
-                if let bluetoothManagerDelegate = bluetoothManagerDelegate {
-                    bluetoothManagerDelegate.bluetoothManagerBluetoothPoweredOff()
+                if let delegate = delegate {
+                    delegate.bluetoothManagerBluetoothPoweredOff()
                 }
             case .unsupported, .unauthorized, .unknown:
-                if let bluetoothManagerDelegate = bluetoothManagerDelegate {
-                    bluetoothManagerDelegate.bluetoothManagerBluetoothUnavailable()
+                if let delegate = delegate {
+                    delegate.bluetoothManagerBluetoothUnavailable()
                 }
             case .poweredOn:
-                if let bluetoothManagerDelegate = bluetoothManagerDelegate {
-                    bluetoothManagerDelegate.bluetoothManagerIsReady()
+                if let delegate = delegate {
+                    delegate.bluetoothManagerIsReady()
                 }
             default:
                 log("Unexpected state \(central.state)")
+        }
+    }
+    
+    // MARK: CBPeripheralDelegate
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        guard error == nil else {
+            log("Error discovering services for \(peripheral.name ?? peripheral.identifier.uuidString): \(error?.localizedDescription)")
+            if let delegate = delegate {
+                delegate.bluetoothManagerServicesDiscovered(peripheral, nil)
+            }
+            return
+        }
+        
+        if let services = peripheral.services, let delegate = delegate {
+            delegate.bluetoothManagerServicesDiscovered(peripheral, services)
         }
     }
     

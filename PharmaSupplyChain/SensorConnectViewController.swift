@@ -13,7 +13,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     
     // MARK: Properties
     
-    var deviceMacAddress: String?
+    var deviceMacAddress: String? = "SensorTag 2.0"
     
     fileprivate var batteryLevelService: BatteryLevelService?
     fileprivate var sensorService: SensorService?
@@ -28,9 +28,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bluetoothManager.bluetoothManagerDelegate = self
-        bluetoothManager.sensorServiceDelegate = self
-        bluetoothManager.batteryLevelServiceDelegate = self
+        bluetoothManager.delegate = self
     }
     
     // MARK: BluetoothDiscoveryDelegate
@@ -70,37 +68,49 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerIsReady() {
-        bluetoothManager.startScanning()
+        bluetoothManager.start()
     }
     
     func bluetoothManagerDiscoveredPeripheral(_ peripheral: CBPeripheral) {
         // TODO: add timeout so that scanning doesn't last forever
-        if let deviceMacAddress = deviceMacAddress {
-            if let peripheralName = peripheral.name {
-                if peripheralName == deviceMacAddress {
-                    bluetoothManager.connect(Peripheral: peripheral)
-                }
-            }
+        if let deviceMacAddress = deviceMacAddress, let peripheralName = peripheral.name, peripheralName == deviceMacAddress {
+            bluetoothManager.connect(Peripheral: peripheral)
         } else {
             // TODO: handle no valid mac address is passed
         }
     }
     
-    func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool, _ connectedServices: [BluetoothService]?) {
+    func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool) {
         guard let peripheralName = peripheral.name, let deviceMacAddress = deviceMacAddress, peripheralName == deviceMacAddress else {
             log("Wrong peripheral connected: \(peripheral.name)")
             bluetoothManager.disconnect(Peripheral: peripheral)
             return
         }
+        bluetoothManager.discoverServices(ForPeripheral: peripheral, [SensorService.uuid, BatteryLevelService.uuid])
+    }
+    
+    func bluetoothManagerServicesDiscovered(_ peripheral: CBPeripheral, _ services: [CBService]?) {
+        guard let peripheralName = peripheral.name, let deviceMacAddress = deviceMacAddress, peripheralName == deviceMacAddress else {
+            log("Discovered services for wrong peripheral \(peripheral.name)")
+            bluetoothManager.disconnect(Peripheral: peripheral)
+            return
+        }
         
-        if let services = connectedServices {
+        if let services = services {
             for service in services {
-                if let batteryLevelService = service as? BatteryLevelService {
-                    self.batteryLevelService = batteryLevelService
-                } else if let sensorService = service as? SensorService {
-                    self.sensorService = sensorService
+                switch service.uuid {
+                    case BatteryLevelService.uuid:
+                        batteryLevelService = BatteryLevelService(WithSensor: peripheral, WithService: service, WithDelegate: self)
+                        batteryLevelService!.start()
+                    case SensorService.uuid:
+                        sensorService = SensorService(WithSensor: peripheral, WithService: service, WithDelegate: self)
+                        sensorService!.start()
+                    default:
+                        break
                 }
             }
+        } else {
+            /* TODO: add error view saying that user should try to use another sensor */
         }
     }
     
@@ -155,9 +165,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             let outOfBatteryAlertController = UIAlertController(title: nil, message: "Sensor battery level is too low. Please, replace battery inside the sensor and try again!", preferredStyle: .alert)
             
             let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                [weak self]
                 _ in
                 
-                outOfBatteryAlertController.dismiss(animated: true, completion: nil)
+                if let sensorConnectController = self {
+                    outOfBatteryAlertController.dismiss(animated: true, completion: nil)
+                    sensorConnectController.dismiss(animated: true, completion: nil)
+                }
             })
             
             outOfBatteryAlertController.addAction(dismissAction)
