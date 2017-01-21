@@ -1,51 +1,55 @@
 //
-//  SensorService.swift
+//  ModumSensor.swift
 //  PharmaSupplyChain
 //
-//  Created by Yury Belevskiy on 11.01.17.
+//  Created by Yury Belevskiy on 21.01.17.
 //  Copyright © 2017 Modum. All rights reserved.
 //
 
 import CoreBluetooth
 
-@objc protocol SensorServiceDelegate {
+@objc protocol ModumSensorDelegate {
     
-    func sensorServiceIsReady()
-    func sensorServiceIsBroken()
+    func modumSensorIsReady()
+    func modumSensorServiceUnsupported()
+    func modumSensorIsBroken()
     
-    @objc optional func contractIDReceived(_ contractID: String)
-    @objc optional func contractIDWritten(_ success: Bool)
+    @objc optional func modumSensorBatteryLevelReceived(_ batteryLevel: Int)
     
-    @objc optional func isRecordingFlagReceived(_ isRecording: Bool)
-    @objc optional func isRecordingFlagWritten(_ success: Bool)
+    @objc optional func modumSensorContractIDReceived(_ contractID: String)
+    @objc optional func modumSensorContractIDWritten(_ success: Bool)
     
-    @objc optional func recordingTimeIntervalReceived(_ recordingTimeInterval: Date)
-    @objc optional func recordingTimeIntervalWritten(_ success: Bool)
+    @objc optional func modumSensorIsRecordingFlagReceived(_ isRecording: Bool)
+    @objc optional func modumSensorIsRecordingFlagWritten(_ success: Bool)
     
-    @objc optional func startTimeReceived(_ startTime: Date)
-    @objc optional func startTimeWritten(_ success: Bool)
+    @objc optional func modumSensorRecordingTimeIntervalReceived(_ recordingTimeInterval: Date)
+    @objc optional func modumSensorRecordingTimeIntervalWritten(_ success: Bool)
     
-    @objc optional func measurementsCountReceived(_ measurementsCount: Int)
+    @objc optional func modumSensorStartTimeReceived(_ startTime: Date)
+    @objc optional func modumSensorStartTimeWritten(_ success: Bool)
     
-    @objc optional func measurementsReadIndexReceived(_ measurementsReadIndex: Int)
-    @objc optional func measurementsReadIndexWritten(_ success: Bool)
+    @objc optional func modumSensorMeasurementsCountReceived(_ measurementsCount: Int)
+    
+    @objc optional func modumSensorMeasurementsReadIndexReceived(_ measurementsReadIndex: Int)
+    @objc optional func modumSensorMeasurementsReadIndexWritten(_ success: Bool)
     
 }
 
-class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
-    
-    // MARK: BluetoothService
-    
-    static var uuid: CBUUID = CBUUID(string: "f000aa00-0451-4000-b000-000000000000")
+class ModumSensor : NSObject, CBPeripheralDelegate {
     
     // MARK: Properties
     
-    fileprivate var delegate: SensorServiceDelegate?
+    var delegate: ModumSensorDelegate?
+    
     fileprivate var sensor: CBPeripheral
-    fileprivate var sensorService: CBService
+    
+    /* Helper variables */
+    fileprivate var charsForBatteryLevelServiceDiscovered: Bool = false
+    fileprivate var charsForSensorServiceDiscovered: Bool = false
     
     /**********  Characteristics **********/
     
+    fileprivate var batteryLevelCharacteristic: CBCharacteristic?
     fileprivate var contractIDCharacteristic: CBCharacteristic?
     fileprivate var startTimeCharacteristic: CBCharacteristic?
     fileprivate var measurementsCharacteristic: CBCharacteristic?
@@ -56,7 +60,15 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
     
     // MARK: Constants
     
+    /**********  Services UUIDs **********/
+    
+    fileprivate let batteryLevelServiceUUID: CBUUID = CBUUID(string: "0000180f-0000-1000-8000-00805f9b34fb")
+    fileprivate let sensorServiceUUID: CBUUID = CBUUID(string: "f000aa00-0451-4000-b000-000000000000")
+    
     /********** Characteristics UUIDs **********/
+    
+    /* sensor battery level characterstic UUID, in % */
+    fileprivate let batteryLevelUUID: CBUUID = CBUUID(string: "00002a19-0000-1000-8000-00805f9b34fb")
     
     /* characteristic from where the actual measurements are read */
     fileprivate let measurementsUUID: CBUUID = CBUUID(string: "f000aa01-0451-4000-b000-000000000000")
@@ -79,87 +91,94 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
     /* characteristic determining the start time of recording */
     fileprivate let startTimeUUID: CBUUID = CBUUID(string: "f000aa07-0451-4000-b000-000000000000")
     
-    
-    init(WithSensor sensor: CBPeripheral, WithService service: CBService, WithDelegate delegate: SensorServiceDelegate?) {
-        self.sensor = sensor
-        self.delegate = delegate
-        self.sensorService = service
-        
+    init(WithPeripheral peripheral: CBPeripheral) {
+        sensor = peripheral
+
         super.init()
         
-        self.sensor.delegate = self
+        sensor.delegate = self
     }
     
-    // MARK: Public methods
+    // MARK: Public functions
     
-    /* 
-     Method that is called to initialize the sensor service.
-     Upon successful initialization, delegate method sensorServiceIsReady() called
-     */
     func start() {
-        sensor.discoverCharacteristics([measurementsUUID, measurementsCountUUID, measurementsReadIndexUUID, isRecordingUUID, startTimeUUID, recordingTimeIntervalUUID, contractIDUUID], for: sensorService)
+        if let services = sensor.services, !services.isEmpty {
+            let serviceUUIDs = services.map {$0.uuid}
+            guard serviceUUIDs.contains(Array: [batteryLevelServiceUUID, sensorServiceUUID]) else {
+                log("Given peripheral \(sensor.description) doesn't expose required services.")
+                if let delegate = delegate {
+                    delegate.modumSensorServiceUnsupported()
+                }
+                return
+            }
+            for service in services {
+                switch service.uuid {
+                    case batteryLevelServiceUUID:
+                        sensor.discoverCharacteristics([batteryLevelUUID], for: service)
+                    case sensorServiceUUID:
+                        sensor.discoverCharacteristics([measurementsUUID, isRecordingUUID, recordingTimeIntervalUUID, measurementsCountUUID, measurementsReadIndexUUID, contractIDUUID, startTimeUUID], for: service)
+                    default:
+                        break
+                }
+            }
+        } else {
+            sensor.discoverServices([batteryLevelServiceUUID, sensorServiceUUID])
+        }
     }
     
-    /*
-     Checks if the sensor isn't recording
-     To check the progress of sensor check, following delegate methods are useful:
-     - isRecordingFlagReceived(_ isRecording: Bool)
-     Note: can be called only by delegate only after sensorServiceIsReady() returned
-     */
-    func performSensorCheckBeforeSending() {
-        /* check if necessary charactertistics are discovered */
+    func requestBatteryLevel() {
+        if let batteryLevelCharacteristic = batteryLevelCharacteristic {
+            sensor.readValue(for: batteryLevelCharacteristic)
+        }
+    }
+    
+    func requestContractID() {
+        if let contractIDCharacteristic = contractIDCharacteristic {
+            sensor.readValue(for: contractIDCharacteristic)
+        }
+    }
+    
+    func requestIsRecording() {
         if let isRecordingCharacteristic = isRecordingCharacteristic {
             sensor.readValue(for: isRecordingCharacteristic)
         }
     }
     
-    /*
-     Initializes sending process for a parcel with given parameters
-     To check the progress of initialiazing sensor for sending, following delegate methods are useful:
-        - recordingTimeIntervalWritten(_ success: Bool)
-        - contractIDWritten(_ success: Bool)
-        - startTimeWritten(_ success: Bool)
-        - isRecordingFlagWritten(_ success: Bool)
-     Note: can be called only by delegate only after sensorIsReady() returned
-     */
-    func initializeParcelSending(WithContractID contractID: String, WithRecordingTimeInterval timeInterval: UInt8, WithStartTime startTime: Date) {
-        /* check if necessary charactertistics are discovered */
-        if let isRecordingCharacteristic = isRecordingCharacteristic, startTimeCharacteristic != nil && contractIDCharacteristic != nil && recordingTimeIntervalCharacteristic != nil {
-            writeRecordingTimeInterval(timeInterval)
-            writeContractId(contractID)
-            writeStartTime(startTime)
-            writeIsRecording(true)
-            sensor.readValue(for: isRecordingCharacteristic)
+    // MARK: CBPeriperhalDelegate
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        guard error == nil else {
+            log("Error discovering services: \(error!.localizedDescription)")
+            return
+        }
+        guard peripheral == sensor else {
+            log("Discovered services for wrong peripheral \(peripheral.name)")
+            return
+        }
+        
+        if let services = peripheral.services, !services.isEmpty {
+            let servicesUUIDs = services.map {$0.uuid}
+            guard servicesUUIDs.contains(Array: [batteryLevelServiceUUID, sensorServiceUUID]) else {
+                log("Given peripheral \(sensor.description) doesn't expose required services.")
+                if let delegate = delegate {
+                    delegate.modumSensorServiceUnsupported()
+                }
+                return
+            }
+            
+            for service in services {
+                switch service.uuid {
+                    case batteryLevelServiceUUID:
+                        sensor.discoverCharacteristics([batteryLevelUUID], for: service)
+                    case sensorServiceUUID:
+                        sensor.discoverCharacteristics([measurementsUUID, isRecordingUUID, recordingTimeIntervalUUID, measurementsCountUUID, measurementsReadIndexUUID, contractIDUUID, startTimeUUID], for: service)
+                    default:
+                        break
+                }
+            }
         }
     }
-    
-    // MARK: CBPeripheralDelegate
-    
-//    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-//        guard error == nil else {
-//            log("Error discovering services: \(error!.localizedDescription)")
-//            return
-//        }
-//        guard peripheral == sensor else {
-//            log("Discovered services for wrong peripheral \(peripheral.name)")
-//            return
-//        }
-//        
-//        if let services = peripheral.services, !services.isEmpty {
-//            services.forEach({
-//                service in
-//                
-//                if service.uuid == SensorService.uuid {
-//                    sensorService = service
-//                }
-//            })
-//            
-//            if let sensorService = sensorService {
-//                sensor.discoverCharacteristics([measurementsUUID, measurementsCountUUID, measurementsReadIndexUUID, isRecordingUUID, startTimeUUID, recordingTimeIntervalUUID, contractIDUUID], for: sensorService)
-//            }
-//        }
-//    }
-    
+
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil else {
             log("Error discovering characteristics: \(error!.localizedDescription)")
@@ -169,9 +188,15 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Discovered service characteristics for wrong peripheral \(peripheral.name)")
             return
         }
-        guard service == sensorService else {
+        guard service.uuid == sensorServiceUUID || service.uuid == batteryLevelServiceUUID else {
             log("Discovered characteristics for wrong service \(service.description)")
             return
+        }
+        
+        if service.uuid == batteryLevelServiceUUID {
+            charsForBatteryLevelServiceDiscovered = true
+        } else if service.uuid == sensorServiceUUID {
+            charsForSensorServiceDiscovered = true
         }
         
         if let characteristics = service.characteristics {
@@ -179,6 +204,8 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
                 characteristic in
                 
                 switch characteristic.uuid {
+                    case batteryLevelUUID:
+                        batteryLevelCharacteristic = characteristic
                     case recordingTimeIntervalUUID:
                         recordingTimeIntervalCharacteristic = characteristic
                     case contractIDUUID:
@@ -199,8 +226,12 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             })
         }
         
-        if let delegate = delegate, allCharacteriticsDiscovered() {
-            delegate.sensorServiceIsReady()
+        if let delegate = delegate, (charsForSensorServiceDiscovered && charsForBatteryLevelServiceDiscovered) {
+            if allCharacteriticsDiscovered() {
+                delegate.modumSensorIsReady()
+            } else {
+                delegate.modumSensorServiceUnsupported()
+            }
         }
     }
     
@@ -209,43 +240,43 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Received write indication for wrong peripheral \(peripheral.name)")
             return
         }
-        guard characteristic.service == sensorService else {
+        guard characteristic.service.uuid == sensorServiceUUID || characteristic.service.uuid == batteryLevelServiceUUID else {
             log("Received write indication for wrong service \(characteristic.service.description)")
             return
         }
-    
+        
         switch characteristic.uuid {
             case contractIDUUID:
                 if let delegate = delegate {
-                    delegate.contractIDWritten?(error == nil)
+                    delegate.modumSensorContractIDWritten?(error == nil)
                 }
                 if let error = error {
                     log("Failed to write contract ID: \(error.localizedDescription)")
                 }
             case isRecordingUUID:
                 if let delegate = delegate {
-                    delegate.isRecordingFlagWritten?(error == nil)
+                    delegate.modumSensorIsRecordingFlagWritten?(error == nil)
                 }
                 if let error = error {
                     log("Failed to write isRecording flag: \(error.localizedDescription)")
                 }
             case startTimeUUID:
                 if let delegate = delegate {
-                    delegate.startTimeWritten?(error == nil)
+                    delegate.modumSensorStartTimeWritten?(error == nil)
                 }
                 if let error = error {
                     log("Failed to write startTime: \(error.localizedDescription)")
                 }
             case recordingTimeIntervalUUID:
                 if let delegate = delegate {
-                    delegate.recordingTimeIntervalWritten?(error == nil)
+                    delegate.modumSensorRecordingTimeIntervalWritten?(error == nil)
                 }
                 if let error = error {
                     log("Failed to write timeInterval: \(error.localizedDescription)")
                 }
             case measurementsReadIndexUUID:
                 if let delegate = delegate {
-                    delegate.measurementsReadIndexWritten?(error == nil)
+                    delegate.modumSensorMeasurementsReadIndexWritten?(error == nil)
                 }
                 if let error = error {
                     log("Failed to write measurements read index: \(error.localizedDescription)")
@@ -265,12 +296,16 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("Updated value for characteristic on wrong peripheral: \(peripheral.name)")
             return
         }
-        guard characteristic.service == sensorService else {
+        guard characteristic.service.uuid == sensorServiceUUID || characteristic.service.uuid == batteryLevelServiceUUID else {
             log("Updated characteristic value for wrong service: \(characteristic.service.description)")
             return
         }
         
         switch characteristic.uuid {
+            case batteryLevelUUID:
+                if let delegate = delegate, let batteryLevelValue = characteristic.value, !batteryLevelValue.isEmpty {
+                    delegate.modumSensorBatteryLevelReceived?(Int(batteryLevelValue[0]))
+                }
             case contractIDUUID:
                 if let delegate = delegate, let contractIDValue = characteristic.value, !contractIDValue.isEmpty {
                     /* handling zero-terminated string */
@@ -284,19 +319,19 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
                     }
                     let contractIDData = Data(bytes: contractIDBytes)
                     if let contractID = String(data: contractIDData, encoding: .utf8) {
-                        delegate.contractIDReceived?(contractID)
+                        delegate.modumSensorContractIDReceived?(contractID)
                     }
                 }
             case isRecordingUUID:
                 if let delegate = delegate, let isRecordingValue = characteristic.value, !isRecordingValue.isEmpty {
                     let isRecording: UInt8 = isRecordingValue[0]
                     if isRecording == 0xFF {
-                        delegate.sensorServiceIsBroken()
+                        delegate.modumSensorIsBroken()
                     } else {
                         if isRecording == 0x01 {
-                            delegate.isRecordingFlagReceived?(true)
+                            delegate.modumSensorIsRecordingFlagReceived?(true)
                         } else if isRecording == 0x00 {
-                            delegate.isRecordingFlagReceived?(false)
+                            delegate.modumSensorIsRecordingFlagReceived?(false)
                         } else {
                             log("Unknown value for isRecording flag: \(isRecording)")
                         }
@@ -358,19 +393,19 @@ class SensorService : NSObject, CBPeripheralDelegate, BluetoothService {
             log("No measurements read index characteristic with UUID: \(measurementsReadIndexUUID)")
             return
         }
-        
     }
     
     // MARK: Helper functions
     
     fileprivate func allCharacteriticsDiscovered() -> Bool {
-        return contractIDCharacteristic            != nil &&
-               startTimeCharacteristic             != nil &&
-               measurementsCharacteristic          != nil &&
-               measurementsCountCharacteristic     != nil &&
-               measurementsReadIndexCharacteristic != nil &&
-               recordingTimeIntervalCharacteristic != nil &&
-               isRecordingCharacteristic           != nil
+        return contractIDCharacteristic         != nil &&
+            startTimeCharacteristic             != nil &&
+            batteryLevelCharacteristic          != nil &&
+            measurementsCharacteristic          != nil &&
+            measurementsCountCharacteristic     != nil &&
+            measurementsReadIndexCharacteristic != nil &&
+            recordingTimeIntervalCharacteristic != nil &&
+            isRecordingCharacteristic           != nil
     }
     
 }

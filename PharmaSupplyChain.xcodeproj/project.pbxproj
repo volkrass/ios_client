@@ -10,6 +10,8 @@
 		4A8DFBB5C60564452D100E57 /* Pods_PharmaSupplyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B86329A7363CC7A46CF9D6 /* Pods_PharmaSupplyChain.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		AA6BF04AC8BF8041B54418DE /* Pods_PharmaSupplyChainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */; };
 		D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D212D9DE1DEB3BCD0075C54E /* QRScannerViewController.swift */; };
+		D22109631E3394240018F181 /* ModumSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109621E3394240018F181 /* ModumSensor.swift */; };
+		D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109641E3397330018F181 /* Sequence+Extension.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
 		D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
@@ -25,14 +27,11 @@
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
 		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
-		D2A73CF11E294E55000E1C0E /* BluetoothService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A73CF01E294E55000E1C0E /* BluetoothService.swift */; };
-		D2A73CF31E295203000E1C0E /* BatteryLevelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A73CF21E295203000E1C0E /* BatteryLevelService.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
 		D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE81DBF3B320023F581 /* Assets.xcassets */; };
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
-		D2BB83E61E267A4D00D03CD6 /* SensorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BB83E51E267A4D00D03CD6 /* SensorService.swift */; };
 		D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */; };
 		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
@@ -63,6 +62,8 @@
 		5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChainTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
 		D212D9DE1DEB3BCD0075C54E /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
+		D22109621E3394240018F181 /* ModumSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModumSensor.swift; sourceTree = "<group>"; };
+		D22109641E3397330018F181 /* Sequence+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D25F4DFA1DD7DC8F00811080 /* ParcelDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelDetailTableViewController.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -78,8 +79,6 @@
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
-		D2A73CF01E294E55000E1C0E /* BluetoothService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothService.swift; sourceTree = "<group>"; };
-		D2A73CF21E295203000E1C0E /* BatteryLevelService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatteryLevelService.swift; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BA8DE31DBF3B320023F581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -89,7 +88,6 @@
 		D2BA8DF21DBF3B320023F581 /* PharmaSupplyChainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PharmaSupplyChainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmaSupplyChainTests.swift; sourceTree = "<group>"; };
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D2BB83E51E267A4D00D03CD6 /* SensorService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorService.swift; sourceTree = "<group>"; };
 		D2BCD5E21E24490B009D2197 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Pods/SwiftyJSON; sourceTree = "<group>"; };
 		D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +159,7 @@
 			children = (
 				D22376471DD0B02C00877A6D /* String+Extension.swift */,
 				D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */,
+				D22109641E3397330018F181 /* Sequence+Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -253,9 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
-				D2BB83E51E267A4D00D03CD6 /* SensorService.swift */,
-				D2A73CF01E294E55000E1C0E /* BluetoothService.swift */,
-				D2A73CF21E295203000E1C0E /* BatteryLevelService.swift */,
+				D22109621E3394240018F181 /* ModumSensor.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";
@@ -502,7 +499,6 @@
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
-				D2A73CF31E295203000E1C0E /* BatteryLevelService.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D25F4DFB1DD7DC8F00811080 /* ParcelDetailTableViewController.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
@@ -514,12 +510,12 @@
 				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
-				D2BB83E61E267A4D00D03CD6 /* SensorService.swift in Sources */,
-				D2A73CF11E294E55000E1C0E /* BluetoothService.swift in Sources */,
 				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
+				D22109631E3394240018F181 /* ModumSensor.swift in Sources */,
 				D212D9DF1DEB3BCD0075C54E /* QRScannerViewController.swift in Sources */,
 				D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */,
+				D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */,
