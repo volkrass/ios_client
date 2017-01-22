@@ -13,7 +13,8 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     
     // MARK: Properties
     
-    var deviceMacAddress: String? = "SensorTag 2.0"
+    var sensorMACAddress: String? = "SensorTag 2.0"
+    var contractID: String?
     
     fileprivate var modumSensor: ModumSensor?
     fileprivate let bluetoothManager: BluetoothManager = BluetoothManager.shared
@@ -23,10 +24,38 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     /* sensor should have at least 30% of battery before sending process */
     fileprivate let MIN_BATTERY_LEVEL: Int = 30
     
+    // MARK: Outlets
+    
+    @IBOutlet weak fileprivate var progressBar: UIProgressView!
+    @IBOutlet weak fileprivate var progressLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let contractID = contractID else {
+            log("contractID string is nil!")
+            /* TODO: display internal error and dismiss all screens */
+            return
+        }
+        guard let sensorMACAddress = sensorMACAddress else {
+            log("Sensor MAC address string is nil!")
+            /* TODO: display internal error and dismiss all screens */
+            return
+        }
+        
         bluetoothManager.delegate = self
+        
+        navigationController?.navigationBar.isHidden = true
+        
+        progressLabel.textColor = MODUM_DARK_BLUE
+        progressLabel.text = "Searching for sensor..."
+        
+        progressBar.progress = 0.0
+        progressBar.progressTintColor = MODUM_LIGHT_BLUE
+        
+        if let progressView = progressBar.superview {
+            progressView.layer.cornerRadius = 3.0
+        }
     }
     
     // MARK: BluetoothDiscoveryDelegate
@@ -66,11 +95,12 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerIsReady() {
-        bluetoothManager.scanForPeripheral(WithName: deviceMacAddress, WithTimeout: 15.0)
+        progressLabel.text = "Discovering sensor devices..."
+        bluetoothManager.scanForPeripheral(WithName: sensorMACAddress, WithTimeout: 15.0)
     }
     
     func bluetoothManagerDiscoveredPeripheral(_ peripheral: CBPeripheral) {
-        if let deviceMacAddress = deviceMacAddress, let peripheralName = peripheral.name, peripheralName == deviceMacAddress {
+        if let peripheralName = peripheral.name, peripheralName == sensorMACAddress! {
             bluetoothManager.connect(Peripheral: peripheral)
         }
     }
@@ -90,7 +120,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool) {
-        guard let peripheralName = peripheral.name, let deviceMacAddress = deviceMacAddress, peripheralName == deviceMacAddress else {
+        guard let peripheralName = peripheral.name, peripheralName == sensorMACAddress! else {
             log("Wrong peripheral connected: \(peripheral.name)")
             bluetoothManager.disconnect(Peripheral: peripheral)
             return
@@ -98,11 +128,23 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         modumSensor = ModumSensor(WithPeripheral: peripheral)
         modumSensor!.delegate = self
         modumSensor!.start()
+        
+        progressBar.progress = 0.25
+        progressLabel.text = "Connected to the sensor"
+        let dispatchAfter = DispatchTime.now() + 1.0
+        DispatchQueue.main.asyncAfter(deadline: dispatchAfter, execute: {
+            [weak self] in
+            
+            if let sensorConnectViewController = self {
+                sensorConnectViewController.progressLabel.text = "Validating sensor characteristics..."
+            }
+        })
     }
     
     // MARK: ModumSensorDelegate
     
     func modumSensorIsReady() {
+        
         if let modumSensor = modumSensor {
             /* performing sensor check before sending */
             modumSensor.requestBatteryLevel()
@@ -159,6 +201,8 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             
             present(outOfBatteryAlertController, animated: true, completion: nil)
         }
+        progressBar.progress = 0.5
+        progressLabel.text = "Sensor is ready to use..."
     }
     
     func modumSensorIsRecordingFlagReceived(_ isRecording: Bool) {

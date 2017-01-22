@@ -15,9 +15,12 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     
     fileprivate var captureSession: AVCaptureSession?
     fileprivate var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    fileprivate var qrCodeFrameView: UIView?
+    fileprivate var scannedCodeFrameView: UIView?
     
     fileprivate var isSensorMACDiscovered: Bool = false
+    fileprivate var sensorMACAddress: String?
+    fileprivate var isContractIDDiscovered: Bool = false
+    fileprivate var contractID: String?
     
     // MARK: Outlets
     
@@ -50,7 +53,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             }
             
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode, AVMetadataObjectTypeCode128Code]
             
             /* initialize video preview layer */
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -63,11 +66,11 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             view.bringSubview(toFront: infoLabel)
             
             /* initialize frame to highlight QR code */
-            qrCodeFrameView = UIView()
-            qrCodeFrameView?.layer.borderColor = UIColor.green.cgColor
-            qrCodeFrameView?.layer.borderWidth = 2
-            view.addSubview(qrCodeFrameView!)
-            view.bringSubview(toFront: qrCodeFrameView!)
+            scannedCodeFrameView = UIView()
+            scannedCodeFrameView?.layer.borderColor = UIColor.green.cgColor
+            scannedCodeFrameView?.layer.borderWidth = 2
+            view.addSubview(scannedCodeFrameView!)
+            view.bringSubview(toFront: scannedCodeFrameView!)
         }
         
         /* UI configuration */
@@ -79,33 +82,81 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         
         if metadataObjects == nil || metadataObjects.isEmpty {
-            qrCodeFrameView?.frame = CGRect.zero
-            infoLabel.text = "No QR code is detected"
-            infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+            scannedCodeFrameView?.frame = CGRect.zero
             return
         }
         
         let metadataObject = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         
-        if metadataObject.type == AVMetadataObjectTypeQRCode, let videoPreviewLayer = videoPreviewLayer {
-            let barCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
-            qrCodeFrameView?.frame = barCodeObject.bounds;
+        if metadataObject.type == AVMetadataObjectTypeQRCode, let videoPreviewLayer = videoPreviewLayer, !isSensorMACDiscovered {
+            let qrCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
+            scannedCodeFrameView?.frame = qrCodeObject.bounds
             
             if metadataObject.stringValue != nil && !isSensorMACDiscovered {
                 infoLabel.text = metadataObject.stringValue
-//                if isValidMacAddress(metadataObject.stringValue) {
-//                    isSensorMACDiscovered = true
-//                    infoLabel.backgroundColor = UIColor.green
-//                    let sensorConnectController = SensorConnectViewController(nibName: nil, bundle: nil)
-//                    present(sensorConnectController, animated: false, completion: nil)
-//                } else {
-//                    infoLabel.backgroundColor = UIColor.red
-//                }
+                //                if isValidMacAddress(metadataObject.stringValue) {
+                //                    isSensorMACDiscovered = true
+                //                    infoLabel.backgroundColor = UIColor.green
+                //                    let sensorConnectController = SensorConnectViewController(nibName: nil, bundle: nil)
+                //                    present(sensorConnectController, animated: false, completion: nil)
+                //                } else {
+                //                    infoLabel.backgroundColor = UIColor.red
+                //                    infoLabel.text = "Invalid pattern scanned!"
+                //                }
                 isSensorMACDiscovered = true
+                sensorMACAddress = metadataObject.stringValue
                 infoLabel.backgroundColor = UIColor.green
-                let sensorConnectController = SensorConnectViewController(nibName: nil, bundle: nil)
-                present(sensorConnectController, animated: false, completion: nil)
+                
+                if isContractIDDiscovered {
+                    performSegue(withIdentifier: "goToSensorConnect", sender: self)
+                } else {
+                    let dispatchTime = DispatchTime.now() + 0.5
+                    DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
+                        [weak self] in
+                        
+                        if let qrScannerViewController = self {
+                            qrScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
+                            qrScannerViewController.infoLabel.text = "Please, scan shipment ID code!"
+                            qrScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+                        }
+                    })
+                }
             }
+        } else if metadataObject.type == AVMetadataObjectTypeCode128Code, let videoPreviewLayer = videoPreviewLayer, !isContractIDDiscovered {
+            let barCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
+            scannedCodeFrameView?.frame = barCodeObject.bounds
+            
+            if metadataObject.stringValue != nil && !isContractIDDiscovered {
+                infoLabel.text = metadataObject.stringValue
+                /* TODO: add validation code for contract ID */
+                isContractIDDiscovered = true
+                contractID = metadataObject.stringValue
+                infoLabel.backgroundColor = UIColor.green
+                
+                if isSensorMACDiscovered {
+                    performSegue(withIdentifier: "goToSensorConnect", sender: self)
+                } else {
+                    let dispatchTime = DispatchTime.now() + 0.5
+                    DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
+                        [weak self] in
+                        
+                        if let qrScannerViewController = self {
+                            qrScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
+                            qrScannerViewController.infoLabel.text = "Please, scan QR code on the sensor device!"
+                            qrScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    // MARK: Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let sensorConnectViewController = segue.destination as? SensorConnectViewController {
+            //sensorConnectViewController.sensorMACAddress = sensorMACAddress
+            sensorConnectViewController.contractID = contractID
         }
     }
     
