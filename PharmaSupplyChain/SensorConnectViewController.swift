@@ -50,7 +50,6 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         progressLabel.textColor = MODUM_DARK_BLUE
         progressLabel.text = "Searching for sensor..."
         
-        progressBar.progress = 0.0
         progressBar.progressTintColor = MODUM_LIGHT_BLUE
         
         if let progressView = progressBar.superview {
@@ -201,8 +200,8 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             
             present(outOfBatteryAlertController, animated: true, completion: nil)
         }
-        progressBar.progress = 0.5
         progressLabel.text = "Sensor is ready to use..."
+        progressBar.progress = 0.5
     }
     
     func modumSensorIsRecordingFlagReceived(_ isRecording: Bool) {

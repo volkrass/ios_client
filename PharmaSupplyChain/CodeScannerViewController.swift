@@ -9,7 +9,7 @@
 import AVFoundation
 import UIKit
 
-class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     // MARK: Properties
     
@@ -114,10 +114,10 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                     DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
                         [weak self] in
                         
-                        if let qrScannerViewController = self {
-                            qrScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
-                            qrScannerViewController.infoLabel.text = "Please, scan shipment ID code!"
-                            qrScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+                        if let codeScannerViewController = self {
+                            codeScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
+                            codeScannerViewController.infoLabel.text = "Please, scan shipment ID code!"
+                            codeScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
                         }
                     })
                 }
@@ -140,10 +140,10 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                     DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
                         [weak self] in
                         
-                        if let qrScannerViewController = self {
-                            qrScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
-                            qrScannerViewController.infoLabel.text = "Please, scan QR code on the sensor device!"
-                            qrScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+                        if let codeScannerViewController = self {
+                            codeScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
+                            codeScannerViewController.infoLabel.text = "Please, scan QR code on the sensor device!"
+                            codeScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
                         }
                     })
                 }

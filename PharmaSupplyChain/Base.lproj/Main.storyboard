@@ -136,7 +136,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IwD-Qy-lcT" id="muX-V5-H3I">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HDm-N4-Tyl">
@@ -578,10 +578,10 @@
             </objects>
             <point key="canvasLocation" x="2504.8000000000002" y="115.59220389805098"/>
         </scene>
-        <!--Scanner View Controller-->
+        <!--Code Scanner View Controller-->
         <scene sceneID="1mA-dP-NsW">
             <objects>
-                <viewController id="Yo5-bV-vMp" customClass="QRScannerViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Yo5-bV-vMp" customClass="CodeScannerViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NQX-MR-vB4"/>
                         <viewControllerLayoutGuide type="bottom" id="h0s-Jc-MW5"/>
@@ -632,7 +632,7 @@
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ucT-KH-2NM">
                                 <rect key="frame" x="68" y="301" width="240" height="128"/>
                                 <subviews>
-                                    <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.40000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="h8n-bz-QHV">
+                                    <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="h8n-bz-QHV">
                                         <rect key="frame" x="8" y="30" width="224" height="2.5"/>
                                     </progressView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Progress" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BxA-4p-T9p">
