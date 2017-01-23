@@ -17,7 +17,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     var contractID: String?
     
     fileprivate var modumSensor: ModumSensor?
-    fileprivate let bluetoothManager: BluetoothManager = BluetoothManager.shared
+    fileprivate var bluetoothManager: BluetoothManager?
     
     // MARK: Constants
     
@@ -43,12 +43,14 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             return
         }
         
-        bluetoothManager.delegate = self
+        bluetoothManager = BluetoothManager.shared
+        bluetoothManager!.delegate = self
         
         navigationController?.navigationBar.isHidden = true
         
         progressLabel.textColor = MODUM_DARK_BLUE
         progressLabel.text = "Searching for sensor..."
+        progressBar.setProgress(0.1, animated: false)
         
         progressBar.progressTintColor = MODUM_LIGHT_BLUE
         
@@ -62,9 +64,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     func bluetoothManagerBluetoothPoweredOff() {
         let noBluetoothAlertController = UIAlertController(title: nil, message: "Bluetooth is turned off. Please, turn on Bluetooth in Settings.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            [weak self]
             _ in
             
-            noBluetoothAlertController.dismiss(animated: true, completion: nil)
+            if let sensorConnectViewController = self {
+                noBluetoothAlertController.dismiss(animated: true, completion: nil)
+                sensorConnectViewController.dismiss(animated: true, completion: nil)
+            }
         })
         let goToSettingsAction = UIAlertAction(title: "Settings", style: .default, handler: {
             _ in
@@ -83,9 +89,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         let bluetoothUnavailableAlertController = UIAlertController(title: nil, message: "Bluetooth is unavaible on your device. Please, contact your administrator or Apple support", preferredStyle: .alert)
         
         let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+            [weak self]
             _ in
             
-            bluetoothUnavailableAlertController.dismiss(animated: true, completion: nil)
+            if let sensorConnectViewController = self {
+                bluetoothUnavailableAlertController.dismiss(animated: true, completion: nil)
+                sensorConnectViewController.dismiss(animated: true, completion: nil)
+            }
         })
         
         bluetoothUnavailableAlertController.addAction(dismissAction)
@@ -94,13 +104,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerIsReady() {
-        progressLabel.text = "Discovering sensor devices..."
-        bluetoothManager.scanForPeripheral(WithName: sensorMACAddress, WithTimeout: 15.0)
+        progressBar.setProgress(0.2, animated: true)
+        bluetoothManager!.scanForPeripheral(WithName: sensorMACAddress, WithTimeout: 15.0)
     }
     
     func bluetoothManagerDiscoveredPeripheral(_ peripheral: CBPeripheral) {
         if let peripheralName = peripheral.name, peripheralName == sensorMACAddress! {
-            bluetoothManager.connect(Peripheral: peripheral)
+            bluetoothManager!.connect(Peripheral: peripheral)
         }
     }
     
@@ -108,9 +118,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         let discoveryFailureAlertController = UIAlertController(title: nil, message: "Modum sensor device isn't in range! Please, check battery level of the sensor and make sure that sensor is operating!", preferredStyle: .alert)
         
         let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+            [weak self]
             _ in
             
-            discoveryFailureAlertController.dismiss(animated: true, completion: nil)
+            if let sensorConnectViewController = self {
+                discoveryFailureAlertController.dismiss(animated: true, completion: nil)
+                sensorConnectViewController.dismiss(animated: true, completion: nil)
+            }
         })
         
         discoveryFailureAlertController.addAction(dismissAction)
@@ -121,42 +135,35 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool) {
         guard let peripheralName = peripheral.name, peripheralName == sensorMACAddress! else {
             log("Wrong peripheral connected: \(peripheral.name)")
-            bluetoothManager.disconnect(Peripheral: peripheral)
+            bluetoothManager!.disconnect(Peripheral: peripheral)
             return
         }
         modumSensor = ModumSensor(WithPeripheral: peripheral)
         modumSensor!.delegate = self
         modumSensor!.start()
         
-        progressBar.progress = 0.25
-        progressLabel.text = "Connected to the sensor"
-        let dispatchAfter = DispatchTime.now() + 1.0
-        DispatchQueue.main.asyncAfter(deadline: dispatchAfter, execute: {
-            [weak self] in
-            
-            if let sensorConnectViewController = self {
-                sensorConnectViewController.progressLabel.text = "Validating sensor characteristics..."
-            }
-        })
+        progressBar.setProgress(0.3, animated: true)
     }
     
     // MARK: ModumSensorDelegate
     
     func modumSensorIsReady() {
-        
+        progressBar.setProgress(0.4, animated: true)
         if let modumSensor = modumSensor {
-            /* performing sensor check before sending */
-            modumSensor.requestBatteryLevel()
-            modumSensor.requestIsRecording()
+            modumSensor.performSensorCheckBeforeSending()
         }
     }
     
     func modumSensorServiceUnsupported() {
         let sensorUnsupportedAlertController =  UIAlertController(title: nil, message: "Scanned device doesn't support required services! Please, try to connect to another device!", preferredStyle: .alert)
         let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+            [weak self]
             _ in
             
-            sensorUnsupportedAlertController.dismiss(animated: true, completion: nil)
+            if let sensorConnectViewController = self {
+                sensorUnsupportedAlertController.dismiss(animated: true, completion: nil)
+                sensorConnectViewController.dismiss(animated: true, completion: nil)
+            }
         })
         
         sensorUnsupportedAlertController.addAction(dismissAction)
@@ -164,59 +171,89 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         present(sensorUnsupportedAlertController, animated: true, completion: nil)
     }
     
-    func modumSensorIsBroken() {
-        let sensorBrokenAlertController = UIAlertController(title: nil, message: "The sensor is broken! Please, try to use another sensor!", preferredStyle: .alert)
+    func modumSensorCheckBeforeSendingPerformed() {
+        progressBar.setProgress(0.5, animated: true)
+        progressLabel.text = "Writing shipment data to the sensor..."
+        /* TODO: replace dummy values with actual variables */
+        let startTime = Date()
+        let timeInterval: UInt8 = UInt8(10)
         
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
-            _ in
-            
-            sensorBrokenAlertController.dismiss(animated: true, completion: nil)
-        })
-        
-        sensorBrokenAlertController.addAction(dismissAction)
-        
-        present(sensorBrokenAlertController, animated: true, completion: nil)
+        modumSensor!.writeShipmentData(startTime: startTime, timeInterval: timeInterval, contractID: contractID!)
     }
     
-    func modumSensorContractIDReceived(_ contractID: String) {
-        log("Received contract ID \(contractID)")
+    func modumSensorShipmentDataWritten() {
+        progressBar.setProgress(1.0, animated: true)
+        progressLabel.text = "Shipment has been successfully created!"
     }
     
-    func modumSensorBatteryLevelReceived(_ batteryLevel: Int) {
-        if batteryLevel <= MIN_BATTERY_LEVEL {
-            let outOfBatteryAlertController = UIAlertController(title: nil, message: "Sensor battery level is too low. Please, replace battery inside the sensor and try again!", preferredStyle: .alert)
-            
-            let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
-                [weak self]
-                _ in
-                
-                if let sensorConnectController = self {
-                    outOfBatteryAlertController.dismiss(animated: true, completion: nil)
-                    sensorConnectController.dismiss(animated: true, completion: nil)
-                }
-            })
-            
-            outOfBatteryAlertController.addAction(dismissAction)
-            
-            present(outOfBatteryAlertController, animated: true, completion: nil)
-        }
-        progressLabel.text = "Sensor is ready to use..."
-        progressBar.progress = 0.5
-    }
-    
-    func modumSensorIsRecordingFlagReceived(_ isRecording: Bool) {
-        if isRecording {
-            let sensorIsRecordingAlertController = UIAlertController(title: nil, message: "This sensor is in recording mode! Please, try to use another sensor!", preferredStyle: .alert)
-            
-            let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
-                _ in
-                
-                sensorIsRecordingAlertController.dismiss(animated: true, completion: nil)
-            })
-            
-            sensorIsRecordingAlertController.addAction(dismissAction)
-            
-            present(sensorIsRecordingAlertController, animated: true, completion: nil)
+    func modumSensorErrorOccured(_ error: SensorError?) {
+        if let error = error {
+            switch error {
+                case .batteryLevelTooLow:
+                    let outOfBatteryAlertController = UIAlertController(title: nil, message: "Sensor battery level is too low. Please, replace battery inside the sensor and try again!", preferredStyle: .alert)
+                    
+                    let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                        [weak self]
+                        _ in
+                        
+                        if let sensorConnectViewController = self {
+                            outOfBatteryAlertController.dismiss(animated: true, completion: nil)
+                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                    
+                    outOfBatteryAlertController.addAction(dismissAction)
+                    
+                    present(outOfBatteryAlertController, animated: true, completion: nil)
+                case .recordingAlready:
+                    let sensorIsRecordingAlertController = UIAlertController(title: nil, message: "This sensor is in recording mode! Please, try to use another sensor!", preferredStyle: .alert)
+                    
+                    let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                        [weak self]
+                        _ in
+                        
+                        if let sensorConnectViewController = self {
+                            sensorIsRecordingAlertController.dismiss(animated: true, completion: nil)
+                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                    
+                    sensorIsRecordingAlertController.addAction(dismissAction)
+                    
+                    present(sensorIsRecordingAlertController, animated: true, completion: nil)
+                case .selfCheckFailed:
+                    let sensorBrokenAlertController = UIAlertController(title: nil, message: "The sensor is broken! Please, try to use another sensor!", preferredStyle: .alert)
+                    
+                    let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                        [weak self]
+                        _ in
+                        
+                        if let sensorConnectViewController = self {
+                            sensorBrokenAlertController.dismiss(animated: true, completion: nil)
+                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                    
+                    sensorBrokenAlertController.addAction(dismissAction)
+                    
+                    present(sensorBrokenAlertController, animated: true, completion: nil)
+                case .serviceUnavailable:
+                    let serviceUnavailableAlertController = UIAlertController(title: nil, message: "Something went wrong! Try to create shipment again or use another sensor!", preferredStyle: .alert)
+                    
+                    let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                        [weak self]
+                        _ in
+                        
+                        if let sensorConnectViewController = self {
+                            serviceUnavailableAlertController.dismiss(animated: true, completion: nil)
+                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                    
+                    serviceUnavailableAlertController.addAction(dismissAction)
+                    
+                    present(serviceUnavailableAlertController, animated: true, completion: nil)
+            }
         }
     }
     

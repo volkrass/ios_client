@@ -189,6 +189,7 @@
                                         <constraint firstAttribute="bottomMargin" secondItem="W5i-AE-vjD" secondAttribute="bottom" constant="8" id="pvN-0f-BWH"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="companyNameLabel" destination="W5i-AE-vjD" id="0qO-Y1-tua"/>
                                     <outlet property="receivedTimeLabel" destination="d4z-Qk-4Kh" id="B2X-Vx-RP1"/>
@@ -211,7 +212,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uay-5e-pDf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1780" y="116"/>
+            <point key="canvasLocation" x="1780" y="115.59220389805098"/>
         </scene>
         <!--Parcel Detail Table View Controller-->
         <scene sceneID="9Fo-Lw-wsN">

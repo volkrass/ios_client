@@ -1,4 +1,4 @@
-///
+//
 //  ServerManager.swift
 //  PharmaSupplyChain
 //
@@ -26,7 +26,7 @@ class ServerManager {
     /* User ID that can be extracted from authentication token */
     fileprivate var userID: Int?
     
-    fileprivate func getAuthorizationHeader() -> String {
+    fileprivate var authorizationHeader: String? {
         return "Bearer " + (authenticationToken == nil ? "" : authenticationToken!)
     }
     
@@ -41,7 +41,7 @@ class ServerManager {
     */
     func authenticateUser(WithCredentials loginCredentials: LoginCredentials, completionHandler: @escaping (AuthenticationError?) -> Void) {
         if let jsonLoginCredentials = loginCredentials.toJSON(), let parameters = ServerUtils.parameters(FromJSON: jsonLoginCredentials) {
-            Alamofire.request(API_URL + "login", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON(completionHandler: {
+            Alamofire.request(API_URL + "login", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate().responseJSON(completionHandler: {
                 [weak self]
                 response in
                 
@@ -96,30 +96,32 @@ class ServerManager {
     
     /* */
     func getUserParcels(completionHandler: @escaping (_ success: Bool) -> Void) {
-        if let userID = userID {
-            Alamofire.request(API_URL + "v2/parcels/get", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : getAuthorizationHeader()]).responseJSON(completionHandler: {
+        if let authorizationHeader = authorizationHeader {
+            Alamofire.request(API_URL + "v2/parcels/get", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseJSON(completionHandler: {
                 [weak self]
                 response in
                 
                 if let serverManager = self {
                     switch response.result {
-                        case .success(let data):
-                            let responseData = JSON(data)
-                            log("Received parcels: \(responseData)")
-                            if let parcels = responseData.array {
-                                for parcelJSON in parcels {
-                                    let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
-                                    parcel.fromJSON(object: parcelJSON)
-                                }
-                                serverManager.coreDataManager.saveLocally(managedContext: serverManager.coreDataManager.viewingContext)
-                                completionHandler(true)
+                    case .success(let data):
+                        let responseData = JSON(data)
+                        log("Received parcels: \(responseData)")
+                        if let parcels = responseData.array {
+                            for parcelJSON in parcels {
+                                let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
+                                parcel.fromJSON(object: parcelJSON)
                             }
-                        case .failure(let error):
-                            log("Error is \(error.localizedDescription)")
-                            completionHandler(false)
+                            serverManager.coreDataManager.saveLocally(managedContext: serverManager.coreDataManager.viewingContext)
+                            completionHandler(true)
+                        }
+                    case .failure(let error):
+                        log("Error is \(error.localizedDescription)")
+                        completionHandler(false)
                     }
                 }
             })
+        } else {
+            completionHandler(false)
         }
     }
     

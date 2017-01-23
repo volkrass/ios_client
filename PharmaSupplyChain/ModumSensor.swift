@@ -8,31 +8,20 @@
 
 import CoreBluetooth
 
-@objc protocol ModumSensorDelegate {
+protocol ModumSensorDelegate {
     
     func modumSensorIsReady()
     func modumSensorServiceUnsupported()
-    func modumSensorIsBroken()
-    
-    @objc optional func modumSensorBatteryLevelReceived(_ batteryLevel: Int)
-    
-    @objc optional func modumSensorContractIDReceived(_ contractID: String)
-    @objc optional func modumSensorContractIDWritten(_ success: Bool)
-    
-    @objc optional func modumSensorIsRecordingFlagReceived(_ isRecording: Bool)
-    @objc optional func modumSensorIsRecordingFlagWritten(_ success: Bool)
-    
-    @objc optional func modumSensorRecordingTimeIntervalReceived(_ recordingTimeInterval: Date)
-    @objc optional func modumSensorRecordingTimeIntervalWritten(_ success: Bool)
-    
-    @objc optional func modumSensorStartTimeReceived(_ startTime: Date)
-    @objc optional func modumSensorStartTimeWritten(_ success: Bool)
-    
-    @objc optional func modumSensorMeasurementsCountReceived(_ measurementsCount: Int)
-    
-    @objc optional func modumSensorMeasurementsReadIndexReceived(_ measurementsReadIndex: Int)
-    @objc optional func modumSensorMeasurementsReadIndexWritten(_ success: Bool)
-    
+    func modumSensorErrorOccured(_ error: SensorError?)
+    func modumSensorCheckBeforeSendingPerformed()
+    func modumSensorShipmentDataWritten()
+}
+
+enum SensorError: Error {
+    case batteryLevelTooLow
+    case recordingAlready
+    case selfCheckFailed
+    case serviceUnavailable
 }
 
 class ModumSensor : NSObject, CBPeripheralDelegate {
@@ -47,6 +36,18 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate var charsForBatteryLevelServiceDiscovered: Bool = false
     fileprivate var charsForSensorServiceDiscovered: Bool = false
     
+    /* Helper variables for performing sensor self check */
+    fileprivate var isPerformingCheckBeforeSending: Bool = false
+    fileprivate var discoveredBatteryLevel: Bool = false
+    fileprivate var discoveredIsRecording: Bool = false
+    
+    /* Helper variables for writing shipment data */
+    fileprivate var isWritingShipmentData: Bool = false
+    fileprivate var didWriteContractID: Bool = false
+    fileprivate var didWriteStartTime: Bool = false
+    fileprivate var didWriteTimeInterval: Bool = false
+    fileprivate var didWriteIsRecording: Bool = false
+    
     /**********  Characteristics **********/
     
     fileprivate var batteryLevelCharacteristic: CBCharacteristic?
@@ -59,6 +60,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate var isRecordingCharacteristic: CBCharacteristic?
     
     // MARK: Constants
+    
+    /* sensor should have at least 30% of battery before sending process */
+    fileprivate let MIN_BATTERY_LEVEL: Int = 30
     
     /**********  Services UUIDs **********/
     
@@ -126,22 +130,25 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         }
     }
     
-    func requestBatteryLevel() {
-        if let batteryLevelCharacteristic = batteryLevelCharacteristic {
+    /* Assures that the sensor battery level is sufficient and whether sensor isn't recording before initializing send operation */
+    func performSensorCheckBeforeSending() {
+        isPerformingCheckBeforeSending = true
+        if let batteryLevelCharacteristic = batteryLevelCharacteristic, let isRecordingCharacteristic = isRecordingCharacteristic {
             sensor.readValue(for: batteryLevelCharacteristic)
-        }
-    }
-    
-    func requestContractID() {
-        if let contractIDCharacteristic = contractIDCharacteristic {
-            sensor.readValue(for: contractIDCharacteristic)
-        }
-    }
-    
-    func requestIsRecording() {
-        if let isRecordingCharacteristic = isRecordingCharacteristic {
             sensor.readValue(for: isRecordingCharacteristic)
+        } else {
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
         }
+    }
+    
+    /* */
+    func writeShipmentData(startTime: Date, timeInterval: UInt8, contractID: String) {
+        writeStartTime(startTime)
+        writeContractId(contractID)
+        writeRecordingTimeInterval(timeInterval)
+        writeIsRecording(true)
     }
     
     // MARK: CBPeriperhalDelegate
@@ -247,37 +254,22 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         
         switch characteristic.uuid {
             case contractIDUUID:
-                if let delegate = delegate {
-                    delegate.modumSensorContractIDWritten?(error == nil)
-                }
                 if let error = error {
                     log("Failed to write contract ID: \(error.localizedDescription)")
                 }
             case isRecordingUUID:
-                if let delegate = delegate {
-                    delegate.modumSensorIsRecordingFlagWritten?(error == nil)
-                }
                 if let error = error {
                     log("Failed to write isRecording flag: \(error.localizedDescription)")
                 }
             case startTimeUUID:
-                if let delegate = delegate {
-                    delegate.modumSensorStartTimeWritten?(error == nil)
-                }
                 if let error = error {
                     log("Failed to write startTime: \(error.localizedDescription)")
                 }
             case recordingTimeIntervalUUID:
-                if let delegate = delegate {
-                    delegate.modumSensorRecordingTimeIntervalWritten?(error == nil)
-                }
                 if let error = error {
                     log("Failed to write timeInterval: \(error.localizedDescription)")
                 }
             case measurementsReadIndexUUID:
-                if let delegate = delegate {
-                    delegate.modumSensorMeasurementsReadIndexWritten?(error == nil)
-                }
                 if let error = error {
                     log("Failed to write measurements read index: \(error.localizedDescription)")
                 }
@@ -304,7 +296,23 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         switch characteristic.uuid {
             case batteryLevelUUID:
                 if let delegate = delegate, let batteryLevelValue = characteristic.value, !batteryLevelValue.isEmpty {
-                    delegate.modumSensorBatteryLevelReceived?(Int(batteryLevelValue[0]))
+                    let batteryLevel = Int(batteryLevelValue[0])
+                    if isPerformingCheckBeforeSending {
+                        if batteryLevel <= MIN_BATTERY_LEVEL {
+                           delegate.modumSensorErrorOccured(.batteryLevelTooLow)
+                            discoveredIsRecording = false
+                            discoveredBatteryLevel = false
+                            isPerformingCheckBeforeSending = false
+                        } else {
+                            discoveredBatteryLevel = true
+                        }
+                        if discoveredBatteryLevel && discoveredIsRecording {
+                            delegate.modumSensorCheckBeforeSendingPerformed()
+                            discoveredIsRecording = false
+                            discoveredBatteryLevel = false
+                            isPerformingCheckBeforeSending = false
+                        }
+                    }
                 }
             case contractIDUUID:
                 if let delegate = delegate, let contractIDValue = characteristic.value, !contractIDValue.isEmpty {
@@ -318,24 +326,41 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                         }
                     }
                     let contractIDData = Data(bytes: contractIDBytes)
-                    if let contractID = String(data: contractIDData, encoding: .utf8) {
-                        delegate.modumSensorContractIDReceived?(contractID)
-                    }
+                    let contractID = String(data: contractIDData, encoding: .utf8)
+//                    if let contractID = String(data: contractIDData, encoding: .utf8) {
+//                        delegate.modumSensorContractIDReceived?(contractID)
+//                    }
                 }
             case isRecordingUUID:
                 if let delegate = delegate, let isRecordingValue = characteristic.value, !isRecordingValue.isEmpty {
                     let isRecording: UInt8 = isRecordingValue[0]
                     if isRecording == 0xFF {
-                        delegate.modumSensorIsBroken()
-                    } else {
-                        if isRecording == 0x01 {
-                            delegate.modumSensorIsRecordingFlagReceived?(true)
-                        } else if isRecording == 0x00 {
-                            delegate.modumSensorIsRecordingFlagReceived?(false)
-                        } else {
-                            log("Unknown value for isRecording flag: \(isRecording)")
+                        delegate.modumSensorErrorOccured(.selfCheckFailed)
+                    } else if isRecording == 0x01 {
+                        if isPerformingCheckBeforeSending {
+                            delegate.modumSensorErrorOccured(SensorError.recordingAlready)
+                            discoveredIsRecording = false
+                            discoveredBatteryLevel = false
+                            isPerformingCheckBeforeSending = false
+                        }
+                    } else if isRecording == 0x00 {
+                        if isPerformingCheckBeforeSending {
+                            discoveredIsRecording = true
+                            if discoveredIsRecording && discoveredBatteryLevel {
+                                delegate.modumSensorCheckBeforeSendingPerformed()
+                                discoveredIsRecording = false
+                                discoveredBatteryLevel = false
+                                isPerformingCheckBeforeSending = false
+                            }
                         }
                     }
+//                        if isRecording == 0x01 {
+//                            delegate.modumSensorIsRecordingFlagReceived?(true)
+//                        } else if isRecording == 0x00 {
+//                            delegate.modumSensorIsRecordingFlagReceived?(false)
+//                        } else {
+//                            log("Unknown value for isRecording flag: \(isRecording)")
+//                        }
                 }
             default:
                 break
@@ -347,6 +372,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate func writeContractId(_ contractID: String) {
         guard let contractIDCharacteristic = contractIDCharacteristic else {
             log("No contract ID characteristic with UUID: \(contractIDUUID)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
             return
         }
         
@@ -360,6 +388,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate func writeIsRecording(_ isRecording: Bool) {
         guard let isRecordingCharacteristic = isRecordingCharacteristic else {
             log("No isRecording characteristic with UUID: \(isRecordingUUID)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
             return
         }
         
@@ -370,6 +401,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate func writeStartTime(_ startTime: Date) {
         guard let startTimeCharacteristic = startTimeCharacteristic else {
             log("No startTime characteristic with UUID: \(startTimeUUID)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
             return
         }
         
@@ -381,6 +415,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate func writeRecordingTimeInterval(_ timeInterval: UInt8) {
         guard let recordingTimeIntervalCharacteristic = recordingTimeIntervalCharacteristic else {
             log("No recordingTimeInterval characteristic with UUID: \(recordingTimeIntervalUUID)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
             return
         }
         
@@ -391,6 +428,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate func writeMeasurementsIndex() {
         guard let measurementsReadIndexCharacteristic = measurementsReadIndexCharacteristic else {
             log("No measurements read index characteristic with UUID: \(measurementsReadIndexUUID)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
             return
         }
     }

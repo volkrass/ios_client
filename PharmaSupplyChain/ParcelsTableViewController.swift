@@ -30,6 +30,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         case Receiver = "Receiver"
     }
     fileprivate var currentMode: Mode = .Sender
+    
     /* view indicating which mode is user currently in(sender/receiver) */
     fileprivate var modeView: UIView?
     
@@ -172,8 +173,24 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         let screenWidth = UIScreen.main.bounds.size.width
         let screenHeight = UIScreen.main.bounds.size.height
         let distanceFromBottom: CGFloat = 113.0
+        
         let modeView = UIView(frame: CGRect(x: 0, y: screenHeight - distanceFromBottom, width: screenWidth, height: 50))
-        let titleButton = UIButton(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
+        //modeView.translatesAutoresizingMaskIntoConstraints = false
+        
+        /* defining constraints */
+//        let leftConstraint = NSLayoutConstraint(item: modeView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: tableView.bounds.width)
+//        let rightConstraint = NSLayoutConstraint(item: modeView, attribute: .right, relatedBy: .equal, toItem: tableView, attribute: .right, multiplier: 1.0, constant: 0.0)
+//        let bottomConstraint = NSLayoutConstraint(item: modeView, attribute: .bottom, relatedBy: .equal, toItem: tableView, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+        
+        let titleButton = UIButton(frame: modeView.bounds)
+        //titleButton.translatesAutoresizingMaskIntoConstraints = false
+        
+//        /* defining constraints */
+//        let leftButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .left, relatedBy: .equal, toItem: modeView, attribute: .left, multiplier: 1.0, constant: 0.0)
+//        let rightButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .right, relatedBy: .equal, toItem: modeView, attribute: .right, multiplier: 1.0, constant: 0.0)
+//        let bottomButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .bottom, relatedBy: .equal, toItem: modeView, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+//        let topButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .top, relatedBy: .equal, toItem: modeView, attribute: .top, multiplier: 1.0, constant: 0.0)
+        
         if mode == .Sender {
             titleButton.setTitle("SEND", for: .normal)
             titleButton.backgroundColor = UIColor.orange
@@ -189,8 +206,14 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         titleButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16.0)
         titleButton.titleLabel?.textAlignment = .center
         titleButton.setTitleColor(UIColor.white, for: .normal)
+        
         modeView.addSubview(titleButton)
+        //modeView.addConstraint(widthConstraint)
+        //modeView.addConstraints([leftButtonConstraint,rightButtonConstraint,topButtonConstraint,bottomButtonConstraint])
+        
         view.addSubview(modeView)
+        //view.addConstraints([bottomConstraint])
+        
         return modeView
     }
     
