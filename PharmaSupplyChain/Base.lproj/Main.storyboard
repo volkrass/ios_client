@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -126,7 +126,7 @@
         <!--Parcels Table View Controller-->
         <scene sceneID="2Iw-Zq-qBq">
             <objects>
-                <tableViewController id="HDb-dB-TRz" customClass="ParcelsTableViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ParcelsTableViewController" id="HDb-dB-TRz" customClass="ParcelsTableViewController" customModule="PharmaSupplyChain" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="ojZ-tl-gZ0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -674,7 +674,7 @@
         <!--Navigation Controller-->
         <scene sceneID="ncs-Zj-Iot">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Uc6-a7-Y36" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ParcelsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Uc6-a7-Y36" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="iEZ-uk-9Oh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

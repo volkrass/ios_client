@@ -54,6 +54,11 @@ class ServerManager {
                                 
                                 serverManager.authenticationToken = authToken
                                 serverManager.userID = serverManager.extractUserID(FromAuthenticationToken: authToken)
+                                
+                                /* storing auth token expiry date in UserDefaults*/
+                                UserDefaults.standard.set(expiryDate, forKey: "authTokenExpiry")
+                                UserDefaults.standard.synchronize()
+                                
                                 completionHandler(nil)
                             } else if let errorCode = responseData["code"].int, let errorMessage = responseData["message"].string {
                                 log("Received error \(errorCode): \(errorMessage)")
@@ -92,7 +97,7 @@ class ServerManager {
     /* */
     func getUserParcels(completionHandler: @escaping (_ success: Bool) -> Void) {
         if let userID = userID {
-            Alamofire.request(API_URL + "parcels", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : getAuthorizationHeader()]).responseJSON(completionHandler: {
+            Alamofire.request(API_URL + "v2/parcels/get", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : getAuthorizationHeader()]).responseJSON(completionHandler: {
                 [weak self]
                 response in
                 

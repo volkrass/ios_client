@@ -27,10 +27,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         coreDataManager = CoreDataManager()
         serverManager = ServerManager(WithCoreDataManager: coreDataManager!)
 
-        if let loginViewController = window?.rootViewController as? LoginViewController {
-            loginViewController.serverManager = serverManager
-            loginViewController.coreDataManager = coreDataManager
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        if let tokenExpiryDate = UserDefaults.standard.object(forKey: "authTokenExpiry") as? Date, tokenExpiryDate > Date() {
+            if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController, let parcelsTableViewController = parcelsNavigationController.childViewControllers[0] as? ParcelsTableViewController {
+                parcelsTableViewController.coreDataManager = coreDataManager
+                parcelsTableViewController.serverManager = serverManager
+                window!.rootViewController = parcelsNavigationController
+            }
+        } else {
+            if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+                loginViewController.coreDataManager = coreDataManager
+                loginViewController.serverManager = serverManager
+                window!.rootViewController = loginViewController
+            }
         }
+        
+        window!.makeKeyAndVisible()
+        
         return true
     }
 
