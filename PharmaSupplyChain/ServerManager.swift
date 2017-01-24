@@ -22,7 +22,10 @@ class ServerManager {
     
     fileprivate let coreDataManager: CoreDataManager
     
-    fileprivate var authenticationToken: String?
+    fileprivate var authenticationToken: String? {
+        return UserDefaults.standard.value(forKey: "authToken") as? String
+    }
+    
     /* User ID that can be extracted from authentication token */
     fileprivate var userID: Int?
     
@@ -52,10 +55,10 @@ class ServerManager {
                             if let authToken = responseData["token"].string, let expiryDateString = responseData["expire"].string, let expiryDate = ServerUtils.date(FromServerString: expiryDateString) {
                                 log("Received authentication token: \(authToken) with expiry date: \(expiryDate)")
                                 
-                                serverManager.authenticationToken = authToken
                                 serverManager.userID = serverManager.extractUserID(FromAuthenticationToken: authToken)
                                 
-                                /* storing auth token expiry date in UserDefaults*/
+                                /* storing auth token and it's expiry date in UserDefaults*/
+                                UserDefaults.standard.set(authToken, forKey: "authToken")
                                 UserDefaults.standard.set(expiryDate, forKey: "authTokenExpiry")
                                 UserDefaults.standard.synchronize()
                                 
@@ -97,7 +100,7 @@ class ServerManager {
     /* */
     func getUserParcels(completionHandler: @escaping (_ success: Bool) -> Void) {
         if let authorizationHeader = authorizationHeader {
-            Alamofire.request(API_URL + "v2/parcels/get", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseJSON(completionHandler: {
+            Alamofire.request(API_URL + "v2/parcels/web", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseJSON(completionHandler: {
                 [weak self]
                 response in
                 
