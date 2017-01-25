@@ -108,18 +108,18 @@ class ParcelDetailTableViewController : UITableViewController {
     
     fileprivate func fillDataFields(FromParcel parcel: Parcel) {
         tntNumberLabel.text = parcel.tntNumber
-        sensorIDLabel.text = String(parcel.senderId)
-        if let dateSent = parcel.dateSent {
-            dateSentLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-        }
+        sensorIDLabel.text = parcel.sensorMAC
+//        if let dateSent = parcel.dateSent {
+//            dateSentLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+//        }
         if let dateReceived = parcel.dateReceived {
             dateReceivedLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         }
-        senderCompanyLabel.text = "-"
-        receiverCompanyLabel.text = "-"
+        senderCompanyLabel.text = parcel.senderCompany
+        receiverCompanyLabel.text = parcel.receiverCompany
         statusLabel.text = "-"
-        temperatureCategoryLabel.text = "-"
-        additionalInfoNameLabel.text = parcel.additionalInfo
+        temperatureCategoryLabel.text = parcel.tempCategory
+        additionalInfoNameLabel.text = "-"
     }
     
 }

@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="16B2555" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16C67" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Parcel" representedClassName=".Parcel" syncable="YES">
         <attribute name="additionalInfo" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="contractAddress" attributeType="String" syncable="YES"/>
-        <attribute name="contractVersion" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="dateReceived" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="dateSent" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="deletedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="isReceived" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSent" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="maxFailsTemp" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="parcelId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="receiverId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="senderId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="sensorUUID" attributeType="String" syncable="YES"/>
-        <attribute name="tntNumber" attributeType="String" syncable="YES"/>
-        <attribute name="txHash" attributeType="String" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="numFailures" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="numMeasurements" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="receiver" attributeType="String" syncable="YES"/>
+        <attribute name="receiverCompany" attributeType="String" syncable="YES"/>
+        <attribute name="sender" attributeType="String" syncable="YES"/>
+        <attribute name="senderCompany" attributeType="String" syncable="YES"/>
+        <attribute name="sensorMAC" attributeType="String" syncable="YES"/>
+        <attribute name="tempCategory" attributeType="String" syncable="YES"/>
+        <attribute name="tntNumber" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="TestEntity" representedClassName=".TestEntity" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -27,7 +23,7 @@
         <attribute name="optional" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Parcel" positionX="-63" positionY="-18" width="128" height="315"/>
+        <element name="Parcel" positionX="-63" positionY="-18" width="128" height="255"/>
         <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
     </elements>
 </model>

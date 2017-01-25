@@ -17,22 +17,18 @@ extension Parcel {
     /* Metadata properties */
     @NSManaged public var identifier: String
     
-    @NSManaged public var createdAt: Date?
-    @NSManaged public var updatedAt: Date?
-    @NSManaged public var deletedAt: Date?
+    @NSManaged public var numFailures: Int
+    @NSManaged public var numMeasurements: Int
+    @NSManaged public var senderCompany: String
+    @NSManaged public var sender: String
+    @NSManaged public var receiverCompany: String
+    @NSManaged public var receiver: String
     @NSManaged public var dateReceived: Date?
-    @NSManaged public var dateSent: Date?
-    @NSManaged public var contractAddress: String
-    @NSManaged public var tntNumber: String
-    @NSManaged public var parcelId: Int
-    @NSManaged public var senderId: Int
-    @NSManaged public var receiverId: Int
-    @NSManaged public var sensorUUID: String
-    @NSManaged public var txHash: String
-    @NSManaged public var maxFailsTemp: Int
-    @NSManaged public var contractVersion: Int
-    @NSManaged public var additionalInfo: String?
-    @NSManaged public var isReceived: Bool
     @NSManaged public var isSent: Bool
+    @NSManaged public var isReceived: Bool
+    @NSManaged public var sensorMAC: String
+    @NSManaged public var tempCategory: String
+    @NSManaged public var tntNumber: String
+    @NSManaged public var additionalInfo: String?
     
 }

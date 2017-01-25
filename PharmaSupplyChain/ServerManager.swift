@@ -18,6 +18,9 @@ class ServerManager {
     //fileprivate let API_URL = "https://core.modum.io/api/"
     fileprivate let API_URL = "http://dev.modum.io/api/"
     
+    /* If date from the server-side is to set to nil, server automatically sets this value */
+    static let serverNilDateString: String = "0001-01-01T00:34:08+00:34"
+    
     // MARK: Properties
     
     fileprivate let coreDataManager: CoreDataManager
@@ -108,9 +111,9 @@ class ServerManager {
                     switch response.result {
                     case .success(let data):
                         let responseData = JSON(data)
-                        log("Received parcels: \(responseData)")
                         if let parcels = responseData.array {
                             for parcelJSON in parcels {
+                                log("Received JSON for parcel: \(parcelJSON)")
                                 let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
                                 parcel.fromJSON(object: parcelJSON)
                             }

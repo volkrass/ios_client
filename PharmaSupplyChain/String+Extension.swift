@@ -10,6 +10,10 @@ import Foundation
 
 extension String {
     
+    var dateFromISO8601: Date? {
+        return Date.iso8601Formatter.date(from: self)
+    }
+    
     func base64DecodedString() -> String? {
         if let decodedData = self.base64DecodedData(), let decodedString = String(data: decodedData, encoding: .utf8) {
             return decodedString

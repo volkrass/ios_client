@@ -15,73 +15,61 @@ public class Parcel : NSManagedObject, UniqueManagedObject, JSONSerializable {
     
     func toJSON() -> JSON? {
         let jsonParcel = JSON([
-                                "contractAddress" : contractAddress,
-                                "tntNumber" : tntNumber,
-                                "CreatedAt" : createdAt == nil ? nil : ServerUtils.serverDateString(FromDate: createdAt!),
-                                "ID" : parcelId,
-                                "receiver" : receiverId,
-                                "UpdatedAt" : updatedAt == nil ? nil : ServerUtils.serverDateString(FromDate: updatedAt!),
-                                "isReceived" : isReceived,
-                                "sensorUUID" : sensorUUID,
-                                "txHash" : txHash,
-                                "maxFailsTemp" : maxFailsTemp,
-                                "isSent" : isSent,
-                                "contractVersion" : contractVersion,
-                                "dateSent" : dateSent == nil ? "" : ServerUtils.serverDateString(FromDate: dateSent!),
-                                "sender" : senderId,
-                                "addInfo" : additionalInfo == nil ? "" : additionalInfo!,
-                                "dateReceived" : dateReceived == nil ? "" : ServerUtils.serverDateString(FromDate: dateReceived!)
-                             ])
+            "tempCategory": tempCategory,
+            "tntNumber" : tntNumber,
+            "receiver" : receiver,
+            "receiverCompany": receiverCompany,
+            "isReceived" : isReceived,
+            "sensorID" : sensorMAC,
+            "nrFailures" : numFailures,
+            "nrMeasurements": numMeasurements,
+            "isSent" : isSent,
+            "sender" : sender,
+            "senderCompany": senderCompany,
+            "additionalInfo" : additionalInfo == nil ? "" : additionalInfo!,
+            "dateReceived" : dateReceived == nil ? nil : dateReceived!.iso8601
+        ])
         return jsonParcel
     }
     
     func fromJSON(object: JSON) {
-        if let contractAddress = object["contractAddress"].string {
-            self.contractAddress = contractAddress
+        if let tempCategory = object["tempCategory"].string {
+            self.tempCategory = tempCategory
         }
         if let tntNumber = object["tntNumber"].string {
             self.tntNumber = tntNumber
         }
-        if let createdAtString = object["CreatedAt"].string, let createdAt = ServerUtils.date(FromServerString: createdAtString) {
-            self.createdAt = createdAt
+        if let receiver = object["receiver"].string {
+            self.receiver = receiver
         }
-        if let parcelId = object["ID"].int {
-            self.parcelId = parcelId
-        }
-        if let receiverId = object["receiver"].int {
-            self.receiverId = receiverId
-        }
-        if let updatedAtString = object["UpdatedAt"].string, let updatedAt = ServerUtils.date(FromServerString: updatedAtString) {
-            self.updatedAt = updatedAt
+        if let receiverCompany = object["receiverCompany"].string {
+            self.receiverCompany = receiverCompany
         }
         if let isReceived = object["isReceived"].bool {
             self.isReceived = isReceived
         }
-        if let sensorUUID = object["sensorUUID"].string {
-            self.sensorUUID = sensorUUID
+        if let sensorMAC = object["sensorID"].string {
+            self.sensorMAC = sensorMAC
         }
-        if let txHash = object["txHash"].string {
-            self.txHash = txHash
+        if let numFailures = object["nrFailures"].int {
+            self.numFailures = numFailures
         }
-        if let maxFailsTemp = object["maxFailsTemp"].int {
-            self.maxFailsTemp = maxFailsTemp
+        if let numMeasurements = object["nrMeasurements"].int {
+            self.numMeasurements = numMeasurements
         }
         if let isSent = object["isSent"].bool {
             self.isSent = isSent
         }
-        if let contractVersion = object["contractVersion"].int {
-            self.contractVersion = contractVersion
+        if let sender = object["sender"].string {
+            self.sender = sender
         }
-        if let dateSentString = object["dateSent"].string, let dateSent = ServerUtils.date(FromServerString: dateSentString) {
-            self.dateSent = dateSent
+        if let senderCompany = object["senderCompany"].string {
+            self.senderCompany = senderCompany
         }
-        if let senderId = object["sender"].int {
-            self.senderId = senderId
-        }
-        if let additionalInfo = object["addInfo"].string {
+        if let additionalInfo = object["additionalInfo"].string {
             self.additionalInfo = additionalInfo
         }
-        if let dateReceivedString = object["dateReceived"].string, let dateReceived = ServerUtils.date(FromServerString: dateReceivedString) {
+        if let dateReceivedString = object["dateReceived"].string, dateReceivedString != ServerManager.serverNilDateString, let dateReceived = dateReceivedString.dateFromISO8601 {
             self.dateReceived = dateReceived
         }
     }

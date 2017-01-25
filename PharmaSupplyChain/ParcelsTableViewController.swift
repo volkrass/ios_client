@@ -63,7 +63,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         
         let allParcelsRequest = NSFetchRequest<Parcel>(entityName: "Parcel")
         allParcelsRequest.predicate = NSPredicate(value: true)
-        allParcelsRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: false)]
+        allParcelsRequest.sortDescriptors = [NSSortDescriptor(key: "dateReceived", ascending: false)]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: allParcelsRequest, managedObjectContext: coreDataManager.viewingContext, sectionNameKeyPath: nil, cacheName: nil)
         do {
             try fetchedResultsController.performFetch()
@@ -129,15 +129,21 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         let parcelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "parcelCell") as! ParcelTableViewCell
         let parcel = fetchedResultsController.object(at: indexPath) 
         parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
-        if let dateSent = parcel.dateSent {
-            parcelTableViewCell.sentTimeLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-        } else {
-            parcelTableViewCell.sentTimeLabel.text = "-"
-        }
+        parcelTableViewCell.sentTimeLabel.text = "-"
+//        if let dateSent = parcel.dateSent {
+//            parcelTableViewCell.sentTimeLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+//        } else {
+//            parcelTableViewCell.sentTimeLabel.text = "-"
+//        }
         if let dateReceived = parcel.dateReceived {
             parcelTableViewCell.receivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         } else {
             parcelTableViewCell.receivedTimeLabel.text = "-"
+        }
+        if currentMode == .Sender {
+            parcelTableViewCell.companyNameLabel.text = parcel.senderCompany
+        } else {
+            parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
         }
         return parcelTableViewCell
     }

@@ -2,13 +2,26 @@
 //  Date+Extension.swift
 //  PharmaSupplyChain
 //
-//  Created by Yury Belevskiy on 08.11.16.
-//  Copyright © 2016 Modum. All rights reserved.
+//  Created by Yury Belevskiy on 25.01.17.
+//  Copyright © 2017 Modum. All rights reserved.
 //
 
 import Foundation
 
 extension Date {
+    
+    static let iso8601Formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        return formatter
+    }()
+    
+    var iso8601: String {
+        return Date.iso8601Formatter.string(from: self)
+    }
     
     func components() -> DateComponents {
         let calendar = Calendar.current
