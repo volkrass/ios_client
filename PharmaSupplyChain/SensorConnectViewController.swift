@@ -15,6 +15,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     
     var sensorMACAddress: String? = "SensorTag 2.0"
     var contractID: String?
+    var isReceivingParcel: Bool = false
     
     fileprivate var modumSensor: ModumSensor?
     fileprivate var bluetoothManager: BluetoothManager?
@@ -37,10 +38,12 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             /* TODO: display internal error and dismiss all screens */
             return
         }
-        guard let sensorMACAddress = sensorMACAddress else {
-            log("Sensor MAC address string is nil!")
-            /* TODO: display internal error and dismiss all screens */
-            return
+        if !isReceivingParcel {
+            guard let sensorMACAddress = sensorMACAddress else {
+                log("Sensor MAC address string is nil!")
+                /* TODO: display internal error and dismiss all screens */
+                return
+            }
         }
         
         bluetoothManager = BluetoothManager.shared
@@ -150,7 +153,11 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     func modumSensorIsReady() {
         progressBar.setProgress(0.4, animated: true)
         if let modumSensor = modumSensor {
-            modumSensor.performSensorCheckBeforeSending()
+            if isReceivingParcel {
+                
+            } else {
+                modumSensor.performSensorCheckBeforeSending()
+            }
         }
     }
     
@@ -181,9 +188,17 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         modumSensor!.writeShipmentData(startTime: startTime, timeInterval: timeInterval, contractID: contractID!)
     }
     
+    func modumSensorCheckBeforeReceivingPerformed() {
+        
+    }
+    
     func modumSensorShipmentDataWritten() {
         progressBar.setProgress(1.0, animated: true)
         progressLabel.text = "Shipment has been successfully created!"
+    }
+    
+    func modumSensorShipmentDataReceived() {
+        
     }
     
     func modumSensorErrorOccured(_ error: SensorError?) {

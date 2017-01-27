@@ -14,7 +14,9 @@ protocol ModumSensorDelegate {
     func modumSensorServiceUnsupported()
     func modumSensorErrorOccured(_ error: SensorError?)
     func modumSensorCheckBeforeSendingPerformed()
+    func modumSensorCheckBeforeReceivingPerformed()
     func modumSensorShipmentDataWritten()
+    func modumSensorShipmentDataReceived()
 }
 
 enum SensorError: Error {
@@ -47,6 +49,10 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate var didWriteStartTime: Bool = false
     fileprivate var didWriteTimeInterval: Bool = false
     fileprivate var didWriteIsRecording: Bool = false
+    
+    /* Helper variables for reading out temperature measurements */
+    fileprivate var measurementsCount: UInt32?
+    fileprivate var measurementsIndex: UInt32?
     
     /**********  Characteristics **********/
     
@@ -130,7 +136,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         }
     }
     
-    /* Assures that the sensor battery level is sufficient and whether sensor isn't recording before initializing send operation */
+    /*
+     Assures that the sensor battery level is sufficient and whether sensor isn't recording before initializing send operation
+     */
     func performSensorCheckBeforeSending() {
         isPerformingCheckBeforeSending = true
         if let batteryLevelCharacteristic = batteryLevelCharacteristic, let isRecordingCharacteristic = isRecordingCharacteristic {
@@ -143,12 +151,43 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         }
     }
     
-    /* */
+    /*
+     Assure that sensor is recording before downloading shipment datas
+     */
+    func performSensorCheckBeforeReceiving() {
+        if let isRecordingCharacteristic = isRecordingCharacteristic {
+            sensor.readValue(for: isRecordingCharacteristic)
+        } else {
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
+        }
+    }
+    
+    /*
+     Writes data for the shipment into the sensor
+     */
     func writeShipmentData(startTime: Date, timeInterval: UInt8, contractID: String) {
         writeStartTime(startTime)
         writeContractId(contractID)
         writeRecordingTimeInterval(timeInterval)
         writeIsRecording(true)
+    }
+    
+    /*
+     Downloads data related to the shipment from the sensor
+     */
+    func downloadShipmentData() {
+        if let startTimeCharacteristic = startTimeCharacteristic, let recordingTimeIntervalCharacteristic = recordingTimeIntervalCharacteristic, let measurementsCountCharacteristic = measurementsCountCharacteristic {
+            writeIsRecording(false)
+            sensor.readValue(for: measurementsCountCharacteristic)
+            sensor.readValue(for: startTimeCharacteristic)
+            sensor.readValue(for: recordingTimeIntervalCharacteristic)
+        } else {
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.serviceUnavailable)
+            }
+        }
     }
     
     // MARK: CBPeriperhalDelegate
@@ -272,6 +311,10 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case measurementsReadIndexUUID:
                 if let error = error {
                     log("Failed to write measurements read index: \(error.localizedDescription)")
+                } else {
+                    if let measurementsCharacteristic = measurementsCharacteristic {
+                        sensor.readValue(for: measurementsCharacteristic)
+                    }
                 }
             default:
                 break
@@ -362,6 +405,24 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
 //                            log("Unknown value for isRecording flag: \(isRecording)")
 //                        }
                 }
+            case measurementsCountUUID:
+                if let measurementsCountValue = characteristic.value, !measurementsCountValue.isEmpty {
+                    measurementsCount = UInt32(littleEndian: measurementsCountValue.withUnsafeBytes { $0.pointee })
+                    measurementsIndex = 0
+                    
+                    /* DEBUG */
+                    log("Measurements count: \(measurementsCount)")
+                    /* DEBUG */
+                    
+                    if measurementsCount! > 0 {
+                        writeMeasurementsIndex(measurementsIndex!)
+                    }
+            }
+            case measurementsUUID:
+                if let measurementsValue = characteristic.value, !measurementsValue.isEmpty {
+                    
+                }
+                break
             default:
                 break
         }
@@ -425,7 +486,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         sensor.writeValue(timeIntervalData, for: recordingTimeIntervalCharacteristic, type: .withResponse)
     }
     
-    fileprivate func writeMeasurementsIndex() {
+    fileprivate func writeMeasurementsIndex(_ index: UInt32) {
         guard let measurementsReadIndexCharacteristic = measurementsReadIndexCharacteristic else {
             log("No measurements read index characteristic with UUID: \(measurementsReadIndexUUID)")
             if let delegate = delegate {
@@ -433,6 +494,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             }
             return
         }
+        var readoutIndex = UInt32(littleEndian: index)
+        let readoutIndexData = Data(buffer: UnsafeBufferPointer(start: &readoutIndex, count: MemoryLayout<UInt32>.size))
+        sensor.writeValue(readoutIndexData, for: measurementsReadIndexCharacteristic, type: .withResponse)
     }
     
     // MARK: Helper functions

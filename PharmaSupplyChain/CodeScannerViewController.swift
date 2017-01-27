@@ -22,6 +22,13 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     fileprivate var isContractIDDiscovered: Bool = false
     fileprivate var contractID: String?
     
+    /*
+     Determines which codes to scan based on this flag:
+     If set 'true', user has to only scan contract ID
+     If set 'false', user has to scan contract ID and QR code on the sensor
+     */
+    var isReceivingParcel: Bool = false
+    
     // MARK: Outlets
     
     @IBOutlet weak fileprivate var infoLabel: UILabel!
@@ -75,6 +82,11 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         
         /* UI configuration */
         infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+        if isReceivingParcel {
+            infoLabel.text = "Please, scan shipment ID on the parcel"
+        } else {
+            infoLabel.text = "Please, scan shipment ID or QR code on the sensor"
+        }
     }
     
     // MARK: AVCaptureMetadataOutputObjectsDelegate
@@ -88,7 +100,7 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         
         let metadataObject = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         
-        if metadataObject.type == AVMetadataObjectTypeQRCode, let videoPreviewLayer = videoPreviewLayer, !isSensorMACDiscovered {
+        if metadataObject.type == AVMetadataObjectTypeQRCode, let videoPreviewLayer = videoPreviewLayer, !isSensorMACDiscovered && !isReceivingParcel {
             let qrCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
             scannedCodeFrameView?.frame = qrCodeObject.bounds
             
@@ -133,7 +145,7 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
                 contractID = metadataObject.stringValue
                 infoLabel.backgroundColor = UIColor.green
                 
-                if isSensorMACDiscovered {
+                if isReceivingParcel || (!isReceivingParcel && isSensorMACDiscovered) {
                     performSegue(withIdentifier: "goToSensorConnect", sender: self)
                 } else {
                     let dispatchTime = DispatchTime.now() + 0.5
@@ -150,14 +162,15 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
             }
         }
     }
-    
+
     // MARK: Navigation
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let sensorConnectViewController = segue.destination as? SensorConnectViewController {
             //sensorConnectViewController.sensorMACAddress = sensorMACAddress
             sensorConnectViewController.contractID = contractID
+            sensorConnectViewController.isReceivingParcel = isReceivingParcel
         }
     }
-    
+
 }

@@ -103,23 +103,22 @@ class ParcelDetailTableViewController : UITableViewController {
         temperatureGraphView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
         
         fillDataFields(FromParcel: parcel)
-        
     }
     
     fileprivate func fillDataFields(FromParcel parcel: Parcel) {
         tntNumberLabel.text = parcel.tntNumber
         sensorIDLabel.text = parcel.sensorMAC
-//        if let dateSent = parcel.dateSent {
-//            dateSentLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-//        }
+        dateSentLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         if let dateReceived = parcel.dateReceived {
             dateReceivedLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        } else {
+            dateReceivedLabel.text = "-"
         }
         senderCompanyLabel.text = parcel.senderCompany
-        receiverCompanyLabel.text = parcel.receiverCompany
-        statusLabel.text = "-"
+        receiverCompanyLabel.text = parcel.receiverCompany ?? "-"
+        statusLabel.text = parcel.getStatus().rawValue
         temperatureCategoryLabel.text = parcel.tempCategory
-        additionalInfoNameLabel.text = "-"
+        additionalInfoNameLabel.text = parcel.additionalInfo ?? "-"
     }
     
 }

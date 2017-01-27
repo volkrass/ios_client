@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ParcelsTableViewController : UITableViewController, NSFetchedResultsControllerDelegate, CoreDataEnabledController, ServerEnabledController {
+class ParcelsTableViewController : UITableViewController, CoreDataEnabledController, ServerEnabledController {
     
     // MARK: ServerEnabledController
     
@@ -21,7 +21,8 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     
     // MARK: Properties
     
-    fileprivate var fetchedResultsController: NSFetchedResultsController<Parcel>!
+    //fileprivate var fetchedResultsController: NSFetchedResultsController<Parcel>!
+    fileprivate var parcels: [Parcel] = []
     fileprivate var selectedParcel: Parcel?
     
     /* indicates the mode of the view controller */
@@ -61,16 +62,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
             fatalError("ParcelsTableViewController.viewDidLoad(): nil instance of CoreDataManager")
         }
         
-        let allParcelsRequest = NSFetchRequest<Parcel>(entityName: "Parcel")
-        allParcelsRequest.predicate = NSPredicate(value: true)
-        allParcelsRequest.sortDescriptors = [NSSortDescriptor(key: "dateReceived", ascending: false)]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: allParcelsRequest, managedObjectContext: coreDataManager.viewingContext, sectionNameKeyPath: nil, cacheName: nil)
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error {
-            fatalError("ParcelsTableViewController.viewDidLoad(): NSFetchedResultsController failed to perform fetch! Error is \(error.localizedDescription)")
-        }
-        fetchedResultsController.delegate = self
+        fetchParcels()
         
         /* UI settings */
         tableView.estimatedRowHeight = 120
@@ -97,7 +89,26 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         navigationItem.title = currentMode.rawValue + " Mode"
     }
     
+    fileprivate func fetchParcels() {
+        let parcelFetchRequest = NSFetchRequest<Parcel>(entityName: "Parcel")
+        parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany"]
+        parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
+        do {
+            parcels = try coreDataManager!.viewingContext.fetch(parcelFetchRequest)
+        } catch {
+            log("Failed to fetch Parcels")
+        }
+    }
+    
     @objc fileprivate func refreshParcels(_ sender: AnyObject) {
+        parcels.forEach({
+            parcel in
+            
+            coreDataManager!.viewingContext.delete(parcel)
+        })
+        if coreDataManager!.viewingContext.hasChanges {
+            _ = coreDataManager!.viewingContext.saveRecursively()
+        }
         serverManager!.getUserParcels(completionHandler: {
             [weak self]
             success in
@@ -106,6 +117,9 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
                 parcelsTableViewController.refreshControl!.endRefreshing()
                 if !success {
                     //TODO: design a view indicating fetch error
+                } else {
+                    parcelsTableViewController.fetchParcels()
+                    parcelsTableViewController.tableView.reloadData()
                 }
             }
         })
@@ -118,7 +132,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.fetchedObjects?.count ?? 0
+        return parcels.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -127,14 +141,9 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let parcelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "parcelCell") as! ParcelTableViewCell
-        let parcel = fetchedResultsController.object(at: indexPath) 
+        let parcel = parcels[indexPath.row]
         parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
-        parcelTableViewCell.sentTimeLabel.text = "-"
-//        if let dateSent = parcel.dateSent {
-//            parcelTableViewCell.sentTimeLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-//        } else {
-//            parcelTableViewCell.sentTimeLabel.text = "-"
-//        }
+        parcelTableViewCell.sentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         if let dateReceived = parcel.dateReceived {
             parcelTableViewCell.receivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         } else {
@@ -145,11 +154,22 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         } else {
             parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
         }
+        let parcelStatus = parcel.getStatus()
+        switch parcelStatus {
+            case .inProgress:
+                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_inProgress")
+            case .notWithinTemperatureRange:
+                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_failure")
+            case .successful:
+                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_success")
+            case .undetermined:
+                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_undetermined")
+        }
         return parcelTableViewCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedParcel = fetchedResultsController.object(at: indexPath)
+        selectedParcel = parcels[indexPath.row]
         performSegue(withIdentifier: "showParcelDetail", sender: self)
     }
     
@@ -170,6 +190,8 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let parcelDetailController = segue.destination as? ParcelDetailTableViewController {
             parcelDetailController.parcel = selectedParcel
+        } else if let codeScannerController = segue.destination as? CodeScannerViewController {
+            codeScannerController.isReceivingParcel = currentMode == .Receiver
         }
     }
     
@@ -181,29 +203,16 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         let distanceFromBottom: CGFloat = 113.0
         
         let modeView = UIView(frame: CGRect(x: 0, y: screenHeight - distanceFromBottom, width: screenWidth, height: 50))
-        //modeView.translatesAutoresizingMaskIntoConstraints = false
-        
-        /* defining constraints */
-//        let leftConstraint = NSLayoutConstraint(item: modeView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: tableView.bounds.width)
-//        let rightConstraint = NSLayoutConstraint(item: modeView, attribute: .right, relatedBy: .equal, toItem: tableView, attribute: .right, multiplier: 1.0, constant: 0.0)
-//        let bottomConstraint = NSLayoutConstraint(item: modeView, attribute: .bottom, relatedBy: .equal, toItem: tableView, attribute: .bottom, multiplier: 1.0, constant: 0.0)
         
         let titleButton = UIButton(frame: modeView.bounds)
-        //titleButton.translatesAutoresizingMaskIntoConstraints = false
-        
-//        /* defining constraints */
-//        let leftButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .left, relatedBy: .equal, toItem: modeView, attribute: .left, multiplier: 1.0, constant: 0.0)
-//        let rightButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .right, relatedBy: .equal, toItem: modeView, attribute: .right, multiplier: 1.0, constant: 0.0)
-//        let bottomButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .bottom, relatedBy: .equal, toItem: modeView, attribute: .bottom, multiplier: 1.0, constant: 0.0)
-//        let topButtonConstraint = NSLayoutConstraint(item: titleButton, attribute: .top, relatedBy: .equal, toItem: modeView, attribute: .top, multiplier: 1.0, constant: 0.0)
         
         if mode == .Sender {
             titleButton.setTitle("SEND", for: .normal)
-            titleButton.backgroundColor = UIColor.orange
+            titleButton.backgroundColor = MODUM_LIGHT_BLUE
             titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
         } else if mode == .Receiver {
             titleButton.setTitle("RECEIVE", for: .normal)
-            titleButton.backgroundColor = MODUM_LIGHT_GRAY
+            titleButton.backgroundColor = MODUM_DARK_BLUE
             titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)
         } else {
             log("Unknown mode \(mode.rawValue)!")
@@ -214,11 +223,7 @@ class ParcelsTableViewController : UITableViewController, NSFetchedResultsContro
         titleButton.setTitleColor(UIColor.white, for: .normal)
         
         modeView.addSubview(titleButton)
-        //modeView.addConstraint(widthConstraint)
-        //modeView.addConstraints([leftButtonConstraint,rightButtonConstraint,topButtonConstraint,bottomButtonConstraint])
-        
         view.addSubview(modeView)
-        //view.addConstraints([bottomConstraint])
         
         return modeView
     }

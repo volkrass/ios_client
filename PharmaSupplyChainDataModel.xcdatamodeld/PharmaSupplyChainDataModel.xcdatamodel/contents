@@ -3,11 +3,17 @@
     <entity name="Parcel" representedClassName=".Parcel" syncable="YES">
         <attribute name="additionalInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateReceived" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateSent" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="isFailed" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isReceived" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSent" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="numFailures" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="numMeasurements" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isSuccess" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="maxTemp" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="minTemp" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="numFailures" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="numMeasurements" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="receiver" attributeType="String" syncable="YES"/>
         <attribute name="receiverCompany" attributeType="String" syncable="YES"/>
         <attribute name="sender" attributeType="String" syncable="YES"/>
@@ -23,7 +29,7 @@
         <attribute name="optional" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Parcel" positionX="-63" positionY="-18" width="128" height="255"/>
+        <element name="Parcel" positionX="-63" positionY="-18" width="128" height="345"/>
         <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
     </elements>
 </model>

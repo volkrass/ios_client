@@ -113,7 +113,6 @@ class ServerManager {
                         let responseData = JSON(data)
                         if let parcels = responseData.array {
                             for parcelJSON in parcels {
-                                log("Received JSON for parcel: \(parcelJSON)")
                                 let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
                                 parcel.fromJSON(object: parcelJSON)
                             }
