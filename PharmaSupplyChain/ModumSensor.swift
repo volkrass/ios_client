@@ -420,7 +420,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             }
             case measurementsUUID:
                 if let measurementsValue = characteristic.value, !measurementsValue.isEmpty {
-                    
+                    if let temperatureMeasurements = TemperatureMeasurement.fromData(measurementsValue) {
+                        
+                    }
                 }
                 break
             default:

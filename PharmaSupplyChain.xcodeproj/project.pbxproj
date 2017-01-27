@@ -168,13 +168,6 @@
 			name = Temperature;
 			sourceTree = "<group>";
 		};
-		D26B38F51DE224BF00F9AD93 /* Graph */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Graph;
-			sourceTree = "<group>";
-		};
 		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,7 +218,6 @@
 			children = (
 				D26012D91E3A2AB20093EACC /* Temperature */,
 				D2DDC9FC1DFEE6BD0057686D /* Bluetooth */,
-				D26B38F51DE224BF00F9AD93 /* Graph */,
 				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E6DEF91DD2476E00431AA1 /* CoreData */,
 				D22376461DD0B01B00877A6D /* Extensions */,

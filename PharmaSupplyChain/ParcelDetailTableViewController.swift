@@ -103,7 +103,31 @@ class ParcelDetailTableViewController : UITableViewController {
         temperatureGraphView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
         
         fillDataFields(FromParcel: parcel)
+        
+        /* UI configuration */
+        tableView.estimatedRowHeight = 82
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
+    
+    // MARK: UITableViewDataSource
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        /* For temperature measurements graph, return 250 height */
+        if indexPath.row == 8 {
+            return 250
+        } /* For additional info UITextView, return automatic height */
+        else if indexPath.row == 9 {
+            if parcel!.additionalInfo == nil || parcel?.additionalInfo == "" {
+                return 0
+            } else {
+                return UITableViewAutomaticDimension
+            }
+        } else {
+            return 82
+        }
+    }
+    
+    // MARK: Helper functions
     
     fileprivate func fillDataFields(FromParcel parcel: Parcel) {
         tntNumberLabel.text = parcel.tntNumber
@@ -118,7 +142,7 @@ class ParcelDetailTableViewController : UITableViewController {
         receiverCompanyLabel.text = parcel.receiverCompany ?? "-"
         statusLabel.text = parcel.getStatus().rawValue
         temperatureCategoryLabel.text = parcel.tempCategory
-        additionalInfoNameLabel.text = parcel.additionalInfo ?? "-"
+        additionalInfoTextView.text = parcel.additionalInfo ?? "-"
     }
     
 }
