@@ -160,14 +160,6 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		D26012D91E3A2AB20093EACC /* Temperature */ = {
-			isa = PBXGroup;
-			children = (
-				D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */,
-			);
-			name = Temperature;
-			sourceTree = "<group>";
-		};
 		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,7 +208,6 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
-				D26012D91E3A2AB20093EACC /* Temperature */,
 				D2DDC9FC1DFEE6BD0057686D /* Bluetooth */,
 				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E6DEF91DD2476E00431AA1 /* CoreData */,
@@ -250,6 +241,7 @@
 			children = (
 				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
 				D22109621E3394240018F181 /* ModumSensor.swift */,
+				D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";

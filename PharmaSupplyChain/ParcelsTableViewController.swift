@@ -58,7 +58,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         guard serverManager != nil else {
             fatalError("ParcelsTableViewController.viewDidLoad(): nil instance of ServerManager")
         }
-        guard let coreDataManager = coreDataManager else {
+        guard coreDataManager != nil else {
             fatalError("ParcelsTableViewController.viewDidLoad(): nil instance of CoreDataManager")
         }
         

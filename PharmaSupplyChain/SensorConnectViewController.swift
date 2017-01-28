@@ -107,7 +107,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerIsReady() {
-        progressBar.setProgress(0.2, animated: true)
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(0.2, animated: true)
+            }
+        }
         bluetoothManager!.scanForPeripheral(WithName: sensorMACAddress, WithTimeout: 15.0)
     }
     
@@ -145,16 +151,28 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         modumSensor!.delegate = self
         modumSensor!.start()
         
-        progressBar.setProgress(0.3, animated: true)
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(0.3, animated: true)
+            }
+        }
     }
     
     // MARK: ModumSensorDelegate
     
     func modumSensorIsReady() {
-        progressBar.setProgress(0.4, animated: true)
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(0.4, animated: true)
+            }
+        }
         if let modumSensor = modumSensor {
             if isReceivingParcel {
-                
+                modumSensor.performSensorCheckBeforeReceiving()
             } else {
                 modumSensor.performSensorCheckBeforeSending()
             }
@@ -179,8 +197,15 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func modumSensorCheckBeforeSendingPerformed() {
-        progressBar.setProgress(0.5, animated: true)
-        progressLabel.text = "Writing shipment data to the sensor..."
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(0.5, animated: true)
+                sensorConnectController.progressLabel.text = "Writing shipment data to the sensor..."
+            }
+        }
+
         /* TODO: replace dummy values with actual variables */
         let startTime = Date()
         let timeInterval: UInt8 = UInt8(10)
@@ -189,16 +214,38 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func modumSensorCheckBeforeReceivingPerformed() {
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(0.5, animated: true)
+                sensorConnectController.progressLabel.text = "Reading shipment data from the sensor..."
+            }
+        }
         
+        modumSensor!.downloadShipmentData()
     }
     
     func modumSensorShipmentDataWritten() {
-        progressBar.setProgress(1.0, animated: true)
-        progressLabel.text = "Shipment has been successfully created!"
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(1.0, animated: true)
+                sensorConnectController.progressLabel.text = "Shipment has been successfully created!"
+            }
+        }
     }
     
     func modumSensorShipmentDataReceived() {
-        
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let sensorConnectController = self {
+                sensorConnectController.progressBar.setProgress(1.0, animated: true)
+                sensorConnectController.progressLabel.text = "Shipment data has been successfully read!"
+            }
+        }
     }
     
     func modumSensorErrorOccured(_ error: SensorError?) {

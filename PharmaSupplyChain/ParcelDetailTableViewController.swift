@@ -9,7 +9,7 @@
 import UIKit
 import Charts
 
-class ParcelDetailTableViewController : UITableViewController {
+class ParcelDetailTableViewController : UITableViewController, ChartViewDelegate {
     
     // MARK: CoreData Properties
     
@@ -100,6 +100,13 @@ class ParcelDetailTableViewController : UITableViewController {
         temperatureGraphView.noDataText = "No temperature measurements to display"
         temperatureGraphView.noDataTextColor = MODUM_DARK_BLUE
         
+        /* TODO: replace mock measurement data with the actual data */
+        temperatureGraphView.delegate = self
+        
+//        temperatureGraphView.
+//        let lineChartDataSet = LineChartDataSet(values: [1.5, 3.0, 4.5, 6.0, 7.5, 9.0, 10.5], label: "Timestamp")
+//        let lineChat = LineChartData(dataSets: LineChartDataSet)
+        
         temperatureGraphView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
         
         fillDataFields(FromParcel: parcel)
@@ -139,7 +146,7 @@ class ParcelDetailTableViewController : UITableViewController {
             dateReceivedLabel.text = "-"
         }
         senderCompanyLabel.text = parcel.senderCompany
-        receiverCompanyLabel.text = parcel.receiverCompany ?? "-"
+        receiverCompanyLabel.text = parcel.receiverCompany 
         statusLabel.text = parcel.getStatus().rawValue
         temperatureCategoryLabel.text = parcel.tempCategory
         additionalInfoTextView.text = parcel.additionalInfo ?? "-"
