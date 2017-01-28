@@ -72,7 +72,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             
             if let sensorConnectViewController = self {
                 noBluetoothAlertController.dismiss(animated: true, completion: nil)
-                sensorConnectViewController.dismiss(animated: true, completion: nil)
+                _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         let goToSettingsAction = UIAlertAction(title: "Settings", style: .default, handler: {
@@ -97,7 +97,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             
             if let sensorConnectViewController = self {
                 bluetoothUnavailableAlertController.dismiss(animated: true, completion: nil)
-                sensorConnectViewController.dismiss(animated: true, completion: nil)
+                _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -132,7 +132,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             
             if let sensorConnectViewController = self {
                 discoveryFailureAlertController.dismiss(animated: true, completion: nil)
-                sensorConnectViewController.dismiss(animated: true, completion: nil)
+                _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -187,7 +187,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             
             if let sensorConnectViewController = self {
                 sensorUnsupportedAlertController.dismiss(animated: true, completion: nil)
-                sensorConnectViewController.dismiss(animated: true, completion: nil)
+                _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -233,17 +233,54 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             if let sensorConnectController = self {
                 sensorConnectController.progressBar.setProgress(1.0, animated: true)
                 sensorConnectController.progressLabel.text = "Shipment has been successfully created!"
+                
+                let dispatchAfter = DispatchTime.now() + 1.0
+                DispatchQueue.main.asyncAfter(deadline: dispatchAfter, execute: {
+                    [weak self] in
+                    
+                    if let sensorConnectController = self {
+                        _ = sensorConnectController.navigationController?.popToRootViewController(animated: true)
+                    }
+                })
             }
         }
     }
     
-    func modumSensorShipmentDataReceived() {
+    func modumSensorShipmentDataReceived(shipmentData: ShipmentData?) {
         DispatchQueue.main.async {
             [weak self] in
             
             if let sensorConnectController = self {
                 sensorConnectController.progressBar.setProgress(1.0, animated: true)
                 sensorConnectController.progressLabel.text = "Shipment data has been successfully read!"
+                
+                let dispatchAfter = DispatchTime.now() + 1.0
+                DispatchQueue.main.asyncAfter(deadline: dispatchAfter, execute: {
+                    [weak self] in
+                    
+                    /* DEBUG: */
+                    if let sensorConnectController = self {
+                        if let shipmentData = shipmentData {
+                            let sensorDataAlertController = UIAlertController(title: nil, message: "Data read:\n Start Time: \(shipmentData.startTime?.toString(WithDateStyle: .medium, WithTimeStyle: .medium)),\nMeasurements Interval: \(shipmentData.measurementsInterval),\nMeasurements count: \(shipmentData.measurementsCount)", preferredStyle: .alert)
+                            
+                            let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                                [weak self]
+                                _ in
+                                
+                                if let sensorConnectViewController = self {
+                                    sensorDataAlertController.dismiss(animated: true, completion: nil)
+                                    _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
+                                }
+                            })
+                            
+                            sensorDataAlertController.addAction(dismissAction)
+                            
+                            sensorConnectController.present(sensorDataAlertController, animated: true, completion: nil)
+                        } else {
+                            _ = sensorConnectController.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
+                })
             }
         }
     }
@@ -260,7 +297,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                         
                         if let sensorConnectViewController = self {
                             outOfBatteryAlertController.dismiss(animated: true, completion: nil)
-                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                            _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
                         }
                     })
                     
@@ -276,7 +313,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                         
                         if let sensorConnectViewController = self {
                             sensorIsRecordingAlertController.dismiss(animated: true, completion: nil)
-                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                            _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
                         }
                     })
                     
@@ -292,7 +329,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                         
                         if let sensorConnectViewController = self {
                             sensorBrokenAlertController.dismiss(animated: true, completion: nil)
-                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                            _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
                         }
                     })
                     
@@ -308,7 +345,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                         
                         if let sensorConnectViewController = self {
                             serviceUnavailableAlertController.dismiss(animated: true, completion: nil)
-                            sensorConnectViewController.dismiss(animated: true, completion: nil)
+                            _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
                         }
                     })
                     

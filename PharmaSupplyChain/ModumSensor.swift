@@ -16,7 +16,7 @@ protocol ModumSensorDelegate {
     func modumSensorCheckBeforeSendingPerformed()
     func modumSensorCheckBeforeReceivingPerformed()
     func modumSensorShipmentDataWritten()
-    func modumSensorShipmentDataReceived()
+    func modumSensorShipmentDataReceived(shipmentData: ShipmentData?)
 }
 
 enum SensorError: Error {
@@ -24,6 +24,13 @@ enum SensorError: Error {
     case recordingAlready
     case selfCheckFailed
     case serviceUnavailable
+}
+
+struct ShipmentData {
+    var startTime: Date?
+    var measurementsCount: UInt32?
+    var measurementsInterval: UInt8?
+    var measurements: [TemperatureMeasurement]?
 }
 
 class ModumSensor : NSObject, CBPeripheralDelegate {
@@ -36,8 +43,10 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     
     fileprivate var sensorBeforeSendCheck: SensorBeforeSendCheck?
     fileprivate var sensorBeforeReceiveCheck: SensorBeforeReceiveCheck?
-    fileprivate var sensorDataRead: SensorDataRead?
     fileprivate var sensorDataWritten: SensorDataWritten?
+    
+    fileprivate var sensorDataRead: SensorDataRead?
+    fileprivate var shipmentData: ShipmentData?
     
     /* Helper variables */
     fileprivate var charsForBatteryLevelServiceDiscovered: Bool = false
@@ -152,7 +161,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         }
         
         fileprivate func checkProgress() {
-            if didReadMeasurementsCount && didReadMeasurements && didReadStartTime && didReadTimeInterval {
+            if didReadMeasurementsCount && /* didReadMeasurements && */ didReadStartTime && didReadTimeInterval {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: SensorDataRead.notificationName), object: nil)
             }
         }
@@ -334,6 +343,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     func downloadShipmentData() {
         if let startTimeCharacteristic = startTimeCharacteristic, let recordingTimeIntervalCharacteristic = recordingTimeIntervalCharacteristic, let measurementsCountCharacteristic = measurementsCountCharacteristic {
             sensorDataRead = SensorDataRead()
+            shipmentData = ShipmentData()
             measurementsIndex = nil
             measurementsCount = nil
             measurements = nil
@@ -455,34 +465,34 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                 if let error = error {
                     log("Failed to write contract ID: \(error.localizedDescription)")
                 } else {
-                    if var sensorDataWritten = sensorDataWritten {
-                        sensorDataWritten.didWriteContractID = true
+                    if sensorDataWritten != nil {
+                        sensorDataWritten!.didWriteContractID = true
                     }
                 }
             case isRecordingUUID:
                 if let error = error {
                     log("Failed to write isRecording flag: \(error.localizedDescription)")
                 } else {
-                    if var sensorDataWritten = sensorDataWritten {
-                        sensorDataWritten.didWriteIsRecording = true
-                    } else if var sensorDataRead = sensorDataRead {
-                        sensorDataRead.didWriteIsRecording = true
+                    if sensorDataWritten != nil {
+                        sensorDataWritten!.didWriteIsRecording = true
+                    } else if sensorDataRead != nil {
+                        sensorDataRead!.didWriteIsRecording = true
                     }
                 }
             case startTimeUUID:
                 if let error = error {
                     log("Failed to write startTime: \(error.localizedDescription)")
                 } else {
-                    if var sensorDataWritten = sensorDataWritten {
-                        sensorDataWritten.didWriteStartTime = true
+                    if sensorDataWritten != nil {
+                        sensorDataWritten!.didWriteStartTime = true
                     }
                 }
             case recordingTimeIntervalUUID:
                 if let error = error {
                     log("Failed to write recording time interval: \(error.localizedDescription)")
                 } else {
-                    if var sensorDataWritten = sensorDataWritten {
-                        sensorDataWritten.didWriteTimeInterval = true
+                    if sensorDataWritten != nil {
+                        sensorDataWritten!.didWriteTimeInterval = true
                     }
                 }
             case measurementsIndexUUID:
@@ -490,7 +500,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                     log("Failed to write measurements read index: \(error.localizedDescription)")
                 } else {
                     if let measurementsCharacteristic = measurementsCharacteristic {
-                        sensor.setNotifyValue(true, for: measurementsCharacteristic)
+                        //sensor.setNotifyValue(true, for: measurementsCharacteristic)
 //                        sensor.readValue(for: measurementsCharacteristic)
                     }
                 }
@@ -518,8 +528,8 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case batteryLevelUUID:
                 if let batteryLevelValue = characteristic.value, !batteryLevelValue.isEmpty {
                     let batteryLevel = Int(batteryLevelValue[0])
-                    if var sensorBeforeSendCheck = sensorBeforeSendCheck {
-                        sensorBeforeSendCheck.checkedBatteryLevel = true
+                    if sensorBeforeSendCheck != nil {
+                        sensorBeforeSendCheck!.checkedBatteryLevel = true
                     }
                     if let delegate = delegate, batteryLevel <= MIN_BATTERY_LEVEL {
                         delegate.modumSensorErrorOccured(.batteryLevelTooLow)
@@ -545,34 +555,34 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case isRecordingUUID:
                 if let isRecordingValue = characteristic.value, !isRecordingValue.isEmpty {
                     let isRecording: UInt8 = isRecordingValue[0]
-                    if var sensorBeforeSendCheck = sensorBeforeSendCheck {
-                        sensorBeforeSendCheck.checkedIsRecording = true
+                    if sensorBeforeSendCheck != nil {
+                        sensorBeforeSendCheck!.checkedIsRecording = true
                         if let delegate = delegate, isRecording == 0x01 {
                             delegate.modumSensorErrorOccured(.recordingAlready)
                         }
-                    } else if var sensorBeforeReceiveCheck = sensorBeforeReceiveCheck {
-                        sensorBeforeReceiveCheck.checkedIsRecording = true
+                    } else if sensorBeforeReceiveCheck != nil {
+                        sensorBeforeReceiveCheck!.checkedIsRecording = true
                         if let delegate = delegate, isRecording == 0x01 {
                             /* TODO: throw error that sensor isn't recording */
                             //delegate.modumSensorErrorOccured(.)
                         }
-                    } else if var sensorDataWritten = sensorDataWritten {
+                    } else if sensorDataWritten != nil {
                         if let delegate = delegate, isRecording == 0xFF {
                             delegate.modumSensorErrorOccured(.selfCheckFailed)
                         }
-                        sensorDataWritten.didCheckSensorState = true
+                        sensorDataWritten!.didCheckSensorState = true
                     }
                 }
             case measurementsCountUUID:
                 if let measurementsCountValue = characteristic.value, !measurementsCountValue.isEmpty {
-                    if var sensorDataRead = sensorDataRead {
-                        sensorDataRead.didReadMeasurementsCount = true
-                    }
                     
                     measurementsCount = UInt32(littleEndian: measurementsCountValue.withUnsafeBytes { $0.pointee })
                     measurementsIndex = 0
                     
-                    log("Measurements count: \(measurementsCount)")
+                    if sensorDataRead != nil, shipmentData != nil {
+                        sensorDataRead!.didReadMeasurementsCount = true
+                        shipmentData!.measurementsCount = measurementsCount
+                    }
                     
                     if measurementsCount! > 0 {
                         writeMeasurementsIndex(measurementsIndex!)
@@ -588,8 +598,8 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                         if let measurementsCount = measurementsCount, measurements!.count >= Int(measurementsCount) {
                             log("Finished reading temperature measurements")
                             log("Temperature measurements are: \(measurements!)")
-                            if var sensorDataRead = sensorDataRead {
-                                sensorDataRead.didReadMeasurements = true
+                            if sensorDataRead != nil {
+                                sensorDataRead!.didReadMeasurements = true
                             }
                         } else {
                             self.measurementsIndex = self.measurementsIndex! + UInt32(measurements!.count)
@@ -600,18 +610,23 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                 break
             case startTimeUUID:
                 if let startTimeValue = characteristic.value, !startTimeValue.isEmpty {
+                    let startTimeDouble: Double = startTimeValue.withUnsafeBytes{ $0.pointee }
+                    let startTime: Date = Date(timeIntervalSince1970: startTimeDouble)
                     
-                    if var sensorDataRead = sensorDataRead {
-                        sensorDataRead.didReadStartTime = true
+                    if sensorDataRead != nil, shipmentData != nil {
+                        sensorDataRead!.didReadStartTime = true
+                        shipmentData!.startTime = startTime
                     }
                 }
                 break
             case recordingTimeIntervalUUID:
                 if let recordingTimeIntervalValue = characteristic.value, !recordingTimeIntervalValue.isEmpty {
+                    
                     let recordingTimeInterval: UInt8 = recordingTimeIntervalValue[0]
-                    log("Time interval read: \(recordingTimeInterval)")
-                    if var sensorDataRead = sensorDataRead {
-                        sensorDataRead.didReadTimeInterval = true
+                    
+                    if sensorDataRead != nil, shipmentData != nil {
+                        sensorDataRead!.didReadTimeInterval = true
+                        shipmentData!.measurementsInterval = recordingTimeInterval
                     }
                 }
                 break
@@ -660,7 +675,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             return
         }
         
-        let startTimeBytes = toByteArray(startTime.timeIntervalSince1970 * 1000.0)
+        let startTimeBytes = toByteArray(startTime.timeIntervalSince1970)
         let startTimeData = Data(bytes: startTimeBytes)
         sensor.writeValue(startTimeData, for: startTimeCharacteristic, type: .withResponse)
     }
@@ -722,7 +737,11 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     @objc fileprivate func sensorDataFinishedRead() {
         sensorDataRead = nil
         if let delegate = delegate {
-            delegate.modumSensorShipmentDataReceived()
+            if let shipmentData = shipmentData {
+                delegate.modumSensorShipmentDataReceived(shipmentData: shipmentData)
+            } else {
+                delegate.modumSensorShipmentDataReceived(shipmentData: nil)
+            }
         }
     }
     

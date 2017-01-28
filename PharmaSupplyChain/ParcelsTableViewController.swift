@@ -89,6 +89,12 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         navigationItem.title = currentMode.rawValue + " Mode"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
+    }
+    
     fileprivate func fetchParcels() {
         let parcelFetchRequest = NSFetchRequest<Parcel>(entityName: "Parcel")
         parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany"]
