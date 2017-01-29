@@ -81,29 +81,6 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         })
     }
     
-    fileprivate func getBluetoothState() -> CBManagerState {
-        switch centralManager.state {
-            case .poweredOff:
-                if let delegate = delegate {
-                    delegate.bluetoothManagerBluetoothPoweredOff()
-                }
-            case .unsupported, .unauthorized:
-                if let delegate = delegate {
-                    delegate.bluetoothManagerBluetoothUnavailable()
-                }
-            case .poweredOn:
-                if let delegate = delegate {
-                    delegate.bluetoothManagerIsReady()
-                }
-            case .unknown:
-                break
-            default:
-                log("Unexpected state \(centralManager.state)")
-        }
-        
-        return centralManager.state
-    }
-    
     func scanForPeripheral(WithName name: String?, WithTimeout timeout: Double?) {
         if !centralManager.isScanning {
             nameToScanFor = name
@@ -184,22 +161,32 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-//        switch central.state {
-//            case .poweredOff:
-//                if let delegate = delegate {
-//                    delegate.bluetoothManagerBluetoothPoweredOff()
-//                }
-//            case .unsupported, .unauthorized, .unknown:
-//                if let delegate = delegate {
-//                    delegate.bluetoothManagerBluetoothUnavailable()
-//                }
-//            case .poweredOn:
-//                if let delegate = delegate {
-//                    delegate.bluetoothManagerIsReady()
-//                }
-//            default:
-//                log("Unexpected state \(central.state)")
-//        }
+        /* TODO: react on change to Bluetooth state */
+    }
+
+    // MARK: Helper methods
+    
+    fileprivate func getBluetoothState() -> CBManagerState {
+        switch centralManager.state {
+        case .poweredOff:
+            if let delegate = delegate {
+                delegate.bluetoothManagerBluetoothPoweredOff()
+            }
+        case .unsupported, .unauthorized:
+            if let delegate = delegate {
+                delegate.bluetoothManagerBluetoothUnavailable()
+            }
+        case .poweredOn:
+            if let delegate = delegate {
+                delegate.bluetoothManagerIsReady()
+            }
+        case .unknown:
+            break
+        default:
+            log("Unexpected state \(centralManager.state)")
+        }
+        
+        return centralManager.state
     }
     
 }
