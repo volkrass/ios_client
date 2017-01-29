@@ -48,6 +48,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         
         bluetoothManager = BluetoothManager.shared
         bluetoothManager!.delegate = self
+        bluetoothManager!.start()
         
         navigationController?.navigationBar.isHidden = true
         
@@ -60,6 +61,13 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         if let progressView = progressBar.superview {
             progressView.layer.cornerRadius = 3.0
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        bluetoothManager = nil
+        modumSensor = nil
     }
     
     // MARK: BluetoothDiscoveryDelegate
@@ -119,7 +127,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     
     func bluetoothManagerDiscoveredPeripheral(_ peripheral: CBPeripheral) {
         if let peripheralName = peripheral.name, peripheralName == sensorMACAddress! {
-            bluetoothManager!.connect(Peripheral: peripheral)
+            bluetoothManager!.connect(peripheral: peripheral)
         }
     }
     
@@ -144,7 +152,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool) {
         guard let peripheralName = peripheral.name, peripheralName == sensorMACAddress! else {
             log("Wrong peripheral connected: \(peripheral.name)")
-            bluetoothManager!.disconnect(Peripheral: peripheral)
+            bluetoothManager!.disconnect(peripheral: peripheral)
             return
         }
         modumSensor = ModumSensor(WithPeripheral: peripheral)
@@ -227,6 +235,9 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func modumSensorShipmentDataWritten() {
+        if let modumSensor = modumSensor {
+            bluetoothManager!.disconnect(peripheral: modumSensor.sensor)
+        }
         DispatchQueue.main.async {
             [weak self] in
             
@@ -246,7 +257,10 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         }
     }
     
-    func modumSensorShipmentDataReceived(shipmentData: ShipmentData?) {
+    func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [TemperatureMeasurement]?) {
+        if let modumSensor = modumSensor {
+            bluetoothManager!.disconnect(peripheral: modumSensor.sensor)
+        }
         DispatchQueue.main.async {
             [weak self] in
             
@@ -260,25 +274,21 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                     
                     /* DEBUG: */
                     if let sensorConnectController = self {
-                        if let shipmentData = shipmentData {
-                            let sensorDataAlertController = UIAlertController(title: nil, message: "Data read:\n Start Time: \(shipmentData.startTime?.toString(WithDateStyle: .medium, WithTimeStyle: .medium)),\nMeasurements Interval: \(shipmentData.measurementsInterval),\nMeasurements count: \(shipmentData.measurementsCount)", preferredStyle: .alert)
+                        let sensorDataAlertController = UIAlertController(title: nil, message: "Data read:\n Start Time: \(startTime?.toString(WithDateStyle: .medium, WithTimeStyle: .medium)),\nMeasurements Interval: \(interval),\nMeasurements count: \(measurementsCount)", preferredStyle: .alert)
+                        
+                        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
+                            [weak self]
+                            _ in
                             
-                            let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: {
-                                [weak self]
-                                _ in
-                                
-                                if let sensorConnectViewController = self {
-                                    sensorDataAlertController.dismiss(animated: true, completion: nil)
-                                    _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
-                                }
-                            })
-                            
-                            sensorDataAlertController.addAction(dismissAction)
-                            
-                            sensorConnectController.present(sensorDataAlertController, animated: true, completion: nil)
-                        } else {
-                            _ = sensorConnectController.navigationController?.popToRootViewController(animated: true)
-                        }
+                            if let sensorConnectViewController = self {
+                                sensorDataAlertController.dismiss(animated: true, completion: nil)
+                                _ = sensorConnectViewController.navigationController?.popToRootViewController(animated: true)
+                            }
+                        })
+                        
+                        sensorDataAlertController.addAction(dismissAction)
+                        
+                        sensorConnectController.present(sensorDataAlertController, animated: true, completion: nil)
                     }
                 })
             }

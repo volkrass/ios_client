@@ -27,7 +27,7 @@ protocol BluetoothManagerDelegate {
 final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     
     /* Bluetooth Manager is a singleton */
-    static let shared = BluetoothManager()
+    static let shared: BluetoothManager = BluetoothManager()
     
     // MARK: Properties
     
@@ -35,12 +35,17 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
 
     fileprivate let centralManager: CBCentralManager
     fileprivate var peripheral: CBPeripheral?
+    fileprivate let dispatchQueue: DispatchQueue
     
+    /* helper variables */
+    fileprivate var numTriesToGetState: Int = 0
     fileprivate var scanTimer: Timer?
+    
     fileprivate var nameToScanFor: String?
     
     private override init() {
-        centralManager = CBCentralManager.init(delegate: nil, queue: DispatchQueue.global(qos: .userInteractive))
+        dispatchQueue = DispatchQueue.global(qos: .userInteractive)
+        centralManager = CBCentralManager.init(delegate: nil, queue: dispatchQueue)
         
         super.init()
         
@@ -48,6 +53,56 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     }
     
     // MARK: Public Methods
+    
+    func start() {
+        numTriesToGetState = 0
+        let dispatchAfter = DispatchTime.now() + 0.5
+        dispatchQueue.asyncAfter(deadline: dispatchAfter, execute: {
+            [weak self] in
+            
+            if let bluetoothManager = self {
+                let state = bluetoothManager.getBluetoothState()
+                if state == .unknown {
+                    if bluetoothManager.numTriesToGetState >= 3 {
+                        if let delegate = bluetoothManager.delegate {
+                            delegate.bluetoothManagerBluetoothUnavailable()
+                        }
+                    } else {
+                        bluetoothManager.dispatchQueue.asyncAfter(deadline: dispatchAfter + 1.0, execute: {
+                            [weak self] in
+                            
+                            if let bluetoothManager = self {
+                                bluetoothManager.start()
+                            }
+                        })
+                    }
+                }
+            }
+        })
+    }
+    
+    fileprivate func getBluetoothState() -> CBManagerState {
+        switch centralManager.state {
+            case .poweredOff:
+                if let delegate = delegate {
+                    delegate.bluetoothManagerBluetoothPoweredOff()
+                }
+            case .unsupported, .unauthorized:
+                if let delegate = delegate {
+                    delegate.bluetoothManagerBluetoothUnavailable()
+                }
+            case .poweredOn:
+                if let delegate = delegate {
+                    delegate.bluetoothManagerIsReady()
+                }
+            case .unknown:
+                break
+            default:
+                log("Unexpected state \(centralManager.state)")
+        }
+        
+        return centralManager.state
+    }
     
     func scanForPeripheral(WithName name: String?, WithTimeout timeout: Double?) {
         if !centralManager.isScanning {
@@ -73,7 +128,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         }
     }
     
-    func connect(Peripheral peripheral: CBPeripheral) {
+    func connect(peripheral: CBPeripheral) {
         if centralManager.isScanning {
             centralManager.stopScan()
         }
@@ -81,8 +136,9 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         centralManager.connect(self.peripheral!, options: nil)
     }
     
-    func disconnect(Peripheral peripheral: CBPeripheral) {
+    func disconnect(peripheral: CBPeripheral) {
         centralManager.cancelPeripheralConnection(peripheral)
+        self.peripheral = nil
     }
     
     // MARK: CBCentralManagerDelegate
@@ -121,23 +177,29 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         }
     }
     
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        switch central.state {
-            case .poweredOff:
-                if let delegate = delegate {
-                    delegate.bluetoothManagerBluetoothPoweredOff()
-                }
-            case .unsupported, .unauthorized, .unknown:
-                if let delegate = delegate {
-                    delegate.bluetoothManagerBluetoothUnavailable()
-                }
-            case .poweredOn:
-                if let delegate = delegate {
-                    delegate.bluetoothManagerIsReady()
-                }
-            default:
-                log("Unexpected state \(central.state)")
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        if let error = error {
+            log("Failed to disconnect peripheral \(peripheral.name): \((error as NSError).userInfo)")
         }
+    }
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+//        switch central.state {
+//            case .poweredOff:
+//                if let delegate = delegate {
+//                    delegate.bluetoothManagerBluetoothPoweredOff()
+//                }
+//            case .unsupported, .unauthorized, .unknown:
+//                if let delegate = delegate {
+//                    delegate.bluetoothManagerBluetoothUnavailable()
+//                }
+//            case .poweredOn:
+//                if let delegate = delegate {
+//                    delegate.bluetoothManagerIsReady()
+//                }
+//            default:
+//                log("Unexpected state \(central.state)")
+//        }
     }
     
 }

@@ -16,7 +16,7 @@ protocol ModumSensorDelegate {
     func modumSensorCheckBeforeSendingPerformed()
     func modumSensorCheckBeforeReceivingPerformed()
     func modumSensorShipmentDataWritten()
-    func modumSensorShipmentDataReceived(shipmentData: ShipmentData?)
+    func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [TemperatureMeasurement]?)
 }
 
 enum SensorError: Error {
@@ -26,33 +26,27 @@ enum SensorError: Error {
     case serviceUnavailable
 }
 
-struct ShipmentData {
-    var startTime: Date?
-    var measurementsCount: UInt32?
-    var measurementsInterval: UInt8?
-    var measurements: [TemperatureMeasurement]?
-}
-
 class ModumSensor : NSObject, CBPeripheralDelegate {
     
     // MARK: Properties
     
     var delegate: ModumSensorDelegate?
     
-    fileprivate var sensor: CBPeripheral
+    var sensor: CBPeripheral
     
     fileprivate var sensorBeforeSendCheck: SensorBeforeSendCheck?
     fileprivate var sensorBeforeReceiveCheck: SensorBeforeReceiveCheck?
     fileprivate var sensorDataWritten: SensorDataWritten?
     
     fileprivate var sensorDataRead: SensorDataRead?
-    fileprivate var shipmentData: ShipmentData?
     
     /* Helper variables */
     fileprivate var charsForBatteryLevelServiceDiscovered: Bool = false
     fileprivate var charsForSensorServiceDiscovered: Bool = false
     
-    /* Helper variables for reading out temperature measurements */
+    /* Helper variables for reading out shipment data value from the sensor */
+    fileprivate var startTime: Date?
+    fileprivate var measurementsInterval: UInt8?
     fileprivate var measurementsCount: UInt32?
     fileprivate var measurementsIndex: UInt32?
     fileprivate var measurements: [TemperatureMeasurement]?
@@ -343,7 +337,6 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     func downloadShipmentData() {
         if let startTimeCharacteristic = startTimeCharacteristic, let recordingTimeIntervalCharacteristic = recordingTimeIntervalCharacteristic, let measurementsCountCharacteristic = measurementsCountCharacteristic {
             sensorDataRead = SensorDataRead()
-            shipmentData = ShipmentData()
             measurementsIndex = nil
             measurementsCount = nil
             measurements = nil
@@ -475,6 +468,8 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                 } else {
                     if sensorDataWritten != nil {
                         sensorDataWritten!.didWriteIsRecording = true
+                        /* when writing data to the sensor, perform self-check */
+                        sensor.readValue(for: characteristic)
                     } else if sensorDataRead != nil {
                         sensorDataRead!.didWriteIsRecording = true
                     }
@@ -579,9 +574,8 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                     measurementsCount = UInt32(littleEndian: measurementsCountValue.withUnsafeBytes { $0.pointee })
                     measurementsIndex = 0
                     
-                    if sensorDataRead != nil, shipmentData != nil {
+                    if sensorDataRead != nil {
                         sensorDataRead!.didReadMeasurementsCount = true
-                        shipmentData!.measurementsCount = measurementsCount
                     }
                     
                     if measurementsCount! > 0 {
@@ -610,23 +604,21 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                 break
             case startTimeUUID:
                 if let startTimeValue = characteristic.value, !startTimeValue.isEmpty {
-                    let startTimeDouble: Double = startTimeValue.withUnsafeBytes{ $0.pointee }
-                    let startTime: Date = Date(timeIntervalSince1970: startTimeDouble)
+                    let timeInterval: TimeInterval = startTimeValue.withUnsafeBytes{ $0.pointee }
+                    startTime = Date(timeIntervalSince1970: timeInterval)
                     
-                    if sensorDataRead != nil, shipmentData != nil {
+                    if sensorDataRead != nil {
                         sensorDataRead!.didReadStartTime = true
-                        shipmentData!.startTime = startTime
                     }
                 }
                 break
             case recordingTimeIntervalUUID:
                 if let recordingTimeIntervalValue = characteristic.value, !recordingTimeIntervalValue.isEmpty {
                     
-                    let recordingTimeInterval: UInt8 = recordingTimeIntervalValue[0]
+                    self.measurementsInterval = recordingTimeIntervalValue[0]
                     
-                    if sensorDataRead != nil, shipmentData != nil {
+                    if sensorDataRead != nil {
                         sensorDataRead!.didReadTimeInterval = true
-                        shipmentData!.measurementsInterval = recordingTimeInterval
                     }
                 }
                 break
@@ -675,8 +667,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             return
         }
         
-        let startTimeBytes = toByteArray(startTime.timeIntervalSince1970)
-        let startTimeData = Data(bytes: startTimeBytes)
+        var timeInterval = startTime.timeIntervalSince1970
+        let startTimeData = Data(bytes: &timeInterval, count: MemoryLayout<TimeInterval>.size)
+        
         sensor.writeValue(startTimeData, for: startTimeCharacteristic, type: .withResponse)
     }
     
@@ -737,11 +730,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     @objc fileprivate func sensorDataFinishedRead() {
         sensorDataRead = nil
         if let delegate = delegate {
-            if let shipmentData = shipmentData {
-                delegate.modumSensorShipmentDataReceived(shipmentData: shipmentData)
-            } else {
-                delegate.modumSensorShipmentDataReceived(shipmentData: nil)
-            }
+            delegate.modumSensorShipmentDataReceived(startTime: startTime, measurementsCount: measurementsCount, interval: measurementsInterval, measurements: measurements)
         }
     }
     

@@ -30,6 +30,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         case sender = "Sender"
         case receiver = "Receiver"
     }
+    
     fileprivate var currentMode: Mode {
         get {
             if let isSender = UserDefaults.standard.object(forKey: "isSenderMode") as? Bool {
@@ -39,7 +40,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
             }
         }
         set {
-            self.currentMode = newValue
+            UserDefaults.standard.set(newValue == .sender ? true : false, forKey: "isSenderMode")
         }
     }
     
@@ -90,6 +91,11 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         /* configuring switch for receiver/sender mode */
         /* off state = sender mode, on state = receiver mode */
         let modeSwitch = UISwitch()
+        if currentMode == .sender {
+            modeSwitch.setOn(false, animated: false)
+        } else {
+            modeSwitch.setOn(true, animated: false)
+        }
         modeSwitch.onTintColor = MODUM_LIGHT_BLUE
         modeSwitch.backgroundColor = MODUM_DARK_BLUE
         modeSwitch.layer.cornerRadius = 16.0
