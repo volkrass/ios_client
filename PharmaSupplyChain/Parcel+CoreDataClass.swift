@@ -11,7 +11,7 @@ import SwiftyJSON
 
 enum ParcelStatus : String {
     case inProgress = "In Progress"
-    case notWithinTemperatureRange = "Failed to stay within temperature range"
+    case notWithinTemperatureRange = "Failed"
     case successful = "Successful"
     case undetermined = "Undetermined"
 }

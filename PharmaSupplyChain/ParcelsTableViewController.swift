@@ -27,10 +27,21 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     
     /* indicates the mode of the view controller */
     fileprivate enum Mode : String {
-        case Sender = "Sender"
-        case Receiver = "Receiver"
+        case sender = "Sender"
+        case receiver = "Receiver"
     }
-    fileprivate var currentMode: Mode = .Sender
+    fileprivate var currentMode: Mode {
+        get {
+            if let isSender = UserDefaults.standard.object(forKey: "isSenderMode") as? Bool {
+                return isSender ? .sender : .receiver
+            } else {
+                return .sender
+            }
+        }
+        set {
+            self.currentMode = newValue
+        }
+    }
     
     /* view indicating which mode is user currently in(sender/receiver) */
     fileprivate var modeView: UIView?
@@ -38,7 +49,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     // MARK: Actions
     
     @IBAction fileprivate func modeSwitchValueChanged(_ sender: UISwitch) {
-        currentMode = sender.isOn ? .Receiver : .Sender
+        currentMode = sender.isOn ? .receiver : .sender
         navigationItem.title = currentMode.rawValue + " Mode"
         if let modeView = modeView {
             modeView.removeFromSuperview()
@@ -155,7 +166,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         } else {
             parcelTableViewCell.receivedTimeLabel.text = "-"
         }
-        if currentMode == .Sender {
+        if currentMode == .sender {
             parcelTableViewCell.companyNameLabel.text = parcel.senderCompany
         } else {
             parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
@@ -197,7 +208,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         if let parcelDetailController = segue.destination as? ParcelDetailTableViewController {
             parcelDetailController.parcel = selectedParcel
         } else if let codeScannerController = segue.destination as? CodeScannerViewController {
-            codeScannerController.isReceivingParcel = currentMode == .Receiver
+            codeScannerController.isReceivingParcel = currentMode == .receiver
         }
     }
     
@@ -212,11 +223,11 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         
         let titleButton = UIButton(frame: modeView.bounds)
         
-        if mode == .Sender {
+        if mode == .sender {
             titleButton.setTitle("SEND", for: .normal)
             titleButton.backgroundColor = MODUM_LIGHT_BLUE
             titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
-        } else if mode == .Receiver {
+        } else if mode == .receiver {
             titleButton.setTitle("RECEIVE", for: .normal)
             titleButton.backgroundColor = MODUM_DARK_BLUE
             titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)

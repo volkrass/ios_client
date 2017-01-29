@@ -96,18 +96,51 @@ class ParcelDetailTableViewController : UITableViewController, ChartViewDelegate
         additionalInfoNameLabel.textColor = MODUM_DARK_BLUE
         additionalInfoTextView.textColor = MODUM_LIGHT_BLUE
         
-        /* setup temperature measurement graph */
+        /* Charts setup */
+        temperatureGraphView.delegate = self
+        
+        temperatureGraphView.dragEnabled = true
+        temperatureGraphView.pinchZoomEnabled = false
+        temperatureGraphView.drawGridBackgroundEnabled = false
+        temperatureGraphView.backgroundColor = UIColor.white
+        temperatureGraphView.leftAxis.drawGridLinesEnabled = false
+        temperatureGraphView.rightAxis.drawGridLinesEnabled = false
+        temperatureGraphView.xAxis.drawGridLinesEnabled = false
+        temperatureGraphView.chartDescription?.text = ""
+        temperatureGraphView.legend.enabled = false
         temperatureGraphView.noDataText = "No temperature measurements to display"
         temperatureGraphView.noDataTextColor = MODUM_DARK_BLUE
         
+        let maxTempLimitLine = ChartLimitLine(limit: Double(parcel.maxTemp), label: "Maximum Temperature")
+        let minTempLimitLine = ChartLimitLine(limit: Double(parcel.minTemp), label: "Minimum Temperature")
+        if let helveticaNeueLightFont = UIFont(name: "HelveticaNeue-Light", size: 9.0) {
+            maxTempLimitLine.valueFont = helveticaNeueLightFont
+            minTempLimitLine.valueFont = helveticaNeueLightFont
+        }
+        temperatureGraphView.rightAxis.addLimitLine(maxTempLimitLine)
+        temperatureGraphView.leftAxis.addLimitLine(minTempLimitLine)
+        
         /* TODO: replace mock measurement data with the actual data */
-        temperatureGraphView.delegate = self
+        let temperatures = [15.6, 16.8, 21.5, 22.3, 24.5, 28.7, 11.3, 20.0, 25.2, 18.4]
+        let timestamps = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
         
-//        temperatureGraphView.
-//        let lineChartDataSet = LineChartDataSet(values: [1.5, 3.0, 4.5, 6.0, 7.5, 9.0, 10.5], label: "Timestamp")
-//        let lineChat = LineChartData(dataSets: LineChartDataSet)
+        var dataEntries: [ChartDataEntry] = []
+        for index in 0..<timestamps.count {
+            let dataEntry = ChartDataEntry(x: Double(timestamps[index]), y: temperatures[index])
+            dataEntries.append(dataEntry)
+        }
+        let dataSet = LineChartDataSet(values: dataEntries, label: "Temperature")
+        dataSet.circleColors = [UIColor.red]
         
-        temperatureGraphView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+        let gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
+        let colorLocations: [CGFloat] = [1.0, 0.0]
+        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
+        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0)
+        dataSet.drawFilledEnabled = true
+        
+        temperatureGraphView.data = LineChartData(dataSets: [dataSet])
+
+        temperatureGraphView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
         
         fillDataFields(FromParcel: parcel)
         
