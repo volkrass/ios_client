@@ -21,7 +21,8 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     
     // MARK: Properties
     
-    //fileprivate var fetchedResultsController: NSFetchedResultsController<Parcel>!
+    fileprivate var sentParcels: [Parcel] = []
+    fileprivate var receivedParcels: [Parcel] = []
     fileprivate var parcels: [Parcel] = []
     fileprivate var selectedParcel: Parcel?
     
@@ -56,6 +57,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
             modeView.removeFromSuperview()
         }
         modeView = createModeView(ForMode: currentMode)
+        tableView.reloadData()
     }
     
     @IBAction fileprivate func sendButtonDidTouchDown(sender: UIButton) {
@@ -118,6 +120,16 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
         do {
             parcels = try coreDataManager!.viewingContext.fetch(parcelFetchRequest)
+            sentParcels = parcels.filter({
+                parcel in
+                
+                return parcel.isSent && !parcel.isReceived
+            })
+            receivedParcels = parcels.filter({
+                parcel in
+                
+                return parcel.isReceived
+            })
         } catch {
             log("Failed to fetch Parcels")
         }
@@ -155,7 +167,11 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parcels.count
+        if currentMode == .sender {
+            return sentParcels.count
+        } else {
+            return receivedParcels.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -164,7 +180,12 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let parcelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "parcelCell") as! ParcelTableViewCell
-        let parcel = parcels[indexPath.row]
+        var parcel: Parcel!
+        if currentMode == .sender {
+            parcel = sentParcels[indexPath.row]
+        } else {
+            parcel = receivedParcels[indexPath.row]
+        }
         parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
         parcelTableViewCell.sentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         if let dateReceived = parcel.dateReceived {
@@ -192,7 +213,11 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedParcel = parcels[indexPath.row]
+        if currentMode == .sender {
+            selectedParcel = sentParcels[indexPath.row]
+        } else {
+            selectedParcel = receivedParcels[indexPath.row]
+        }
         performSegue(withIdentifier: "showParcelDetail", sender: self)
     }
     
