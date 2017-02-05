@@ -56,7 +56,7 @@ class TemperatureMeasurement {
     
     
     fileprivate static func getShort(FromByteArray array: [UInt8], AtOffset offset: Int) -> UInt16? {
-        guard offset >= 0 && offset < array.count else {
+        guard offset >= 0 && offset + 1 < array.count else {
             return nil
         }
         let lowerByte = Int(array[offset] & 0xFF)

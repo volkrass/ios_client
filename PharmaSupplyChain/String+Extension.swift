@@ -52,6 +52,11 @@ extension String {
         }
     }
     
+    /* Returns a capitalized string containing only hex symbols */
+    func removeNonHexSymbols() -> String {
+        return String(uppercased().characters.filter { "0123456789ABCDEF".characters.contains($0) })
+    }
+    
     /*
      Returns true if String contains all valid hex symbols: [0-9][aA-fF]
      Otherwise, returns false

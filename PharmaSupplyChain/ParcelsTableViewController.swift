@@ -45,18 +45,11 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         }
     }
     
-    /* view indicating which mode is user currently in(sender/receiver) */
-    fileprivate var modeView: UIView?
-    
     // MARK: Actions
     
     @IBAction fileprivate func modeSwitchValueChanged(_ sender: UISwitch) {
         currentMode = sender.isOn ? .receiver : .sender
         navigationItem.title = currentMode.rawValue + " Mode"
-        if let modeView = modeView {
-            modeView.removeFromSuperview()
-        }
-        modeView = createModeView(ForMode: currentMode)
         tableView.reloadData()
     }
     
@@ -86,9 +79,6 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         refreshControl!.attributedTitle = NSAttributedString(string: "Updating parcels...")
         refreshControl!.tintColor = MODUM_LIGHT_BLUE
         refreshControl!.addTarget(self, action: #selector(refreshParcels(_:)), for: UIControlEvents.valueChanged)
-        
-        /* create a bottom view for button */
-        modeView = createModeView(ForMode: currentMode)
         
         /* configuring switch for receiver/sender mode */
         /* off state = sender mode, on state = receiver mode */
@@ -221,15 +211,40 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         performSegue(withIdentifier: "showParcelDetail", sender: self)
     }
     
-    // MARK: UIScrollViewDelegate
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let modeView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 50))
+            let titleButton = UIButton(frame: modeView.bounds)
+            
+            if currentMode == .sender {
+                titleButton.setTitle("SEND", for: .normal)
+                titleButton.backgroundColor = MODUM_LIGHT_BLUE
+                titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
+            } else if currentMode == .receiver {
+                titleButton.setTitle("RECEIVE", for: .normal)
+                titleButton.backgroundColor = MODUM_DARK_BLUE
+                titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)
+            } else {
+                log("Unknown mode \(currentMode.rawValue)!")
+                return nil
+            }
+            titleButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16.0)
+            titleButton.titleLabel?.textAlignment = .center
+            titleButton.setTitleColor(UIColor.white, for: .normal)
+            
+            modeView.addSubview(titleButton)
+            
+            return modeView
+        } else {
+            return nil
+        }
+    }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let modeView = modeView {
-            var newFrame = modeView.frame
-            newFrame.origin.x = 0;
-            newFrame.origin.y = tableView.contentOffset.y + tableView.bounds.height - modeView.bounds.height;
-            modeView.frame = newFrame;
-            tableView.bringSubview(toFront: modeView)
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 50.0
+        } else {
+            return 0.0
         }
     }
     
@@ -241,39 +256,6 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         } else if let codeScannerController = segue.destination as? CodeScannerViewController {
             codeScannerController.isReceivingParcel = currentMode == .receiver
         }
-    }
-    
-    // MARK: Helper functions
-    
-    fileprivate func createModeView(ForMode mode: Mode) -> UIView? {
-        let screenWidth = UIScreen.main.bounds.size.width
-        let screenHeight = UIScreen.main.bounds.size.height
-        let distanceFromBottom: CGFloat = 113.0
-        
-        let modeView = UIView(frame: CGRect(x: 0, y: screenHeight - distanceFromBottom, width: screenWidth, height: 50))
-        
-        let titleButton = UIButton(frame: modeView.bounds)
-        
-        if mode == .sender {
-            titleButton.setTitle("SEND", for: .normal)
-            titleButton.backgroundColor = MODUM_LIGHT_BLUE
-            titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
-        } else if mode == .receiver {
-            titleButton.setTitle("RECEIVE", for: .normal)
-            titleButton.backgroundColor = MODUM_DARK_BLUE
-            titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)
-        } else {
-            log("Unknown mode \(mode.rawValue)!")
-            return nil
-        }
-        titleButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16.0)
-        titleButton.titleLabel?.textAlignment = .center
-        titleButton.setTitleColor(UIColor.white, for: .normal)
-        
-        modeView.addSubview(titleButton)
-        view.addSubview(modeView)
-        
-        return modeView
     }
     
 }

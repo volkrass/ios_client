@@ -41,10 +41,11 @@ func uniq<S: Sequence, E: Hashable>(_ source: S) -> [E] where E == S.Iterator.El
  Note: 'valid' MAC address strings are considered if MAC address is given without any separators
  */
 func isValidMacAddress(_ macAddressStr: String) -> Bool {
-    guard macAddressStr.characters.count == 12 else {
+    let macString = macAddressStr.removeNonHexSymbols()
+    guard macString.characters.count == 12 else {
         return false
     }
-    return macAddressStr.isValidHexString()
+    return macString.isValidHexString()
 }
 
 /* Converts given value to byte array */

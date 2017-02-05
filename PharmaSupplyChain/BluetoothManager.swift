@@ -85,21 +85,26 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         if !centralManager.isScanning {
             nameToScanFor = name
             if let timeout = timeout {
-                scanTimer = Timer(timeInterval: timeout, repeats: false, block: {
-                    [weak self]
-                    timer in
-                    
-                    log("Scan didn't find peripheral \(name) in \(timeout) seconds! Finishing scan...")
-                    timer.invalidate()
+                DispatchQueue.main.async {
+                    [weak self] in
                     
                     if let bluetoothManager = self {
-                        bluetoothManager.centralManager.stopScan()
-                        if let delegate = bluetoothManager.delegate {
-                            delegate.bluetoothManagerFailedToDiscoverPeripheral()
-                        }
+                        bluetoothManager.scanTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: {
+                            [weak self]
+                            timer in
+                            
+                            log("Scan didn't find peripheral \(name) in \(timeout) seconds! Finishing scan...")
+                            timer.invalidate()
+                            
+                            if let bluetoothManager = self {
+                                bluetoothManager.centralManager.stopScan()
+                                if let delegate = bluetoothManager.delegate {
+                                    delegate.bluetoothManagerFailedToDiscoverPeripheral()
+                                }
+                            }
+                        })
                     }
-                })
-                RunLoop.current.add(scanTimer!, forMode: .defaultRunLoopMode)
+                }
             }
             centralManager.scanForPeripherals(withServices: nil, options: nil)
         }
@@ -141,6 +146,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
                 centralManager.stopScan()
                 if let scanTimer = scanTimer {
                     scanTimer.invalidate()
+                    self.scanTimer = nil
                 }
                 if let delegate = delegate {
                     delegate.bluetoothManagerDiscoveredPeripheral(peripheral)
