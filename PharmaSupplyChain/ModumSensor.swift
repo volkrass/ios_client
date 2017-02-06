@@ -592,7 +592,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                                 sensorDataRead!.didReadMeasurements = true
                             }
                         } else {
-                            self.measurementsIndex = self.measurementsIndex! + UInt32(measurements!.count)
+                            self.measurementsIndex = self.measurementsIndex! + UInt32(temperatureMeasurements.count)
                             writeMeasurementsIndex(self.measurementsIndex!)
                         }
                     } else {

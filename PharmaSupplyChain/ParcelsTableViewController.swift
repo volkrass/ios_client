@@ -214,20 +214,22 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 0 {
             let modeView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 50))
-            let titleButton = UIButton(frame: modeView.bounds)
+            let titleButton = UIButton(frame: CGRect(x: modeView.bounds.width / 4.0, y: 7.5, width: modeView.bounds.width / 2.0, height: modeView.bounds.height - 15.0))
+            titleButton.layer.cornerRadius = 5.0
             
             if currentMode == .sender {
                 titleButton.setTitle("SEND", for: .normal)
-                titleButton.backgroundColor = MODUM_LIGHT_BLUE
+                //titleButton.backgroundColor = MODUM_LIGHT_BLUE
                 titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
             } else if currentMode == .receiver {
                 titleButton.setTitle("RECEIVE", for: .normal)
-                titleButton.backgroundColor = MODUM_DARK_BLUE
+                //titleButton.backgroundColor = MODUM_DARK_BLUE
                 titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)
             } else {
                 log("Unknown mode \(currentMode.rawValue)!")
                 return nil
             }
+            titleButton.backgroundColor = UIColor.orange
             titleButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16.0)
             titleButton.titleLabel?.textAlignment = .center
             titleButton.setTitleColor(UIColor.white, for: .normal)

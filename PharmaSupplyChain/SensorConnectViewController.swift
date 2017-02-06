@@ -145,6 +145,9 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                 sensorConnectController.progressBar.setProgress(0.2, animated: true)
             }
         }
+        
+        UserDefaults.standard.set(["A0E6F8C1D386"], forKey: "bluetoothDevices")
+        
         if isReceivingParcel {
             bluetoothManager!.scanForPeripheral(WithName: nil, WithTimeout: 15.0)
         } else {
@@ -327,7 +330,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
                     
                     /* DEBUG: */
                     if let sensorConnectController = self {
-                        let sensorDataAlertController = UIAlertController(title: nil, message: "Data read:\n Start Time: \(startTime?.toString(WithDateStyle: .medium, WithTimeStyle: .medium)),\nMeasurements Interval: \(interval),\nMeasurements count: \(measurementsCount)", preferredStyle: .alert)
+                        let sensorDataAlertController = UIAlertController(title: nil, message: "Data read:\n Start Time: \(startTime?.toString(WithDateStyle: .medium, WithTimeStyle: .medium)),\nMeasurements Interval: \(interval),\nMeasurements count: \(measurementsCount)\n\nMeasurements: \(measurements?.description)", preferredStyle: .alert)
                         let alertControllerWithDismiss = sensorDataAlertController.addDismissAction(WithHandler: {
                             [weak self]
                             _ in

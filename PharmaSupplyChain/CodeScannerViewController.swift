@@ -143,7 +143,7 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     // MARK: Helper functions
     
     fileprivate func initialize() {
-        /* instatiating video capture */
+        /* instantiating video capture */
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         var captureInput: AVCaptureInput?

@@ -128,6 +128,11 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         log("\(peripheral.name) connected")
         
+        if let scanTimer = scanTimer {
+            scanTimer.invalidate()
+            self.scanTimer = nil
+        }
+        
         if let delegate = delegate {
             delegate.bluetoothManagerPeripheralConnected(peripheral, true)
         }
@@ -144,10 +149,6 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         if let peripheralName = peripheral.name {
             if let nameToScanFor = nameToScanFor, peripheralName == nameToScanFor {
                 centralManager.stopScan()
-                if let scanTimer = scanTimer {
-                    scanTimer.invalidate()
-                    self.scanTimer = nil
-                }
                 if let delegate = delegate {
                     delegate.bluetoothManagerDiscoveredPeripheral(peripheral)
                 }
