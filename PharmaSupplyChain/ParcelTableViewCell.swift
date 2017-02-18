@@ -7,20 +7,33 @@
 //
 
 import UIKit
+import FoldingCell
 
-class ParcelTableViewCell : UITableViewCell {
+class ParcelTableViewCell : FoldingCell {
     
-    @IBOutlet weak var statusIconImageView: UIImageView!
-    @IBOutlet weak var tntNumberLabel: UILabel!
-    @IBOutlet weak var sentTimeLabel: UILabel!
-    @IBOutlet weak var receivedTimeLabel: UILabel!
-    @IBOutlet weak var companyNameLabel: UILabel!
+//    @IBOutlet weak var statusIconImageView: UIImageView!
+//    @IBOutlet weak var tntNumberLabel: UILabel!
+//    @IBOutlet weak var sentTimeLabel: UILabel!
+//    @IBOutlet weak var receivedTimeLabel: UILabel!
+//    @IBOutlet weak var companyNameLabel: UILabel!
+    
+//    override func awakeFromNib() {
+//        tntNumberLabel.textColor = MODUM_LIGHT_BLUE
+//        sentTimeLabel.textColor = MODUM_DARK_BLUE
+//        receivedTimeLabel.textColor = MODUM_DARK_BLUE
+//        companyNameLabel.textColor = MODUM_DARK_BLUE
+//    }
     
     override func awakeFromNib() {
-        tntNumberLabel.textColor = MODUM_LIGHT_BLUE
-        sentTimeLabel.textColor = MODUM_DARK_BLUE
-        receivedTimeLabel.textColor = MODUM_DARK_BLUE
-        companyNameLabel.textColor = MODUM_DARK_BLUE
+        foregroundView.layer.cornerRadius = 10
+        foregroundView.layer.masksToBounds = true
+        
+        super.awakeFromNib()
+    }
+    
+    override func animationDuration(_ itemIndex: NSInteger, type: FoldingCell.AnimationType) -> TimeInterval {
+        let durations = [0.33, 0.26, 0.26]
+        return durations[itemIndex]
     }
     
 }

@@ -7,6 +7,7 @@ target 'PharmaSupplyChain' do
   pod 'Firebase/Core'
   pod 'UXCam'
   pod 'Charts'
+  pod 'FoldingCell'
 end
 
 target 'PharmaSupplyChainTests' do
@@ -15,4 +16,5 @@ target 'PharmaSupplyChainTests' do
 	pod 'Firebase/Core'
 	pod 'UXCam'
 	pod 'Charts'
+    pod 'FoldingCell'
 end

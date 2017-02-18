@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import FoldingCell
 
 class ParcelsTableViewController : UITableViewController, CoreDataEnabledController, ServerEnabledController {
     
@@ -18,6 +19,17 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     // MARK: CoreDataEnabledController
     
     var coreDataManager: CoreDataManager?
+    
+    // MARK: FoldingCell
+    
+    fileprivate struct C {
+        struct CellHeight {
+            static let close: CGFloat = 179.0
+            static let open: CGFloat = 488.0
+        }
+    }
+    
+    fileprivate var cellHeights: [CGFloat] = []
     
     // MARK: Properties
     
@@ -71,8 +83,12 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         
         fetchParcels()
         
+        cellHeights = (0..<50).map { _ in C.CellHeight.close }
+        
+        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        
         /* UI settings */
-        tableView.estimatedRowHeight = 120
+        //tableView.estimatedRowHeight = 120
         
         /* adding 'pull-to-refresh'*/
         refreshControl = UIRefreshControl()
@@ -157,15 +173,18 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if currentMode == .sender {
-            return sentParcels.count
-        } else {
-            return receivedParcels.count
-        }
+        return 50
+//        if currentMode == .sender {
+//            cellHeights = (0..<sentParcels.count).map { _ in C.CellHeight.close }
+//            return sentParcels.count
+//        } else {
+//            cellHeights = (0..<receivedParcels.count).map { _ in C.CellHeight.close }
+//            return receivedParcels.count
+//        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return cellHeights[indexPath.row]
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -176,39 +195,71 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         } else {
             parcel = receivedParcels[indexPath.row]
         }
-        parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
-        parcelTableViewCell.sentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-        if let dateReceived = parcel.dateReceived {
-            parcelTableViewCell.receivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-        } else {
-            parcelTableViewCell.receivedTimeLabel.text = "-"
-        }
-        if currentMode == .sender {
-            parcelTableViewCell.companyNameLabel.text = parcel.senderCompany
-        } else {
-            parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
-        }
-        let parcelStatus = parcel.getStatus()
-        switch parcelStatus {
-            case .inProgress:
-                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_inProgress")
-            case .notWithinTemperatureRange:
-                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_failure")
-            case .successful:
-                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_success")
-            case .undetermined:
-                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_undetermined")
-        }
+//        parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
+//        parcelTableViewCell.sentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+//        if let dateReceived = parcel.dateReceived {
+//            parcelTableViewCell.receivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+//        } else {
+//            parcelTableViewCell.receivedTimeLabel.text = "-"
+//        }
+//        if currentMode == .sender {
+//            parcelTableViewCell.companyNameLabel.text = parcel.senderCompany
+//        } else {
+//            parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
+//        }
+//        let parcelStatus = parcel.getStatus()
+//        switch parcelStatus {
+//            case .inProgress:
+//                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_inProgress")
+//            case .notWithinTemperatureRange:
+//                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_failure")
+//            case .successful:
+//                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_success")
+//            case .undetermined:
+//                parcelTableViewCell.statusIconImageView.image = UIImage(named: "status_undetermined")
+//        }
         return parcelTableViewCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if currentMode == .sender {
-            selectedParcel = sentParcels[indexPath.row]
-        } else {
-            selectedParcel = receivedParcels[indexPath.row]
+//        if currentMode == .sender {
+//            selectedParcel = sentParcels[indexPath.row]
+//        } else {
+//            selectedParcel = receivedParcels[indexPath.row]
+//        }
+//        performSegue(withIdentifier: "showParcelDetail", sender: self)
+        guard let foldingCell = tableView.cellForRow(at: indexPath) as? FoldingCell else {
+            return
         }
-        performSegue(withIdentifier: "showParcelDetail", sender: self)
+        
+        var duration = 0.0
+        if cellHeights[indexPath.row] == C.CellHeight.close { // open cell
+            cellHeights[indexPath.row] = C.CellHeight.open
+            foldingCell.selectedAnimation(true, animated: true, completion: nil)
+            duration = 0.5
+        } else {// close cell
+            cellHeights[indexPath.row] = C.CellHeight.close
+            foldingCell.selectedAnimation(false, animated: true, completion: nil)
+            duration = 0.8
+        }
+        
+        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: { _ in
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }, completion: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let foldingCell = cell as? ParcelTableViewCell {
+            
+            foldingCell.backgroundColor = UIColor.clear
+            
+            if cellHeights[indexPath.row] == C.CellHeight.close {
+                foldingCell.selectedAnimation(false, animated: false, completion:nil)
+            } else {
+                foldingCell.selectedAnimation(true, animated: false, completion:nil)
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
