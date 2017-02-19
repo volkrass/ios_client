@@ -29,6 +29,10 @@
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
 		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
+		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
+		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
+		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
+		D29A6AF31E5A1E8A00176B7D /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEF1E5A1E8A00176B7D /* OpenSans-Semibold.ttf */; };
 		D2B5E8441E4775A30035EB31 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E8431E4775A30035EB31 /* UIAlertController+Extension.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
@@ -83,6 +87,10 @@
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
+		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		D29A6AEF1E5A1E8A00176B7D /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "fonts/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		D2B5E8431E4775A30035EB31 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		D2BA8DDB1DBF3B320023F581 /* PharmaSupplyChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmaSupplyChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -187,9 +195,21 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		D29A6AF41E5A1E9200176B7D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */,
+				D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */,
+				D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */,
+				D29A6AEF1E5A1E8A00176B7D /* OpenSans-Semibold.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		D2BA8DD21DBF3B320023F581 = {
 			isa = PBXGroup;
 			children = (
+				D29A6AF41E5A1E9200176B7D /* Fonts */,
 				D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */,
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,
 				D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */,
@@ -372,6 +392,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */,
+				D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */,
+				D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */,
+				D29A6AF31E5A1E8A00176B7D /* OpenSans-Semibold.ttf in Resources */,
 				D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */,
 				D2EFD2271DD2A81400E02684 /* GoogleService-Info.plist in Resources */,
 				D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */,

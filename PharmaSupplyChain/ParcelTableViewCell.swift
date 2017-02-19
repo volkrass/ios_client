@@ -11,18 +11,13 @@ import FoldingCell
 
 class ParcelTableViewCell : FoldingCell {
     
-//    @IBOutlet weak var statusIconImageView: UIImageView!
-//    @IBOutlet weak var tntNumberLabel: UILabel!
-//    @IBOutlet weak var sentTimeLabel: UILabel!
-//    @IBOutlet weak var receivedTimeLabel: UILabel!
-//    @IBOutlet weak var companyNameLabel: UILabel!
+    // MARK: Outlets
     
-//    override func awakeFromNib() {
-//        tntNumberLabel.textColor = MODUM_LIGHT_BLUE
-//        sentTimeLabel.textColor = MODUM_DARK_BLUE
-//        receivedTimeLabel.textColor = MODUM_DARK_BLUE
-//        companyNameLabel.textColor = MODUM_DARK_BLUE
-//    }
+    @IBOutlet weak fileprivate var companyNameLabel: UILabel!
+    @IBOutlet weak fileprivate var statusView: UIView!
+    @IBOutlet weak fileprivate var sentTimeLabel: UILabel!
+    @IBOutlet weak fileprivate var tntNumberLabel: UILabel!
+    @IBOutlet weak fileprivate var receivedTimeLabel: UILabel!
     
     override func awakeFromNib() {
         foregroundView.layer.cornerRadius = 10

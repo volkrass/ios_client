@@ -87,9 +87,6 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
-        /* UI settings */
-        //tableView.estimatedRowHeight = 120
-        
         /* adding 'pull-to-refresh'*/
         refreshControl = UIRefreshControl()
         refreshControl!.attributedTitle = NSAttributedString(string: "Updating parcels...")
