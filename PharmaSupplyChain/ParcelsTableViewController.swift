@@ -10,15 +10,7 @@ import UIKit
 import CoreData
 import FoldingCell
 
-class ParcelsTableViewController : UITableViewController, CoreDataEnabledController, ServerEnabledController {
-    
-    // MARK: ServerEnabledController
-    
-    var serverManager: ServerManager?
-    
-    // MARK: CoreDataEnabledController
-    
-    var coreDataManager: CoreDataManager?
+class ParcelsTableViewController : UITableViewController {
     
     // MARK: FoldingCell
     
@@ -63,12 +55,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
     }
     
     override func viewDidLoad() {
-        guard serverManager != nil else {
-            fatalError("ParcelsTableViewController.viewDidLoad(): nil instance of ServerManager")
-        }
-        guard coreDataManager != nil else {
-            fatalError("ParcelsTableViewController.viewDidLoad(): nil instance of CoreDataManager")
-        }
+        super.viewDidLoad()
         
         fetchParcels()
         
@@ -263,7 +250,7 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany"]
         parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
         do {
-            parcels = try coreDataManager!.viewingContext.fetch(parcelFetchRequest)
+            parcels = try CoreDataManager.shared.viewingContext.fetch(parcelFetchRequest)
             sentParcels = parcels.filter({
                 parcel in
                 
@@ -283,12 +270,12 @@ class ParcelsTableViewController : UITableViewController, CoreDataEnabledControl
         parcels.forEach({
             parcel in
             
-            coreDataManager!.viewingContext.delete(parcel)
+            CoreDataManager.shared.viewingContext.delete(parcel)
         })
-        if coreDataManager!.viewingContext.hasChanges {
-            _ = coreDataManager!.viewingContext.saveRecursively()
+        if CoreDataManager.shared.viewingContext.hasChanges {
+            _ = CoreDataManager.shared.viewingContext.saveRecursively()
         }
-        serverManager!.getUserParcels(completionHandler: {
+        ServerManager.shared.getUserParcels(completionHandler: {
             [weak self]
             success in
             

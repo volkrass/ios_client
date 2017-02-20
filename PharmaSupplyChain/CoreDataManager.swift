@@ -28,6 +28,8 @@ import CoreData
  */
 class CoreDataManager {
     
+    static let shared: CoreDataManager = CoreDataManager()
+    
     // MARK - Constants
     
     fileprivate let persistentStoreOptions: [String : Bool] = [
@@ -51,7 +53,8 @@ class CoreDataManager {
     var viewingContext: NSManagedObjectContext
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator
     
-    init() {
+    /* private initializer for singleton class */
+    private init() {
         /* Generates URL to the data model */
         guard let modelURL = Bundle.main.url(forResource: "PharmaSupplyChainDataModel", withExtension:"momd") else {
             fatalError("Error loading data model for Core Data from bundle")

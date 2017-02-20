@@ -17,8 +17,6 @@
 		D26012D81E38FB320093EACC /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26012D71E38FB320093EACC /* Date+Extension.swift */; };
 		D26012DB1E3A2AC20093EACC /* TemperatureMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
-		D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */; };
-		D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
 		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
@@ -75,8 +73,6 @@
 		D26012D71E38FB320093EACC /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureMeasurement.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerEnabledController.swift; sourceTree = "<group>"; };
-		D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataEnabledController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
 		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
@@ -189,8 +185,6 @@
 			children = (
 				D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */,
 				D28FD5A11DBF87B60077579A /* JSONSerializable.swift */,
-				D27786D01DC24AD9007D3FB5 /* ServerEnabledController.swift */,
-				D27786D21DC24B4C007D3FB5 /* CoreDataEnabledController.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -526,7 +520,6 @@
 				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
-				D27786D31DC24B4C007D3FB5 /* CoreDataEnabledController.swift in Sources */,
 				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
 				D22109631E3394240018F181 /* ModumSensor.swift in Sources */,
 				D212D9DF1DEB3BCD0075C54E /* CodeScannerViewController.swift in Sources */,
@@ -534,7 +527,6 @@
 				D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
-				D27786D11DC24AD9007D3FB5 /* ServerEnabledController.swift in Sources */,
 				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
 				D26012D81E38FB320093EACC /* Date+Extension.swift in Sources */,

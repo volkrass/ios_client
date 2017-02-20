@@ -15,8 +15,6 @@ import UXCam
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var serverManager: ServerManager?
-    var coreDataManager: CoreDataManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -24,22 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         UXCam.start(withKey: "4e331aa53d215bd")
         
-        coreDataManager = CoreDataManager()
-        serverManager = ServerManager(WithCoreDataManager: coreDataManager!)
-
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         window = UIWindow(frame: UIScreen.main.bounds)
         
         if let tokenExpiryDate = UserDefaults.standard.object(forKey: "authTokenExpiry") as? Date, tokenExpiryDate > Date() {
-            if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController, let parcelsTableViewController = parcelsNavigationController.childViewControllers[0] as? ParcelsTableViewController {
-                parcelsTableViewController.coreDataManager = coreDataManager
-                parcelsTableViewController.serverManager = serverManager
+            if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
                 window!.rootViewController = parcelsNavigationController
             }
         } else {
             if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
-                loginViewController.coreDataManager = coreDataManager
-                loginViewController.serverManager = serverManager
                 window!.rootViewController = loginViewController
             }
         }

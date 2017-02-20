@@ -11,7 +11,10 @@ import SwiftyJSON
 import Foundation
 import CoreData
 
+/* singleton */
 class ServerManager {
+    
+    static let shared: ServerManager = ServerManager()
     
     // MARK: Constants
     
@@ -36,8 +39,9 @@ class ServerManager {
         return "Bearer " + (authenticationToken == nil ? "" : authenticationToken!)
     }
     
-    init(WithCoreDataManager coreDataManager: CoreDataManager) {
-        self.coreDataManager = coreDataManager
+    /* private initializer for singleton class */
+    private init() {
+        self.coreDataManager = CoreDataManager.shared
     }
     
     /*

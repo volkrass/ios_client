@@ -8,15 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, ServerEnabledController, CoreDataEnabledController {
-    
-    // MARK: CoreDataEnabledController
-    
-    var coreDataManager: CoreDataManager?
-    
-    // MARK: ServerEnabledController
-    
-    var serverManager: ServerManager?
+class LoginViewController: UIViewController {
     
     // MARK: Outlets
     
@@ -46,7 +38,7 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
         let password = passwordTextField.text!
         
         if let loginCredentials = LoginCredentials(username: username, password: password) {
-            serverManager!.authenticateUser(WithCredentials: loginCredentials, completionHandler: {
+            ServerManager.shared.authenticateUser(WithCredentials: loginCredentials, completionHandler: {
                 [weak self]
                 error in
                 
@@ -94,13 +86,6 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard coreDataManager != nil else {
-            fatalError("LoginViewController.viewDidLoad(): nil instance of CoreDataManager")
-        }
-        guard serverManager != nil else {
-            fatalError("LoginViewController.viewDidLoad(): nil instance of ServerManager")
-        }
-        
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
         /* setting UITextField visual properties */
@@ -123,15 +108,6 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
     
     func hideKeyboard() {
         view.endEditing(true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let navController = segue.destination as? UINavigationController, var coreDataController = navController.childViewControllers[0] as? CoreDataEnabledController {
-            coreDataController.coreDataManager = coreDataManager
-        }
-        if let navController = segue.destination as? UINavigationController, var serverEnabledController = navController.childViewControllers[0] as? ServerEnabledController {
-            serverEnabledController.serverManager = serverManager
-        }
     }
     
 }
