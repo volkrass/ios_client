@@ -113,9 +113,9 @@ class ParcelDetailTableViewController : UITableViewController, ChartViewDelegate
         
         let maxTempLimitLine = ChartLimitLine(limit: Double(parcel.maxTemp), label: "Maximum Temperature")
         let minTempLimitLine = ChartLimitLine(limit: Double(parcel.minTemp), label: "Minimum Temperature")
-        if let helveticaNeueLightFont = UIFont(name: "HelveticaNeue-Light", size: 9.0) {
-            maxTempLimitLine.valueFont = helveticaNeueLightFont
-            minTempLimitLine.valueFont = helveticaNeueLightFont
+        if let openSansLightFont = UIFont(name: "OpenSans-Light", size: 9.0) {
+            maxTempLimitLine.valueFont = openSansLightFont
+            minTempLimitLine.valueFont = openSansLightFont
         }
         temperatureGraphView.rightAxis.addLimitLine(maxTempLimitLine)
         temperatureGraphView.leftAxis.addLimitLine(minTempLimitLine)

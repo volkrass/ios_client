@@ -101,14 +101,16 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
             fatalError("LoginViewController.viewDidLoad(): nil instance of ServerManager")
         }
         
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        
         /* setting UITextField visual properties */
         usernameTextField.layer.masksToBounds = true
         usernameTextField.layer.borderWidth = 1.0
-        usernameTextField.layer.cornerRadius = 3.0
+        usernameTextField.layer.cornerRadius = 10.0
         usernameTextField.layer.borderColor = view.tintColor.cgColor
         passwordTextField.layer.masksToBounds = true
         passwordTextField.layer.borderWidth = 1.0
-        passwordTextField.layer.cornerRadius = 3.0
+        passwordTextField.layer.cornerRadius = 10.0
         passwordTextField.layer.borderColor = view.tintColor.cgColor
         
         /* configure gesture recognizer for keyboard dismissing */
@@ -117,10 +119,6 @@ class LoginViewController: UIViewController, ServerEnabledController, CoreDataEn
         gestureRecognizer.numberOfTouchesRequired = 1
         gestureRecognizer.cancelsTouchesInView = false
         view.addGestureRecognizer(gestureRecognizer)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func hideKeyboard() {

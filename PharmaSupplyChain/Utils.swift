@@ -14,6 +14,9 @@ import UIKit
 let MODUM_LIGHT_BLUE: UIColor = UIColor(red: 48.0/255.0, green: 170.0/255.0, blue: 223.0/255.0, alpha: 1.0)
 let MODUM_DARK_BLUE: UIColor = UIColor(red: 18.0/255.0, green: 85.0/255.0, blue: 122.0/255.0, alpha: 1.0)
 let MODUM_LIGHT_GRAY: UIColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
+let STATUS_ORANGE: UIColor = UIColor(red: 255.0/255.0, green: 128.0/255.0, blue: 0.0, alpha: 0.73)
+let STATUS_RED: UIColor = UIColor(red: 255.0/255.0, green: 50.0/255.0, blue: 0.0, alpha: 0.73)
+let STATUS_GREEN: UIColor = UIColor(red: 12.0/255.0, green: 199.0/255.0, blue: 17.0/255.0, alpha: 0.73)
 
 /*
  The function to be used for logging throughout the project
