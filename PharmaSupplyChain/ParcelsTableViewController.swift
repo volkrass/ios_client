@@ -46,6 +46,10 @@ class ParcelsTableViewController : UITableViewController {
     
     // MARK: Actions
     
+    @IBAction func statusRefreshButtonTouchUpInside(_ sender: UIButton) {
+        
+    }
+    
     @IBAction fileprivate func sendButtonDidTouchDown(sender: UIButton) {
         performSegue(withIdentifier: "scanQRcode", sender: self)
     }
@@ -99,6 +103,22 @@ class ParcelsTableViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        var parcel: Parcel!
+        if currentMode == .sender {
+            parcel = sentParcels[indexPath.row]
+        } else {
+            parcel = receivedParcels[indexPath.row]
+        }
+        
+        var cellHeight = cellHeights[indexPath.row]
+        
+        /* if parcel has extra info, add extra space for textview */
+        if parcel.additionalInfo != nil {
+            cellHeight += 110.0
+        }
+        /* TODO: if parcel measurements aren't nil, add extra space for graph */
+        
         return cellHeights[indexPath.row]
     }
     
@@ -151,6 +171,10 @@ class ParcelsTableViewController : UITableViewController {
         }
         parcelTableViewCell.detailSenderCompanyLabel.text = parcel.senderCompany
         parcelTableViewCell.detailReceiverCompanyLabel.text = parcel.receiverCompany
+        parcelTableViewCell.detailTempMinLabel.text = String(parcel.minTemp) + "℃"
+        parcelTableViewCell.detailTempMaxLabel.text = String(parcel.maxTemp) + "℃"
+        parcelTableViewCell.statusImageView.image = UIImage(named: "status_unknown")
+//        parcelTableViewCell.infoTextView.text = parcel.additionalInfo
         parcelTableViewCell.displayMeasurements(measurements: [], minTemp: Double(parcel.minTemp), maxTemp: Double(parcel.maxTemp))
         
         return parcelTableViewCell

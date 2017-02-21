@@ -17,6 +17,8 @@ let MODUM_LIGHT_GRAY: UIColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, bl
 let STATUS_ORANGE: UIColor = UIColor(red: 255.0/255.0, green: 128.0/255.0, blue: 0.0, alpha: 0.73)
 let STATUS_RED: UIColor = UIColor(red: 255.0/255.0, green: 50.0/255.0, blue: 0.0, alpha: 0.73)
 let STATUS_GREEN: UIColor = UIColor(red: 12.0/255.0, green: 199.0/255.0, blue: 17.0/255.0, alpha: 0.73)
+let TEMPERATURE_LIGHT_RED: UIColor = UIColor(red: 255.0/255.0, green: 50.0/255.0, blue: 0.0, alpha: 1.0)
+let TEMPERATURE_LIGHT_BLUE: UIColor = UIColor(red: 88.0/255.0, green: 208.0/255.0, blue: 255.0/255.0, alpha: 0.8)
 
 /*
  The function to be used for logging throughout the project

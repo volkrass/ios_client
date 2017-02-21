@@ -21,6 +21,7 @@
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
 		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
 		D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */; };
+		D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */; };
 		D2848A8E1DD7517300BE2D95 /* Test2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D2848A8D1DD7517300BE2D95 /* Test2.sqlite */; };
 		D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */; };
 		D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */; };
@@ -77,6 +78,7 @@
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
 		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
 		D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
+		D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureGradientLine.swift; sourceTree = "<group>"; };
 		D2848A8D1DD7517300BE2D95 /* Test2.sqlite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test2.sqlite; sourceTree = "<group>"; };
 		D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -180,6 +182,14 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		D27FF33B1E5C3F29005C011D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		D28FD5A01DBF87A50077579A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,6 +235,7 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D27FF33B1E5C3F29005C011D /* UI */,
 				D2DDC9FC1DFEE6BD0057686D /* Bluetooth */,
 				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E6DEF91DD2476E00431AA1 /* CoreData */,
@@ -528,6 +539,7 @@
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
+				D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */,
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
 				D26012D81E38FB320093EACC /* Date+Extension.swift in Sources */,
 				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,

@@ -27,10 +27,15 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     @IBOutlet weak var detailReceivedTimeLabel: UILabel!
     @IBOutlet weak var detailSenderCompanyLabel: UILabel!
     @IBOutlet weak var detailReceiverCompanyLabel: UILabel!
+    @IBOutlet weak var detailTempMinLabel: UILabel!
+    @IBOutlet weak var detailTempMaxLabel: UILabel!
+    @IBOutlet weak fileprivate var detailTempLine: UIView!
+    @IBOutlet weak var statusImageView: UIImageView!
+    //@IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var temperatureGraphView: LineChartView!
     
     override func awakeFromNib() {
-        foregroundView.layer.cornerRadius = 10
+        foregroundView.layer.cornerRadius = 10.0
         foregroundView.layer.masksToBounds = true
         
         /* Charts setup */
