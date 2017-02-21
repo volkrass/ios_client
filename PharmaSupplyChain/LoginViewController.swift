@@ -86,7 +86,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        //view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
         /* setting UITextField visual properties */
         usernameTextField.layer.masksToBounds = true

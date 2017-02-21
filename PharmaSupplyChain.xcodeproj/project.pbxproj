@@ -693,8 +693,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = modum.io.iosclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d8d3aa7c-f246-4a34-b954-b5c4fff7e4f4";
-				PROVISIONING_PROFILE_SPECIFIER = modum.io.iOSdevelopment;
+				PROVISIONING_PROFILE = "cfecc09d-1300-46ad-8266-b5013ea80ac7";
+				PROVISIONING_PROFILE_SPECIFIER = modum.io;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/GoogleAnalytics-iOS-SDK/**";

@@ -23,8 +23,26 @@ class ParcelsTableViewController : UITableViewController {
     
     // MARK: Properties
     
-    fileprivate var sentParcels: [Parcel] = []
-    fileprivate var receivedParcels: [Parcel] = []
+    fileprivate var sentParcels: [Parcel] = [] {
+        didSet {
+            if currentMode == .sender {
+                cellHeights = (0..<sentParcels.count).map { _ in CellHeight.close }
+            } else {
+                cellHeights = (0..<receivedParcels.count).map { _ in CellHeight.close }
+            }
+        }
+    }
+    
+    fileprivate var receivedParcels: [Parcel] = [] {
+        didSet {
+            if currentMode == .sender {
+                cellHeights = (0..<sentParcels.count).map { _ in CellHeight.close }
+            } else {
+                cellHeights = (0..<receivedParcels.count).map { _ in CellHeight.close }
+            }
+        }
+    }
+    
     fileprivate var parcels: [Parcel] = []
     fileprivate var selectedParcel: Parcel?
     
@@ -63,12 +81,6 @@ class ParcelsTableViewController : UITableViewController {
         
         fetchParcels()
         
-        if currentMode == .sender {
-            cellHeights = (0..<sentParcels.count).map { _ in CellHeight.close }
-        } else {
-            cellHeights = (0..<receivedParcels.count).map { _ in CellHeight.close }
-        }
-        
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
         /* adding 'pull-to-refresh'*/
@@ -77,9 +89,12 @@ class ParcelsTableViewController : UITableViewController {
         refreshControl!.tintColor = MODUM_LIGHT_BLUE
         refreshControl!.addTarget(self, action: #selector(refreshParcels(_:)), for: UIControlEvents.valueChanged)
         
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(goToSettings))
-        navigationItem.rightBarButtonItem = settingsButton
+//        let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(goToSettings))
+//        navigationItem.rightBarButtonItem = settingsButton
         navigationItem.title = currentMode.rawValue + " Mode"
+        if let openSansFont = UIFont(name: "OpenSans-Light", size: 23.0) {
+            navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : openSansFont]
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,22 +118,6 @@ class ParcelsTableViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        var parcel: Parcel!
-        if currentMode == .sender {
-            parcel = sentParcels[indexPath.row]
-        } else {
-            parcel = receivedParcels[indexPath.row]
-        }
-        
-        var cellHeight = cellHeights[indexPath.row]
-        
-        /* if parcel has extra info, add extra space for textview */
-        if parcel.additionalInfo != nil {
-            cellHeight += 110.0
-        }
-        /* TODO: if parcel measurements aren't nil, add extra space for graph */
-        
         return cellHeights[indexPath.row]
     }
     
@@ -170,7 +169,7 @@ class ParcelsTableViewController : UITableViewController {
             parcelTableViewCell.detailReceivedTimeLabel.text = "-"
         }
         parcelTableViewCell.detailSenderCompanyLabel.text = parcel.senderCompany
-        parcelTableViewCell.detailReceiverCompanyLabel.text = parcel.receiverCompany
+        parcelTableViewCell.detailReceiverCompanyLabel.text = parcel.receiverCompany.isEmpty ? "-" : parcel.receiverCompany
         parcelTableViewCell.detailTempMinLabel.text = String(parcel.minTemp) + "℃"
         parcelTableViewCell.detailTempMaxLabel.text = String(parcel.maxTemp) + "℃"
         parcelTableViewCell.statusImageView.image = UIImage(named: "status_unknown")
