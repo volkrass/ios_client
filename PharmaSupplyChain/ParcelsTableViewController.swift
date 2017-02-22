@@ -252,9 +252,7 @@ class ParcelsTableViewController : UITableViewController {
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let parcelDetailController = segue.destination as? ParcelDetailTableViewController {
-            parcelDetailController.parcel = selectedParcel
-        } else if let codeScannerController = segue.destination as? CodeScannerViewController {
+        if let codeScannerController = segue.destination as? CodeScannerViewController {
             codeScannerController.isReceivingParcel = currentMode == .receiver
         }
     }

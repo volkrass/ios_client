@@ -76,7 +76,7 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         
         temperatureGraphView.rightAxis.enabled = false
         
-        temperatureGraphView.rightAxis.addLimitLine(maxTempLimitLine)
+        temperatureGraphView.leftAxis.addLimitLine(maxTempLimitLine)
         temperatureGraphView.leftAxis.addLimitLine(minTempLimitLine)
         
         /* TODO: replace mock measurement data with the actual data */
@@ -100,6 +100,10 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         temperatureGraphView.data = LineChartData(dataSets: [dataSet])
     }
     
+    /*
+     Removes infoTextView and all it's associated constraints
+     Can be used to hide infoTextView when there is no information to display
+     */
     func hideInfoTextView() -> CGFloat? {
         let constraints = parcelDetailView.constraints
         let infoTextViewConstraint = constraints.first(where: {

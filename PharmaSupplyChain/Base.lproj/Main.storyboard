@@ -545,7 +545,6 @@
                                         <constraint firstItem="Qe9-Ha-Jbp" firstAttribute="top" secondItem="oWg-pW-8Vy" secondAttribute="top" constant="180" id="mSJ-Tl-udW"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="itemCount">
                                         <integer key="value" value="3"/>
