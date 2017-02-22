@@ -21,6 +21,7 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     @IBOutlet weak var receivedTimeLabel: UILabel!
     
     /* Detail cell */
+    @IBOutlet weak fileprivate var parcelDetailView: UIView!
     @IBOutlet weak var detailStatusView: UIView!
     @IBOutlet weak var detailTntNumberLabel: UILabel!
     @IBOutlet weak var detailSentTimeLabel: UILabel!
@@ -31,7 +32,8 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     @IBOutlet weak var detailTempMaxLabel: UILabel!
     @IBOutlet weak fileprivate var detailTempLine: UIView!
     @IBOutlet weak var statusImageView: UIImageView!
-    //@IBOutlet weak var infoTextView: UITextView!
+    @IBOutlet weak var infoIcon: UIImageView!
+    @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var temperatureGraphView: LineChartView!
     
     override func awakeFromNib() {
@@ -96,6 +98,62 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         dataSet.drawFilledEnabled = true
         
         temperatureGraphView.data = LineChartData(dataSets: [dataSet])
+    }
+    
+    func hideInfoTextView() -> CGFloat? {
+        let constraints = parcelDetailView.constraints
+        let infoTextViewConstraint = constraints.first(where: {
+            constraint in
+            
+            if let identifier = constraint.identifier {
+                return identifier == "infoTextViewConstraint"
+            } else {
+                return false
+            }
+        })
+        let infoIconConstraint = constraints.first(where: {
+            constraint in
+            
+            if let identifier = constraint.identifier {
+                return identifier == "infoIconConstraint"
+            } else {
+                return false
+            }
+        })
+        if let infoIconConstraint = infoIconConstraint, let infoTextViewConstraint = infoTextViewConstraint {
+            let toContainerViewBottomConstraint = NSLayoutConstraint(item: temperatureGraphView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: parcelDetailView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+            
+            let containerViewHeightConstraint = parcelDetailView.constraints.first(where: {
+                constraint in
+                
+                if let identifier = constraint.identifier {
+                    return identifier == "containerViewHeightConstraint"
+                } else {
+                    return false
+                }
+            })
+            if let containerViewHeightConstraint = containerViewHeightConstraint {
+                let containerViewHeight = containerViewHeightConstraint.constant
+                parcelDetailView.removeConstraint(containerViewHeightConstraint)
+                let textViewHeight = infoTextView.frame.height
+                let tempGraphViewToTextViewSpacing = infoTextViewConstraint.constant
+                
+                let newContainerHeight = containerViewHeight - (textViewHeight + tempGraphViewToTextViewSpacing)
+                
+                let newContainerViewHeightConstraint = NSLayoutConstraint(item: parcelDetailView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: newContainerHeight)
+                
+                temperatureGraphView.removeConstraints([infoIconConstraint, infoTextViewConstraint])
+                parcelDetailView.addConstraint(toContainerViewBottomConstraint)
+                parcelDetailView.addConstraint(newContainerViewHeightConstraint)
+                
+                infoIcon.isHidden = true
+                infoTextView.isHidden = true
+                
+                return newContainerHeight
+            }
+        }
+        
+        return nil
     }
     
 }

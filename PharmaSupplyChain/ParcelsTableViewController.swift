@@ -16,7 +16,7 @@ class ParcelsTableViewController : UITableViewController {
     
     fileprivate struct CellHeight {
         static let close: CGFloat = 179.0
-        static let open: CGFloat = 530.0
+        static let open: CGFloat = 510.0
     }
     
     fileprivate var cellHeights: [CGFloat] = []
@@ -167,12 +167,24 @@ class ParcelsTableViewController : UITableViewController {
         parcelCell.detailTempMinLabel.text = String(parcel.minTemp) + "℃"
         parcelCell.detailTempMaxLabel.text = String(parcel.maxTemp) + "℃"
         parcelCell.statusImageView.image = UIImage(named: "status_unknown")
-        //        parcelTableViewCell.infoTextView.text = parcel.additionalInfo
+        
+        var newParcelDetailCellHeight: CGFloat? = nil
+        if let additionalInfo = parcel.additionalInfo, !additionalInfo.isEmpty {
+            parcelCell.infoTextView.text = additionalInfo
+        } else {
+            newParcelDetailCellHeight = parcelCell.hideInfoTextView()
+        }
         parcelCell.displayMeasurements(measurements: [], minTemp: Double(parcel.minTemp), maxTemp: Double(parcel.maxTemp))
         
         var duration = 0.0
         if cellHeights[indexPath.row] == CellHeight.close {
-            cellHeights[indexPath.row] = CellHeight.open
+            if let additionalInfo = parcel.additionalInfo, !additionalInfo.isEmpty {
+                cellHeights[indexPath.row] = CellHeight.open
+            } else {
+                if let newParcelDetailCellHeight = newParcelDetailCellHeight {
+                    cellHeights[indexPath.row] = newParcelDetailCellHeight
+                }
+            }
             parcelCell.selectedAnimation(true, animated: true, completion: nil)
             duration = 0.5
         } else {
