@@ -68,6 +68,12 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
             maxTempLimitLine.valueFont = openSansLightFont
             minTempLimitLine.valueFont = openSansLightFont
         }
+        
+        temperatureGraphView.leftAxis.axisMinimum = minTemp - 5.0
+        temperatureGraphView.leftAxis.axisMaximum = maxTemp + 5.0
+        
+        temperatureGraphView.rightAxis.enabled = false
+        
         temperatureGraphView.rightAxis.addLimitLine(maxTempLimitLine)
         temperatureGraphView.leftAxis.addLimitLine(minTempLimitLine)
         
@@ -90,8 +96,6 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         dataSet.drawFilledEnabled = true
         
         temperatureGraphView.data = LineChartData(dataSets: [dataSet])
-        
-        temperatureGraphView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
     }
     
 }

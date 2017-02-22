@@ -16,34 +16,19 @@ class ParcelsTableViewController : UITableViewController {
     
     fileprivate struct CellHeight {
         static let close: CGFloat = 179.0
-        static let open: CGFloat = 488.0
+        static let open: CGFloat = 530.0
     }
     
     fileprivate var cellHeights: [CGFloat] = []
     
     // MARK: Properties
     
-    fileprivate var sentParcels: [Parcel] = [] {
+    fileprivate var parcels: [Parcel] = [] {
         didSet {
-            if currentMode == .sender {
-                cellHeights = (0..<sentParcels.count).map { _ in CellHeight.close }
-            } else {
-                cellHeights = (0..<receivedParcels.count).map { _ in CellHeight.close }
-            }
+            cellHeights = (0..<parcels.count).map { _ in CellHeight.close }
         }
     }
     
-    fileprivate var receivedParcels: [Parcel] = [] {
-        didSet {
-            if currentMode == .sender {
-                cellHeights = (0..<sentParcels.count).map { _ in CellHeight.close }
-            } else {
-                cellHeights = (0..<receivedParcels.count).map { _ in CellHeight.close }
-            }
-        }
-    }
-    
-    fileprivate var parcels: [Parcel] = []
     fileprivate var selectedParcel: Parcel?
     
     /* indicates the mode of the view controller */
@@ -85,8 +70,9 @@ class ParcelsTableViewController : UITableViewController {
         
         /* adding 'pull-to-refresh'*/
         refreshControl = UIRefreshControl()
+        refreshControl!.frame = CGRect(x: refreshControl!.frame.minX, y: refreshControl!.frame.minY, width: 35.0, height: 35.0)
         refreshControl!.attributedTitle = NSAttributedString(string: "Updating parcels...", attributes: [NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont(name: "OpenSans-Light", size: 17.0) as Any])
-        refreshControl!.tintColor = MODUM_LIGHT_BLUE
+        refreshControl!.tintColor = UIColor.white
         refreshControl!.addTarget(self, action: #selector(refreshParcels(_:)), for: UIControlEvents.valueChanged)
         
 //        let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(goToSettings))
@@ -110,11 +96,7 @@ class ParcelsTableViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if currentMode == .sender {
-            return sentParcels.count
-        } else {
-            return receivedParcels.count
-        }
+        return parcels.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -124,13 +106,7 @@ class ParcelsTableViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let parcelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "parcelCell") as! ParcelTableViewCell
-        
-        var parcel: Parcel!
-        if currentMode == .sender {
-            parcel = sentParcels[indexPath.row]
-        } else {
-            parcel = receivedParcels[indexPath.row]
-        }
+        let parcel = parcels[indexPath.row]
         
         parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
         parcelTableViewCell.sentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .short, WithTimeStyle: .short)
@@ -148,51 +124,60 @@ class ParcelsTableViewController : UITableViewController {
         switch parcelStatus {
             case .inProgress:
                 parcelTableViewCell.statusView.backgroundColor = STATUS_ORANGE
-                parcelTableViewCell.detailStatusView.backgroundColor = STATUS_ORANGE
             case .notWithinTemperatureRange:
                 parcelTableViewCell.statusView.backgroundColor = STATUS_RED
-                parcelTableViewCell.detailStatusView.backgroundColor = STATUS_RED
             case .successful:
                 parcelTableViewCell.statusView.backgroundColor = STATUS_GREEN
-            parcelTableViewCell.detailStatusView.backgroundColor = STATUS_GREEN
             case .undetermined:
                 parcelTableViewCell.statusView.backgroundColor = UIColor.gray
-            parcelTableViewCell.detailStatusView.backgroundColor = UIColor.gray
         }
-        
-        /* detail cell */
-        parcelTableViewCell.detailTntNumberLabel.text = parcel.tntNumber
-        parcelTableViewCell.detailSentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-        if let dateReceived = parcel.dateReceived {
-            parcelTableViewCell.detailReceivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
-        } else {
-            parcelTableViewCell.detailReceivedTimeLabel.text = "-"
-        }
-        parcelTableViewCell.detailSenderCompanyLabel.text = parcel.senderCompany
-        parcelTableViewCell.detailReceiverCompanyLabel.text = parcel.receiverCompany.isEmpty ? "-" : parcel.receiverCompany
-        parcelTableViewCell.detailTempMinLabel.text = String(parcel.minTemp) + "℃"
-        parcelTableViewCell.detailTempMaxLabel.text = String(parcel.maxTemp) + "℃"
-        parcelTableViewCell.statusImageView.image = UIImage(named: "status_unknown")
-//        parcelTableViewCell.infoTextView.text = parcel.additionalInfo
-        parcelTableViewCell.displayMeasurements(measurements: [], minTemp: Double(parcel.minTemp), maxTemp: Double(parcel.maxTemp))
         
         return parcelTableViewCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let foldingCell = tableView.cellForRow(at: indexPath) as? FoldingCell else {
+        guard let parcelCell = tableView.cellForRow(at: indexPath) as? ParcelTableViewCell else {
             return
         }
+        
+        let parcel = parcels[indexPath.row]
+        
+        /* filling in parcel detail information */
+        let parcelStatus = parcel.getStatus()
+        switch parcelStatus {
+            case .inProgress:
+                parcelCell.detailStatusView.backgroundColor = STATUS_ORANGE
+            case .notWithinTemperatureRange:
+                parcelCell.detailStatusView.backgroundColor = STATUS_RED
+            case .successful:
+                parcelCell.detailStatusView.backgroundColor = STATUS_GREEN
+            case .undetermined:
+                parcelCell.detailStatusView.backgroundColor = UIColor.gray
+        }
+        parcelCell.detailTntNumberLabel.text = parcel.tntNumber
+        parcelCell.detailSentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        if let dateReceived = parcel.dateReceived {
+            parcelCell.detailReceivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        } else {
+            parcelCell.detailReceivedTimeLabel.text = "-"
+        }
+        parcelCell.detailSenderCompanyLabel.text = parcel.senderCompany
+        parcelCell.detailReceiverCompanyLabel.text = parcel.receiverCompany.isEmpty ? "-" : parcel.receiverCompany
+        parcelCell.detailTempMinLabel.text = String(parcel.minTemp) + "℃"
+        parcelCell.detailTempMaxLabel.text = String(parcel.maxTemp) + "℃"
+        parcelCell.statusImageView.image = UIImage(named: "status_unknown")
+        //        parcelTableViewCell.infoTextView.text = parcel.additionalInfo
+        parcelCell.displayMeasurements(measurements: [], minTemp: Double(parcel.minTemp), maxTemp: Double(parcel.maxTemp))
         
         var duration = 0.0
         if cellHeights[indexPath.row] == CellHeight.close {
             cellHeights[indexPath.row] = CellHeight.open
-            foldingCell.selectedAnimation(true, animated: true, completion: nil)
+            parcelCell.selectedAnimation(true, animated: true, completion: nil)
             duration = 0.5
         } else {
             cellHeights[indexPath.row] = CellHeight.close
-            foldingCell.selectedAnimation(false, animated: true, completion: nil)
+            parcelCell.selectedAnimation(false, animated: true, completion: nil)
             duration = 0.8
         }
         
@@ -270,22 +255,17 @@ class ParcelsTableViewController : UITableViewController {
     
     fileprivate func fetchParcels() {
         let parcelFetchRequest = NSFetchRequest<Parcel>(entityName: "Parcel")
-        parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany"]
+        if currentMode == .sender {
+            parcelFetchRequest.predicate = NSPredicate(format: "isSent = %@ AND isReceived = %@", NSNumber(booleanLiteral: true), NSNumber(booleanLiteral: false))
+        } else {
+            parcelFetchRequest.predicate = NSPredicate(format: "isReceived = %@", NSNumber(booleanLiteral: true))
+        }
+        parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany", "isReceived", "isSent", "isSuccess", "isFailed"]
         parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
         do {
             parcels = try CoreDataManager.shared.viewingContext.fetch(parcelFetchRequest)
-            sentParcels = parcels.filter({
-                parcel in
-                
-                return parcel.isSent && !parcel.isReceived
-            })
-            receivedParcels = parcels.filter({
-                parcel in
-                
-                return parcel.isReceived
-            })
         } catch {
-            log("Failed to fetch Parcels")
+             //TODO: design a view indicating fetch error
         }
     }
     
