@@ -13,8 +13,6 @@
 		D22109631E3394240018F181 /* ModumSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109621E3394240018F181 /* ModumSensor.swift */; };
 		D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109641E3397330018F181 /* Sequence+Extension.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
-		D26012D81E38FB320093EACC /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26012D71E38FB320093EACC /* Date+Extension.swift */; };
-		D26012DB1E3A2AC20093EACC /* TemperatureMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
@@ -24,13 +22,21 @@
 		D2848A8E1DD7517300BE2D95 /* Test2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D2848A8D1DD7517300BE2D95 /* Test2.sqlite */; };
 		D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */; };
 		D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */; };
+		D28D71141E6090010037C7D8 /* Parcel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28D71131E6090010037C7D8 /* Parcel.swift */; };
+		D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28D71151E60919F0037C7D8 /* CoreDataObject.swift */; };
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
 		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
-		D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD5A11DBF87B60077579A /* JSONSerializable.swift */; };
+		D2908F6A1E68DCB000C019CC /* TemperatureCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F691E68DCB000C019CC /* TemperatureCategory.swift */; };
+		D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F6B1E68E0A800C019CC /* TemperatureMeasurement.swift */; };
+		D2908F6E1E68E28A00C019CC /* SmartContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F6D1E68E28A00C019CC /* SmartContractStatus.swift */; };
+		D2908F701E68E47600C019CC /* PreparedShipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F6F1E68E47600C019CC /* PreparedShipment.swift */; };
+		D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F711E68E60800C019CC /* CompanyDefaults.swift */; };
+		D2908F741E68E71A00C019CC /* CompanyTemperatureCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */; };
 		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
 		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
 		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
 		D29A6AF31E5A1E8A00176B7D /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEF1E5A1E8A00176B7D /* OpenSans-Semibold.ttf */; };
+		D2A61D601E682811005E0FE7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */; };
 		D2B5E8441E4775A30035EB31 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E8431E4775A30035EB31 /* UIAlertController+Extension.swift */; };
 		D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */; };
 		D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DE21DBF3B320023F581 /* Main.storyboard */; };
@@ -40,8 +46,8 @@
 		D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */; };
 		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
-		D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */; };
-		D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */; };
+		D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */; };
+		D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDB1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift */; };
 		D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */; };
 		D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */; };
 		D2E6DF001DD2480100431AA1 /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6DEFF1DD2480100431AA1 /* CoreDataManagerTests.swift */; };
@@ -69,8 +75,6 @@
 		D22109621E3394240018F181 /* ModumSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModumSensor.swift; sourceTree = "<group>"; };
 		D22109641E3397330018F181 /* Sequence+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		D26012D71E38FB320093EACC /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureMeasurement.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
@@ -80,9 +84,16 @@
 		D2848A8D1DD7517300BE2D95 /* Test2.sqlite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test2.sqlite; sourceTree = "<group>"; };
 		D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D28D71131E6090010037C7D8 /* Parcel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parcel.swift; sourceTree = "<group>"; };
+		D28D71151E60919F0037C7D8 /* CoreDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataObject.swift; sourceTree = "<group>"; };
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
-		D28FD5A11DBF87B60077579A /* JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerializable.swift; sourceTree = "<group>"; };
+		D2908F691E68DCB000C019CC /* TemperatureCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureCategory.swift; sourceTree = "<group>"; };
+		D2908F6B1E68E0A800C019CC /* TemperatureMeasurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureMeasurement.swift; sourceTree = "<group>"; };
+		D2908F6D1E68E28A00C019CC /* SmartContractStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartContractStatus.swift; sourceTree = "<group>"; };
+		D2908F6F1E68E47600C019CC /* PreparedShipment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreparedShipment.swift; sourceTree = "<group>"; };
+		D2908F711E68E60800C019CC /* CompanyDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyDefaults.swift; sourceTree = "<group>"; };
+		D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyTemperatureCategory.swift; sourceTree = "<group>"; };
 		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -101,8 +112,8 @@
 		D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
-		D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDParcel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D2E1EEDB1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDParcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -158,10 +169,10 @@
 		D22376461DD0B01B00877A6D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */,
 				D22376471DD0B02C00877A6D /* String+Extension.swift */,
 				D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */,
 				D22109641E3397330018F181 /* Sequence+Extension.swift */,
-				D26012D71E38FB320093EACC /* Date+Extension.swift */,
 				D2B5E8431E4775A30035EB31 /* UIAlertController+Extension.swift */,
 			);
 			name = Extensions;
@@ -187,11 +198,26 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		D28FD5A01DBF87A50077579A /* Protocols */ = {
+		D28D71171E6091AF0037C7D8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				D2E1EEDD1DD28D5B00B26463 /* Date+Extension.swift */,
-				D28FD5A11DBF87B60077579A /* JSONSerializable.swift */,
+				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
+				D28D71181E6091BE0037C7D8 /* Protocols */,
+				D28D71131E6090010037C7D8 /* Parcel.swift */,
+				D2908F691E68DCB000C019CC /* TemperatureCategory.swift */,
+				D2908F6B1E68E0A800C019CC /* TemperatureMeasurement.swift */,
+				D2908F6D1E68E28A00C019CC /* SmartContractStatus.swift */,
+				D2908F6F1E68E47600C019CC /* PreparedShipment.swift */,
+				D2908F711E68E60800C019CC /* CompanyDefaults.swift */,
+				D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		D28D71181E6091BE0037C7D8 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				D28D71151E60919F0037C7D8 /* CoreDataObject.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -232,13 +258,12 @@
 		D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */ = {
 			isa = PBXGroup;
 			children = (
+				D28D71171E6091AF0037C7D8 /* Objects */,
 				D27FF33B1E5C3F29005C011D /* UI */,
 				D2DDC9FC1DFEE6BD0057686D /* Bluetooth */,
-				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E6DEF91DD2476E00431AA1 /* CoreData */,
 				D22376461DD0B01B00877A6D /* Extensions */,
 				D27786D61DC2520F007D3FB5 /* ViewControllers */,
-				D28FD5A01DBF87A50077579A /* Protocols */,
 				D2F126DD1DBF533100964B7D /* Server */,
 				D2BA8DDE1DBF3B320023F581 /* AppDelegate.swift */,
 				D28FD59B1DBF83310077579A /* Utils.swift */,
@@ -266,7 +291,6 @@
 			children = (
 				D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */,
 				D22109621E3394240018F181 /* ModumSensor.swift */,
-				D26012DA1E3A2AC20093EACC /* TemperatureMeasurement.swift */,
 			);
 			name = Bluetooth;
 			sourceTree = "<group>";
@@ -284,8 +308,8 @@
 		D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */ = {
 			isa = PBXGroup;
 			children = (
-				D2E1EED91DD2581500B26463 /* Parcel+CoreDataClass.swift */,
-				D2E1EEDB1DD2584B00B26463 /* Parcel+CoreDataProperties.swift */,
+				D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */,
+				D2E1EEDB1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift */,
 				D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */,
 				D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */,
 			);
@@ -513,7 +537,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2E1EEDA1DD2581500B26463 /* Parcel+CoreDataClass.swift in Sources */,
+				D2908F741E68E71A00C019CC /* CompanyTemperatureCategory.swift in Sources */,
+				D2908F6A1E68DCB000C019CC /* TemperatureCategory.swift in Sources */,
+				D2A61D601E682811005E0FE7 /* Date+Extension.swift in Sources */,
+				D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */,
+				D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
@@ -522,24 +550,26 @@
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,
+				D2908F701E68E47600C019CC /* PreparedShipment.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
-				D2E1EEDC1DD2584B00B26463 /* Parcel+CoreDataProperties.swift in Sources */,
+				D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */,
+				D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
+				D28D71141E6090010037C7D8 /* Parcel.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
-				D28FD5A21DBF87B60077579A /* JSONSerializable.swift in Sources */,
 				D22109631E3394240018F181 /* ModumSensor.swift in Sources */,
 				D212D9DF1DEB3BCD0075C54E /* CodeScannerViewController.swift in Sources */,
+				D2908F6E1E68E28A00C019CC /* SmartContractStatus.swift in Sources */,
 				D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */,
 				D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
+				D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */,
 				D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */,
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
-				D26012D81E38FB320093EACC /* Date+Extension.swift in Sources */,
 				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,
-				D26012DB1E3A2AC20093EACC /* TemperatureMeasurement.swift in Sources */,
 				D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

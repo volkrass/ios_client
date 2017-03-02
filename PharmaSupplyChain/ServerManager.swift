@@ -7,8 +7,9 @@
 //
 
 import Alamofire
-import SwiftyJSON
+import AlamofireObjectMapper
 import Foundation
+import SwiftyJSON
 import CoreData
 
 /* singleton */
@@ -49,76 +50,109 @@ class ServerManager {
      If authentication was successful, executes completionHandler with no parameters
      Otherwise, executes completionHandler with the error occured.
     */
-    func authenticateUser(WithCredentials loginCredentials: LoginCredentials, completionHandler: @escaping (AuthenticationError?) -> Void) {
-        if let jsonLoginCredentials = loginCredentials.toJSON(), let parameters = ServerUtils.parameters(FromJSON: jsonLoginCredentials) {
-            Alamofire.request(DEV_API_URL + "login", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate().responseJSON(completionHandler: {
-                [weak self]
-                response in
-                
-                if let serverManager = self {
-                    switch response.result {
-                        case .success(let data):
-                            let responseData = JSON(data)
-                            if let authToken = responseData["token"].string, let expiryDateString = responseData["expire"].string, let expiryDate = ServerUtils.date(FromServerString: expiryDateString) {
-                                log("Received authentication token: \(authToken) with expiry date: \(expiryDate)")
-                                
-                                serverManager.userID = serverManager.extractUserID(FromAuthenticationToken: authToken)
-                                
-                                /* storing auth token and it's expiry date in UserDefaults*/
-                                UserDefaults.standard.set(authToken, forKey: "authToken")
-                                UserDefaults.standard.set(expiryDate, forKey: "authTokenExpiry")
-                                UserDefaults.standard.synchronize()
-                                
-                                completionHandler(nil)
-                            } else if let errorCode = responseData["code"].int, let errorMessage = responseData["message"].string {
-                                log("Received error \(errorCode): \(errorMessage)")
-                                if errorMessage.compare("Incorrect Username / Password") == .orderedSame {
-                                    completionHandler(AuthenticationError.InvalidCredentials)
-                                } else {
-                                    completionHandler(AuthenticationError.OtherProblem)
-                                }
-                            } else {
-                                completionHandler(AuthenticationError.OtherProblem)
-                            }
-                        case .failure(let error):
-                            log("Failed to parse JSON: \(error.localizedDescription)")
+    func authenticateUser(username: String, password: String, completionHandler: @escaping (AuthenticationError?) -> Void) {
+        Alamofire.request(CORE_API_URL + "login", method: .post, parameters: ["username" : username, "password" : password], encoding: JSONEncoding.default, headers: nil).validate().responseJSON(completionHandler: {
+            [weak self]
+            response in
+            
+            if let serverManager = self {
+                switch response.result {
+                case .success(let data):
+                    let responseData = JSON(data)
+                    if let authToken = responseData["token"].string, let expiryDateString = responseData["expire"].string, let expiryDate = ServerUtils.date(FromServerString: expiryDateString) {
+                        log("Received authentication token: \(authToken) with expiry date: \(expiryDate)")
+                        
+                        serverManager.userID = serverManager.extractUserID(FromAuthenticationToken: authToken)
+                        
+                        /* storing auth token and it's expiry date in UserDefaults*/
+                        UserDefaults.standard.set(authToken, forKey: "authToken")
+                        UserDefaults.standard.set(expiryDate, forKey: "authTokenExpiry")
+                        UserDefaults.standard.synchronize()
+                        
+                        completionHandler(nil)
+                    } else if let errorCode = responseData["code"].int, let errorMessage = responseData["message"].string {
+                        log("Received error \(errorCode): \(errorMessage)")
+                        if errorMessage.compare("Incorrect Username / Password") == .orderedSame {
+                            completionHandler(AuthenticationError.InvalidCredentials)
+                        } else {
                             completionHandler(AuthenticationError.OtherProblem)
+                        }
+                    } else {
+                        completionHandler(AuthenticationError.OtherProblem)
                     }
+                case .failure(let error):
+                    log("Failed to parse JSON: \(error.localizedDescription)")
+                    completionHandler(AuthenticationError.OtherProblem)
+                }
+            }
+        })
+    }
+    
+    /*
+     Requests a list of user parcels from the server using http://dev.modum.io/api/v2/parcels/web
+     - @completionHandler returns Error object if error occured and [Parcel] if parcels were successfully retrieved
+     */
+    func getUserParcels(completionHandler: @escaping (Error?, [Parcel]?) -> Void) {
+        if let authorizationHeader = authorizationHeader {
+            Alamofire.request(DEV_API_URL + "v2/parcels/web", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
+                (response: DataResponse<[Parcel]>) -> Void in
+                
+                switch response.result {
+                case .success:
+                    completionHandler(nil, response.result.value)
+                case .failure(let error):
+                    log("Error is \(error.localizedDescription)")
+                    completionHandler(error, nil)
                 }
             })
+        } else {
+            completionHandler(nil, nil)
         }
     }
     
     /*
-     Requests a list of user parcels from the server and persists received Parcel objects in CoreData
-     - @completionHandler returns a boolean variable, indicating whether request was successful or not
+     Requests a list of temperature measurements for a parcel given @tntNumber and @sensorID parameters
+     API call: http://dev.modum.io/api/parcels/<tntNumber>/<sensorID>/temperatures
+     - @completionHandler returns Error object if error occured and [TemperatureMeasurement] if temperature measurements were successfully retrieved
      */
-    func getUserParcels(completionHandler: @escaping (_ success: Bool) -> Void) {
+    func getTemperatureMeasurements(tntNumber: String, sensorID: String, completionHandler: @escaping (Error?, [TemperatureMeasurement]?) -> Void) {
         if let authorizationHeader = authorizationHeader {
-            Alamofire.request(DEV_API_URL + "v2/parcels/web", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseJSON(completionHandler: {
-                [weak self]
-                response in
+            Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(keyPath: "measurements", completionHandler: {
+                (response: DataResponse<[TemperatureMeasurement]>) -> Void in
                 
-                if let serverManager = self {
-                    switch response.result {
-                    case .success(let data):
-                        let responseData = JSON(data)
-                        if let parcels = responseData.array {
-                            for parcelJSON in parcels {
-                                let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
-                                parcel.fromJSON(object: parcelJSON)
-                            }
-                            serverManager.coreDataManager.saveLocally(managedContext: serverManager.coreDataManager.viewingContext)
-                            completionHandler(true)
-                        }
-                    case .failure(let error):
-                        log("Error is \(error.localizedDescription)")
-                        completionHandler(false)
-                    }
+                switch response.result {
+                case .success:
+                    completionHandler(nil, response.result.value)
+                case .failure(let error):
+                    log("Error is \(error.localizedDescription)")
+                    completionHandler(error, nil)
                 }
             })
         } else {
-            completionHandler(false)
+            completionHandler(nil, nil)
+        }
+    }
+    
+    /*
+     Requests a temperature measurements smart contract status for a parcel given @tntNumber and @sensorID parameters
+     API call: http://dev.modum.io/api/parcels/<tntNumber>/<sensorID>/temperatures/status
+     - @completionHandler returns Error object if error occured and SmartContractStatus object if it was returned
+     */
+    func getTemperatureMeasurementsStatus(tntNumber: String, sensorID: String, completionHandler: @escaping (Error?, SmartContractStatus?) -> Void) {
+        if let authorizationHeader = authorizationHeader {
+            Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures/status", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                (response: DataResponse<SmartContractStatus>) -> Void in
+                
+                switch response.result {
+                case .success:
+                    completionHandler(nil, response.result.value)
+                case .failure(let error):
+                    log("Error is \(error.localizedDescription)")
+                    completionHandler(error, nil)
+                }
+            })
+        } else {
+            completionHandler(nil, nil)
         }
     }
     
@@ -127,32 +161,47 @@ class ServerManager {
      - @tntNumber: Track-N-Trace number of the shipment
      - @completionHandler: returns a boolean variable, indicating whether request was successful or not
      */
-    func getPreparedShipment(WithTNTNumber tntNumber: String, WithCompletionHandler completionHandler: @escaping (_ success: Bool) -> Void) {
+    func getPreparedShipment(tntNumber: String, completionHandler: @escaping (Error?, PreparedShipment?) -> Void) {
         if let authorizationHeader = authorizationHeader {
-            Alamofire.request(DEV_API_URL + "preparedshipments/tntnumber/\(tntNumber)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseJSON(completionHandler: {
-                [weak self]
-                response in
+            Alamofire.request(DEV_API_URL + "preparedshipments/tntnumber/\(tntNumber)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                (response: DataResponse<PreparedShipment>) -> Void in
                 
-                if let serverManager = self {
-                    switch response.result {
-                    case .success(let data):
-                        let responseData = JSON(data)
-                        if let parcels = responseData.array {
-                            for parcelJSON in parcels {
-                                let parcel = NSEntityDescription.insertNewObject(forEntityName: "Parcel", into: serverManager.coreDataManager.viewingContext) as! Parcel
-                                parcel.fromJSON(object: parcelJSON)
-                            }
-                            serverManager.coreDataManager.saveLocally(managedContext: serverManager.coreDataManager.viewingContext)
-                            completionHandler(true)
-                        }
-                    case .failure(let error):
-                        log("Error is \(error.localizedDescription)")
-                        completionHandler(false)
-                    }
+                switch response.result {
+                case .success:
+                    completionHandler(nil, response.result.value)
+                case .failure(let error):
+                    log("Error is \(error.localizedDescription)")
+                    completionHandler(error, nil)
                 }
             })
+        } else {
+            completionHandler(nil, nil)
         }
     }
+    
+    /*
+     Requests a temperature measurements smart contract status for a parcel given @tntNumber and @sensorID parameters
+     API call: http://dev.modum.io/api/parcels/<tntNumber>/<sensorID>/temperatures/status
+     - @completionHandler returns Error object if error occured and SmartContractStatus object if it was returned
+     */
+    func getCompanyDefaults(completionHandler: @escaping (Error?, CompanyDefaults?) -> Void) {
+        if let authorizationHeader = authorizationHeader {
+            Alamofire.request(DEV_API_URL + "/v1/company/defaults", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                (response: DataResponse<CompanyDefaults>) -> Void in
+                
+                switch response.result {
+                case .success:
+                    completionHandler(nil, response.result.value)
+                case .failure(let error):
+                    log("Error is \(error.localizedDescription)")
+                    completionHandler(error, nil)
+                }
+            })
+        } else {
+            completionHandler(nil, nil)
+        }
+    }
+
     
     // MARK: Helper functions
     

@@ -37,42 +37,38 @@ class LoginViewController: UIViewController {
         let username = usernameTextField.text!
         let password = passwordTextField.text!
         
-        if let loginCredentials = LoginCredentials(username: username, password: password) {
-            ServerManager.shared.authenticateUser(WithCredentials: loginCredentials, completionHandler: {
-                [weak self]
-                error in
-                
-                if let loginViewController = self {
-                    /* Successful authentication */
-                    if let error = error {
-                        switch error {
-                            case AuthenticationError.InvalidCredentials:
-                                loginViewController.loginErrorLabel.text = "Invalid credentials. Please, try again!"
-                                loginViewController.usernameTextField.text = ""
-                                loginViewController.passwordTextField.text = ""
-                                return
-                            case AuthenticationError.OtherProblem:
-                                loginViewController.loginErrorLabel.text = "An error occured while logging in. Please, try again!"
-                                return
-                        }
-                    } else {
-//                        loginViewController.serverManager!.getUserParcels {
-//                            [weak loginViewController]
-//                            success in
-//                            
-//                            if let loginViewController = loginViewController {
-//                                loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
-//                            }
-//                        }
-                        loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
-                    }
-                }
-            })
-        } else {
-            loginErrorLabel.text = "Invalid credentials. Please, try again!"
-            usernameTextField.text = ""
-            passwordTextField.text = ""
+        guard username.characters.count >= 3 else {
+            loginErrorLabel.text = "Username is too short"
+            return
         }
+        
+        guard password.characters.count >= 3 else {
+            loginErrorLabel.text = "Password is too short"
+            return
+        }
+        
+        ServerManager.shared.authenticateUser(username: username, password: password, completionHandler: {
+            [weak self]
+            error in
+            
+            if let loginViewController = self {
+                /* Successful authentication */
+                if let error = error {
+                    switch error {
+                    case AuthenticationError.InvalidCredentials:
+                        loginViewController.loginErrorLabel.text = "Invalid credentials. Please, try again!"
+                        loginViewController.usernameTextField.text = ""
+                        loginViewController.passwordTextField.text = ""
+                        return
+                    case AuthenticationError.OtherProblem:
+                        loginViewController.loginErrorLabel.text = "An error occured while logging in. Please, try again!"
+                        return
+                    }
+                } else {
+                    loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
+                }
+            }
+        })
     }
     
     @IBAction fileprivate func usernameTextFieldEditingChanged(_ sender: UITextField) {

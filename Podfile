@@ -8,6 +8,8 @@ target 'PharmaSupplyChain' do
   pod 'UXCam'
   pod 'Charts'
   pod 'FoldingCell'
+  pod 'ObjectMapper'
+  pod 'AlamofireObjectMapper'
 end
 
 target 'PharmaSupplyChainTests' do
@@ -17,4 +19,6 @@ target 'PharmaSupplyChainTests' do
 	pod 'UXCam'
 	pod 'Charts'
     pod 'FoldingCell'
+    pod 'ObjectMapper'
+    pod 'AlamofireObjectMapper'
 end

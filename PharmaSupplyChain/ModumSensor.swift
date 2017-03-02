@@ -580,29 +580,29 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             }
             case measurementsUUID:
                 if let measurementsValue = characteristic.value, !measurementsValue.isEmpty {
-                    if let temperatureMeasurements = TemperatureMeasurement.fromData(measurementsValue) {
-                        if measurements == nil {
-                            measurements = []
-                        }
-                        measurements!.append(contentsOf: temperatureMeasurements)
-                        if let measurementsCount = measurementsCount, measurements!.count >= Int(measurementsCount) {
-                            log("Finished reading temperature measurements")
-                            log("Temperature measurements are: \(measurements!)")
-                            if sensorDataRead != nil {
-                                sensorDataRead!.didReadMeasurements = true
-                            }
-                        } else {
-                            self.measurementsIndex = self.measurementsIndex! + UInt32(temperatureMeasurements.count)
-                            writeMeasurementsIndex(self.measurementsIndex!)
-                        }
-                    } else {
-                        if measurementsValue == Data(bytes: [0x0]) {
-                            log("No measurements recorded!")
-                            if sensorDataRead != nil {
-                                sensorDataRead!.didReadMeasurements = true
-                            }
-                        }
-                    }
+//                    if let temperatureMeasurements = TemperatureMeasurement.fromData(measurementsValue) {
+//                        if measurements == nil {
+//                            measurements = []
+//                        }
+//                        measurements!.append(contentsOf: temperatureMeasurements)
+//                        if let measurementsCount = measurementsCount, measurements!.count >= Int(measurementsCount) {
+//                            log("Finished reading temperature measurements")
+//                            log("Temperature measurements are: \(measurements!)")
+//                            if sensorDataRead != nil {
+//                                sensorDataRead!.didReadMeasurements = true
+//                            }
+//                        } else {
+//                            self.measurementsIndex = self.measurementsIndex! + UInt32(temperatureMeasurements.count)
+//                            writeMeasurementsIndex(self.measurementsIndex!)
+//                        }
+//                    } else {
+//                        if measurementsValue == Data(bytes: [0x0]) {
+//                            log("No measurements recorded!")
+//                            if sensorDataRead != nil {
+//                                sensorDataRead!.didReadMeasurements = true
+//                            }
+//                        }
+//                    }
                 }
                 break
             case startTimeUUID:

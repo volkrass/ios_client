@@ -64,16 +64,27 @@ class ParcelsTableViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchParcels()
-        
-        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
-        
         /* adding 'pull-to-refresh'*/
         refreshControl = UIRefreshControl()
+        //refreshControl?.backgroundColor = UIColor.clear
         refreshControl!.frame = CGRect(x: refreshControl!.frame.minX, y: refreshControl!.frame.minY, width: 35.0, height: 35.0)
         refreshControl!.attributedTitle = NSAttributedString(string: "Updating parcels...", attributes: [NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont(name: "OpenSans-Light", size: 17.0) as Any])
         refreshControl!.tintColor = UIColor.white
         refreshControl!.addTarget(self, action: #selector(refreshParcels(_:)), for: UIControlEvents.valueChanged)
+        
+        /* adding gradient background */
+        let leftColor = TEMPERATURE_LIGHT_BLUE.cgColor
+        let rightColor = TEMPERATURE_LIGHT_RED.cgColor
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = tableView.bounds
+        gradientLayer.colors = [leftColor, rightColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        let backgroundView = UIView(frame: tableView.bounds)
+        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        tableView.backgroundView = backgroundView
+        //tableView.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
 //        let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(goToSettings))
 //        navigationItem.rightBarButtonItem = settingsButton
@@ -109,7 +120,11 @@ class ParcelsTableViewController : UITableViewController {
         let parcel = parcels[indexPath.row]
         
         parcelTableViewCell.tntNumberLabel.text = parcel.tntNumber
-        parcelTableViewCell.sentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .short, WithTimeStyle: .short)
+        if let dateSent = parcel.dateSent {
+            parcelTableViewCell.sentTimeLabel.text = dateSent.toString(WithDateStyle: .short, WithTimeStyle: .short)
+        } else {
+            parcelTableViewCell.sentTimeLabel.text = "-"
+        }
         if let dateReceived = parcel.dateReceived {
             parcelTableViewCell.receivedTimeLabel.text = dateReceived.toString(WithDateStyle: .short, WithTimeStyle: .short)
         } else {
@@ -120,8 +135,8 @@ class ParcelsTableViewController : UITableViewController {
         } else {
             parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
         }
-        let parcelStatus = parcel.getStatus()
-        switch parcelStatus {
+        if let parcelStatus = parcel.status {
+            switch parcelStatus {
             case .inProgress:
                 parcelTableViewCell.statusView.backgroundColor = STATUS_ORANGE
             case .notWithinTemperatureRange:
@@ -130,6 +145,9 @@ class ParcelsTableViewController : UITableViewController {
                 parcelTableViewCell.statusView.backgroundColor = STATUS_GREEN
             case .undetermined:
                 parcelTableViewCell.statusView.backgroundColor = UIColor.gray
+            }
+        } else {
+            parcelTableViewCell.statusView.backgroundColor = UIColor.gray
         }
         
         return parcelTableViewCell
@@ -143,9 +161,24 @@ class ParcelsTableViewController : UITableViewController {
         
         let parcel = parcels[indexPath.row]
         
+        if let parcelTnt = parcel.tntNumber, let sensorID = parcel.sensorID {
+            /* fetch temperature measurements */
+            ServerManager.shared.getTemperatureMeasurements(tntNumber: parcelTnt, sensorID: sensorID, completionHandler: {
+                response in
+                
+                
+            })
+            
+            /* fetch temperature measurements blockchain status */
+            ServerManager.shared.getTemperatureMeasurementsStatus(tntNumber: parcelTnt, sensorID: sensorID, completionHandler: {
+                response in
+                
+            })
+        }
+        
         /* filling in parcel detail information */
-        let parcelStatus = parcel.getStatus()
-        switch parcelStatus {
+        if let parcelStatus = parcel.status {
+            switch parcelStatus {
             case .inProgress:
                 parcelCell.detailStatusView.backgroundColor = STATUS_ORANGE
             case .notWithinTemperatureRange:
@@ -154,18 +187,31 @@ class ParcelsTableViewController : UITableViewController {
                 parcelCell.detailStatusView.backgroundColor = STATUS_GREEN
             case .undetermined:
                 parcelCell.detailStatusView.backgroundColor = UIColor.gray
+            }
+        } else {
+            parcelCell.detailStatusView.backgroundColor = UIColor.gray
         }
         parcelCell.detailTntNumberLabel.text = parcel.tntNumber
-        parcelCell.detailSentTimeLabel.text = parcel.dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        if let dateSent = parcel.dateSent {
+            parcelCell.detailSentTimeLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        } else {
+            parcelCell.detailSentTimeLabel.text = "-"
+        }
         if let dateReceived = parcel.dateReceived {
             parcelCell.detailReceivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
         } else {
             parcelCell.detailReceivedTimeLabel.text = "-"
         }
-        parcelCell.detailSenderCompanyLabel.text = parcel.senderCompany
-        parcelCell.detailReceiverCompanyLabel.text = parcel.receiverCompany.isEmpty ? "-" : parcel.receiverCompany
-        parcelCell.detailTempMinLabel.text = String(parcel.minTemp) + "℃"
-        parcelCell.detailTempMaxLabel.text = String(parcel.maxTemp) + "℃"
+        parcelCell.detailSenderCompanyLabel.text = parcel.senderCompany ?? "-"
+        parcelCell.detailReceiverCompanyLabel.text = parcel.receiverCompany ?? "-"
+        if let minTemp = parcel.minTemp, let maxTemp = parcel.maxTemp {
+            parcelCell.detailTempMinLabel.text = String(minTemp) + "℃"
+            parcelCell.detailTempMaxLabel.text = String(maxTemp) + "℃"
+            parcelCell.displayMeasurements(measurements: [], minTemp: Double(minTemp), maxTemp: Double(maxTemp))
+        } else {
+            parcelCell.detailTempMinLabel.text = "-℃"
+            parcelCell.detailTempMaxLabel.text = "-℃"
+        }
         parcelCell.statusImageView.image = UIImage(named: "status_unknown")
         
         var newParcelDetailCellHeight: CGFloat? = nil
@@ -174,7 +220,6 @@ class ParcelsTableViewController : UITableViewController {
         } else {
             newParcelDetailCellHeight = parcelCell.hideInfoTextView()
         }
-        parcelCell.displayMeasurements(measurements: [], minTemp: Double(parcel.minTemp), maxTemp: Double(parcel.maxTemp))
         
         var duration = 0.0
         if cellHeights[indexPath.row] == CellHeight.close {
@@ -263,45 +308,42 @@ class ParcelsTableViewController : UITableViewController {
         performSegue(withIdentifier: "goToSettings", sender: self)
     }
     
-    fileprivate func fetchParcels() {
-        let parcelFetchRequest = NSFetchRequest<Parcel>(entityName: "Parcel")
-        if currentMode == .sender {
-            parcelFetchRequest.predicate = NSPredicate(format: "isSent = %@ AND isReceived = %@", NSNumber(booleanLiteral: true), NSNumber(booleanLiteral: false))
-        } else {
-            parcelFetchRequest.predicate = NSPredicate(format: "isReceived = %@", NSNumber(booleanLiteral: true))
-        }
-        parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany", "isReceived", "isSent", "isSuccess", "isFailed"]
-        parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
-        do {
-            parcels = try CoreDataManager.shared.viewingContext.fetch(parcelFetchRequest)
-        } catch {
-             //TODO: design a view indicating fetch error
-        }
+    /* Fetches existing Parcel objects from CoreData, if server call fails */
+    fileprivate func fetchStoredParcels() {
+//        let parcelFetchRequest = NSFetchRequest<CDParcel>(entityName: "CDParcel")
+//        parcelFetchRequest.predicate = NSPredicate(value: true)
+//        parcelFetchRequest.propertiesToFetch = ["tntNumber", "dateSent", "dateReceived", "senderCompany", "receiverCompany", "isReceived", "isSent", "isSuccess", "isFailed"]
+//        parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
+//        do {
+//            parcels = try CoreDataManager.shared.viewingContext.fetch(parcelFetchRequest)
+//        } catch {
+//             //TODO: design a view indicating fetch error
+//        }
     }
     
     @objc fileprivate func refreshParcels(_ sender: AnyObject) {
-        parcels.forEach({
-            parcel in
-            
-            CoreDataManager.shared.viewingContext.delete(parcel)
-        })
-        if CoreDataManager.shared.viewingContext.hasChanges {
-            _ = CoreDataManager.shared.viewingContext.saveRecursively()
-        }
-        ServerManager.shared.getUserParcels(completionHandler: {
-            [weak self]
-            success in
-            
-            if let parcelsTableViewController = self {
-                parcelsTableViewController.refreshControl!.endRefreshing()
-                if !success {
-                    //TODO: design a view indicating fetch error
-                } else {
-                    parcelsTableViewController.fetchParcels()
-                    parcelsTableViewController.tableView.reloadData()
-                }
-            }
-        })
+//        parcels.forEach({
+//            parcel in
+//            
+//            CoreDataManager.shared.viewingContext.delete(parcel)
+//        })
+//        if CoreDataManager.shared.viewingContext.hasChanges {
+//            _ = CoreDataManager.shared.viewingContext.saveRecursively()
+//        }
+//        ServerManager.shared.getUserParcels(completionHandler: {
+//            [weak self]
+//            success in
+//            
+//            if let parcelsTableViewController = self {
+//                parcelsTableViewController.refreshControl!.endRefreshing()
+//                if !success {
+//                    //TODO: design a view indicating fetch error
+//                } else {
+//                    parcelsTableViewController.fetchParcels()
+//                    parcelsTableViewController.tableView.reloadData()
+//                }
+//            }
+//        })
     }
     
 }

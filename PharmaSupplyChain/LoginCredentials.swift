@@ -6,9 +6,7 @@
 //  Copyright © 2016 Modum. All rights reserved.
 //
 
-import SwiftyJSON
-
-class LoginCredentials : JSONSerializable {
+class LoginCredentials {
     
     // MARK: Properties
     
@@ -28,24 +26,6 @@ class LoginCredentials : JSONSerializable {
             self.password = password
         } else {
             return nil
-        }
-    }
-    
-    // MARK: JSONSerializable
-    
-    func toJSON() -> JSON? {
-        return JSON([
-                    "Username" : username,
-                    "Password" : password
-                    ])
-    }
-    
-    func fromJSON(object: JSON) {
-        if let username = object["Username"].string {
-            self.username = username
-        }
-        if let password = object["Password"].string {
-            self.password = password
         }
     }
     

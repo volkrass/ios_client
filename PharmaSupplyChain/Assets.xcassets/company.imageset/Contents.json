@@ -1,16 +1,19 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "filename" : "company.png",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
+      "idiom" : "iphone",
+      "filename" : "company-1.png",
+      "compression-type" : "automatic",
       "scale" : "2x"
     },
     {
-      "idiom" : "universal",
+      "idiom" : "iphone",
+      "filename" : "company.png",
+      "compression-type" : "automatic",
       "scale" : "3x"
     }
   ],
