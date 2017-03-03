@@ -12,6 +12,14 @@ import Charts
 
 class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     
+    // MARK: Properties
+    
+    fileprivate var parcel: Parcel?
+    
+    // MARK: Constants
+    
+    fileprivate let openCellHeight: CGFloat = 510
+    
     // MARK: Outlets
     
     @IBOutlet weak var companyNameLabel: UILabel!
@@ -35,6 +43,25 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     @IBOutlet weak var infoIcon: UIImageView!
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var temperatureGraphView: LineChartView!
+    
+    // MARK: Actions
+    
+    @IBAction fileprivate func smartContactStatusButtonTouchUpInside(_ sender: UIButton) {
+        if let parcel = parcel, let tntNumber = parcel.tntNumber, let sensorID = parcel.sensorID {
+            /* fetch temperature measurements blockchain status */
+            ServerManager.shared.getTemperatureMeasurementsStatus(tntNumber: tntNumber, sensorID: sensorID, completionHandler: {
+                error, smartContractStatus in
+                
+                if let error = error {
+                    /* TODO: design view indicating error */
+                } else if let smartContractStatus = smartContractStatus {
+                    if let isMined = smartContractStatus.isMined {
+                        /* display status image view */
+                    }
+                }
+            })
+        }
+    }
     
     override func awakeFromNib() {
         foregroundView.layer.cornerRadius = 10.0
@@ -63,7 +90,97 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         return durations[itemIndex]
     }
     
-    func displayMeasurements(measurements: [TemperatureMeasurement], minTemp: Double, maxTemp: Double) {
+    // MARK: Public functions
+    
+    /* fills ParcelTableView fields from Parcel object and returns height of cell */
+    func fill(FromParcel parcel: Parcel) -> CGFloat {
+        self.parcel = parcel
+        if let parcelTnt = parcel.tntNumber, let sensorID = parcel.sensorID {
+            /* fetch temperature measurements */
+            ServerManager.shared.getTemperatureMeasurements(tntNumber: parcelTnt, sensorID: sensorID, completionHandler: {
+                [weak self]
+                error, temperatureMeasurements in
+                
+                if let parcelCell = self {
+                    if let error = error {
+                        /* TODO: design view indicating error */
+                    } else if let temperatureMeasurements = temperatureMeasurements, let minTemp = parcel.minTemp, let maxTemp = parcel.maxTemp {
+                        parcelCell.displayMeasurements(measurements: temperatureMeasurements, minTemp: minTemp, maxTemp: maxTemp)
+                    }
+                }
+            })
+            
+            /* fetch temperature measurements blockchain status */
+            ServerManager.shared.getTemperatureMeasurementsStatus(tntNumber: parcelTnt, sensorID: sensorID, completionHandler: {
+                [weak self]
+                error, smartContractStatus in
+                
+                if let parcelCell = self {
+                    if let error = error {
+                        /* TODO: design view indicating error */
+                    } else if let smartContractStatus = smartContractStatus {
+                        if let isMined = smartContractStatus.isMined {
+                            /* display status image view */
+                        }
+                    }
+                }
+            })
+        }
+        
+        /* filling in parcel detail information */
+        if let parcelStatus = parcel.status {
+            switch parcelStatus {
+            case .inProgress:
+                detailStatusView.backgroundColor = STATUS_ORANGE
+            case .notWithinTemperatureRange:
+                detailStatusView.backgroundColor = STATUS_RED
+            case .successful:
+                detailStatusView.backgroundColor = STATUS_GREEN
+            case .undetermined:
+                detailStatusView.backgroundColor = UIColor.gray
+            }
+        } else {
+            detailStatusView.backgroundColor = UIColor.gray
+        }
+        detailTntNumberLabel.text = parcel.tntNumber
+        if let dateSent = parcel.dateSent {
+            detailSentTimeLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        } else {
+            detailSentTimeLabel.text = "-"
+        }
+        if let dateReceived = parcel.dateReceived {
+            detailReceivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+        } else {
+            detailReceivedTimeLabel.text = "-"
+        }
+        detailSenderCompanyLabel.text = parcel.senderCompany ?? "-"
+        detailReceiverCompanyLabel.text = parcel.receiverCompany ?? "-"
+        if let minTemp = parcel.minTemp, let maxTemp = parcel.maxTemp {
+            detailTempMinLabel.text = String(minTemp) + "℃"
+            detailTempMaxLabel.text = String(maxTemp) + "℃"
+        } else {
+            detailTempMinLabel.text = "-℃"
+            detailTempMaxLabel.text = "-℃"
+        }
+        statusImageView.image = UIImage(named: "status_unknown")
+        
+        if let additionalInfo = parcel.additionalInfo, !additionalInfo.isEmpty {
+            infoTextView.text = additionalInfo
+        } else {
+            let cellHeightWithoutInfo = hideInfoTextView()
+            if let cellHeightWithoutInfo = cellHeightWithoutInfo {
+                return cellHeightWithoutInfo
+            } else {
+                return openCellHeight
+            }
+        }
+        
+        return openCellHeight
+    }
+    
+    // MARK: Helper functions
+    
+    fileprivate func displayMeasurements(measurements: [TemperatureMeasurement], minTemp: Int, maxTemp: Int) {
         let maxTempLimitLine = ChartLimitLine(limit: Double(maxTemp), label: "Maximum Temperature")
         let minTempLimitLine = ChartLimitLine(limit: Double(minTemp), label: "Minimum Temperature")
         if let openSansLightFont = UIFont(name: "OpenSans-Light", size: 9.0) {
@@ -71,40 +188,39 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
             minTempLimitLine.valueFont = openSansLightFont
         }
         
-        temperatureGraphView.leftAxis.axisMinimum = minTemp - 5.0
-        temperatureGraphView.leftAxis.axisMaximum = maxTemp + 5.0
+        temperatureGraphView.leftAxis.axisMinimum = Double(minTemp) - 5.0
+        temperatureGraphView.leftAxis.axisMaximum = Double(maxTemp) + 5.0
         
         temperatureGraphView.rightAxis.enabled = false
         
         temperatureGraphView.leftAxis.addLimitLine(maxTempLimitLine)
         temperatureGraphView.leftAxis.addLimitLine(minTempLimitLine)
         
-        /* TODO: replace mock measurement data with the actual data */
-        let temperatures = [15.6, 16.8, 21.5, 22.3, 24.5, 28.7, 11.3, 20.0, 25.2, 18.4]
-        let timestamps = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-        
-        var dataEntries: [ChartDataEntry] = []
-        for index in 0..<timestamps.count {
-            let dataEntry = ChartDataEntry(x: Double(timestamps[index]), y: temperatures[index])
-            dataEntries.append(dataEntry)
-        }
-        let dataSet = LineChartDataSet(values: dataEntries, label: "Temperature")
-        dataSet.circleColors = [UIColor.red]
-        
-        let gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
-        let colorLocations: [CGFloat] = [1.0, 0.0]
-        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
-        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0)
-        dataSet.drawFilledEnabled = true
-        
-        temperatureGraphView.data = LineChartData(dataSets: [dataSet])
+//        let temperatures = measurements.flatMap{ $0.temperature }
+//        let timestamps = measurements.flatMap{ $0.timestamp?.timeIntervalSince1970 }
+//        
+//        var dataEntries: [ChartDataEntry] = []
+//        for index in 0..<timestamps.count {
+//            let dataEntry = ChartDataEntry(x: Double(timestamps[index]), y: temperatures[index])
+//            dataEntries.append(dataEntry)
+//        }
+//        let dataSet = LineChartDataSet(values: dataEntries, label: "Temperature")
+//        dataSet.circleColors = [UIColor.red]
+//        
+//        let gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
+//        let colorLocations: [CGFloat] = [1.0, 0.0]
+//        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
+//        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0)
+//        dataSet.drawFilledEnabled = true
+//        
+//        temperatureGraphView.data = LineChartData(dataSets: [dataSet])
     }
     
     /*
      Removes infoTextView and all it's associated constraints
      Can be used to hide infoTextView when there is no information to display
      */
-    func hideInfoTextView() -> CGFloat? {
+    fileprivate func hideInfoTextView() -> CGFloat? {
         let constraints = parcelDetailView.constraints
         let infoTextViewConstraint = constraints.first(where: {
             constraint in

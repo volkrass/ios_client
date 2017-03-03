@@ -32,6 +32,9 @@
 		D2908F701E68E47600C019CC /* PreparedShipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F6F1E68E47600C019CC /* PreparedShipment.swift */; };
 		D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F711E68E60800C019CC /* CompanyDefaults.swift */; };
 		D2908F741E68E71A00C019CC /* CompanyTemperatureCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */; };
+		D2908F761E69AE8200C019CC /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F751E69AE8200C019CC /* Sensor.swift */; };
+		D2908F781E69B05F00C019CC /* LoginObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F771E69B05F00C019CC /* LoginObject.swift */; };
+		D2908F7A1E69B31100C019CC /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F791E69B31100C019CC /* ServerError.swift */; };
 		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
 		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
 		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
@@ -94,6 +97,9 @@
 		D2908F6F1E68E47600C019CC /* PreparedShipment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreparedShipment.swift; sourceTree = "<group>"; };
 		D2908F711E68E60800C019CC /* CompanyDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyDefaults.swift; sourceTree = "<group>"; };
 		D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyTemperatureCategory.swift; sourceTree = "<group>"; };
+		D2908F751E69AE8200C019CC /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		D2908F771E69B05F00C019CC /* LoginObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginObject.swift; sourceTree = "<group>"; };
+		D2908F791E69B31100C019CC /* ServerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -210,6 +216,9 @@
 				D2908F6F1E68E47600C019CC /* PreparedShipment.swift */,
 				D2908F711E68E60800C019CC /* CompanyDefaults.swift */,
 				D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */,
+				D2908F751E69AE8200C019CC /* Sensor.swift */,
+				D2908F771E69B05F00C019CC /* LoginObject.swift */,
+				D2908F791E69B31100C019CC /* ServerError.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -543,10 +552,13 @@
 				D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */,
 				D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
+				D2908F761E69AE8200C019CC /* Sensor.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
+				D2908F781E69B05F00C019CC /* LoginObject.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D2B5E8441E4775A30035EB31 /* UIAlertController+Extension.swift in Sources */,
+				D2908F7A1E69B31100C019CC /* ServerError.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,

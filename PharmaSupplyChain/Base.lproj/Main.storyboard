@@ -154,7 +154,7 @@
                                             <rect key="frame" x="8" y="8" width="359" height="165"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.45000000000000001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tntNumber" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZ1-JF-aGV">
-                                                    <rect key="frame" x="117" y="8" width="125" height="30"/>
+                                                    <rect key="frame" x="117.5" y="8" width="124.5" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="AXm-pU-uRH"/>
                                                     </constraints>
@@ -163,7 +163,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="companyName" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ga-M6-9QW">
-                                                    <rect key="frame" x="114" y="48" width="132" height="25"/>
+                                                    <rect key="frame" x="114.5" y="48" width="132" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="6ya-nA-Sr1"/>
                                                     </constraints>
@@ -364,7 +364,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tempMax" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Jd-Ij-4Qu">
-                                                    <rect key="frame" x="105.5" y="203" width="56" height="25"/>
+                                                    <rect key="frame" x="106.5" y="203" width="55" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="41p-r5-ydr"/>
                                                     </constraints>
@@ -395,7 +395,7 @@
                                                         </attributedString>
                                                     </state>
                                                     <connections>
-                                                        <action selector="statusRefreshButtonTouchUpInside:" destination="HDb-dB-TRz" eventType="touchUpInside" id="5aE-fA-OnT"/>
+                                                        <action selector="smartContactStatusButtonTouchUpInside:" destination="Bkh-w9-ik6" eventType="touchUpInside" id="StG-r6-CnC"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tU9-EU-p64">
@@ -574,7 +574,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VKQ-HG-QY8" id="2gp-pc-PA2">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -582,7 +582,7 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g1o-ty-BkJ" id="oTY-lm-61A">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -594,7 +594,7 @@
                                         <rect key="frame" x="0.0" y="144" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3c6-8O-zAs" id="HJT-6K-7Y9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -602,7 +602,7 @@
                                         <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y1f-Ps-pDG" id="3to-iL-yNw">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -732,11 +732,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="company" width="512" height="512"/>
+        <image name="company" width="256" height="256"/>
         <image name="info_icon" width="2000" height="2000"/>
         <image name="modum_logo" width="1800" height="495"/>
-        <image name="refresh_icon" width="128" height="128"/>
-        <image name="temperature" width="256" height="256"/>
-        <image name="time" width="1024" height="1024"/>
+        <image name="refresh_icon" width="48" height="48"/>
+        <image name="temperature" width="128" height="128"/>
+        <image name="time" width="38" height="38"/>
     </resources>
 </document>

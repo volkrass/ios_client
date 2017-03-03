@@ -47,25 +47,30 @@ class LoginViewController: UIViewController {
             return
         }
         
-        ServerManager.shared.authenticateUser(username: username, password: password, completionHandler: {
+        ServerManager.shared.login(username: username, password: password, completionHandler: {
             [weak self]
-            error in
+            error, _ in
             
             if let loginViewController = self {
-                /* Successful authentication */
+                /* Error when authenticating */
                 if let error = error {
-                    switch error {
-                    case AuthenticationError.InvalidCredentials:
-                        loginViewController.loginErrorLabel.text = "Invalid credentials. Please, try again!"
-                        loginViewController.usernameTextField.text = ""
-                        loginViewController.passwordTextField.text = ""
-                        return
-                    case AuthenticationError.OtherProblem:
-                        loginViewController.loginErrorLabel.text = "An error occured while logging in. Please, try again!"
-                        return
-                    }
+                    loginViewController.loginErrorLabel.text = error.message
                 } else {
                     loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
+                }
+            }
+        })
+        
+        /* Retrieving company defaults on login and persist them in CoreData */
+        ServerManager.shared.getCompanyDefaults(completionHandler: {
+            error, companyDefaults in
+        
+            if let error = error {
+                log("Error retrieving company defaults: \(error.message)")
+            } else {
+                if let companyDefaults = companyDefaults {
+                    log("Successfully retrieve company defaults!")
+                    
                 }
             }
         })

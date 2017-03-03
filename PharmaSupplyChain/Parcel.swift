@@ -53,12 +53,7 @@ class Parcel : Mappable/* , CoreDataObject */ {
     
     // MARK: Mappable
     
-    public required init?(map: Map) {
-        let map = map.JSON
-        if map["id"] == nil || map["tempCategory"] == nil || map["minTemp"] == nil || map["maxTemp"] == nil || map["tntNumber"] == nil || map["senderCompany"] == nil || map["receiverCompany"] == nil || map["isReceived"] == nil || map["isSent"] == nil || map["isSuccess"] == nil || map["isFailure"] == nil || map["dateSent"] == nil || map["sensorID"] == nil {
-            return nil
-        }
-    }
+    public required init?(map: Map) {}
     
     public func mapping(map: Map) {
         id <- map["id"]
@@ -72,7 +67,7 @@ class Parcel : Mappable/* , CoreDataObject */ {
         isReceived <- map["isReceived"]
         isSent <- map["isSent"]
         isSuccess <- map["isSuccess"]
-        isFailure <- map["isFailure"]
+        isFailure <- map["isFailed"]
         if let isSuccess = isSuccess, let isFailure = isFailure {
             status = ParcelStatus.getStatus(isSuccess: isSuccess, isFailure: isFailure)
         }
@@ -82,7 +77,7 @@ class Parcel : Mappable/* , CoreDataObject */ {
         localInterpretationSuccess <- map["localInterpretationSuccess"]
     }
     
-    // MARK: CoreDataObject
+//    // MARK: CoreDataObject
 //    
 //    required init?(WithCoreDataObject object: CDParcel) {
 //        id = object.id
@@ -102,6 +97,7 @@ class Parcel : Mappable/* , CoreDataObject */ {
 //        dateSent = object.dateSent
 //        dateReceived = object.dateReceived
 //        additionalInfo = object.additionalInfo
+//        localInterpretationSuccess = object.localInterpretationSuccess
 //    }
 //    
 //    func toCoreDataObject(object: CDParcel) {
