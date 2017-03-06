@@ -50,13 +50,20 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         if let parcel = parcel, let tntNumber = parcel.tntNumber, let sensorID = parcel.sensorID {
             /* fetch temperature measurements blockchain status */
             ServerManager.shared.getTemperatureMeasurementsStatus(tntNumber: tntNumber, sensorID: sensorID, completionHandler: {
+                [weak self]
                 error, smartContractStatus in
                 
-                if let error = error {
-                    /* TODO: design view indicating error */
-                } else if let smartContractStatus = smartContractStatus {
-                    if let isMined = smartContractStatus.isMined {
-                        /* display status image view */
+                if let parcelCell = self {
+                    if let error = error {
+                        /* TODO: design view indicating error */
+                    } else if let smartContractStatus = smartContractStatus {
+                        if let isMined = smartContractStatus.isMined {
+                            if isMined {
+                                parcelCell.statusImageView.image = UIImage(named: "status_good")
+                            } else {
+                                parcelCell.statusImageView.image = UIImage(named: "status_inprogress")
+                            }
+                        }
                     }
                 }
             })
@@ -120,7 +127,11 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
                         /* TODO: design view indicating error */
                     } else if let smartContractStatus = smartContractStatus {
                         if let isMined = smartContractStatus.isMined {
-                            /* display status image view */
+                            if isMined {
+                                parcelCell.statusImageView.image = UIImage(named: "status_good")
+                            } else {
+                                parcelCell.statusImageView.image = UIImage(named: "status_inprogress")
+                            }
                         }
                     }
                 }
@@ -128,7 +139,7 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         }
         
         /* filling in parcel detail information */
-        if let parcelStatus = parcel.status {
+        if let parcelStatus = parcel.parcelStatus {
             switch parcelStatus {
             case .inProgress:
                 detailStatusView.backgroundColor = STATUS_ORANGE
@@ -137,19 +148,19 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
             case .successful:
                 detailStatusView.backgroundColor = STATUS_GREEN
             case .undetermined:
-                detailStatusView.backgroundColor = UIColor.gray
+                detailStatusView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
             }
         } else {
-            detailStatusView.backgroundColor = UIColor.gray
+            detailStatusView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
         }
         detailTntNumberLabel.text = parcel.tntNumber
         if let dateSent = parcel.dateSent {
-            detailSentTimeLabel.text = dateSent.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+            detailSentTimeLabel.text = dateSent.toString(WithDateStyle: .short, WithTimeStyle: .short)
         } else {
             detailSentTimeLabel.text = "-"
         }
         if let dateReceived = parcel.dateReceived {
-            detailReceivedTimeLabel.text = dateReceived.toString(WithDateStyle: .medium, WithTimeStyle: .medium)
+            detailReceivedTimeLabel.text = dateReceived.toString(WithDateStyle: .short, WithTimeStyle: .short)
         } else {
             detailReceivedTimeLabel.text = "-"
         }
@@ -162,7 +173,6 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
             detailTempMinLabel.text = "-℃"
             detailTempMaxLabel.text = "-℃"
         }
-        statusImageView.image = UIImage(named: "status_unknown")
         
         if let additionalInfo = parcel.additionalInfo, !additionalInfo.isEmpty {
             infoTextView.text = additionalInfo
@@ -181,13 +191,29 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     // MARK: Helper functions
     
     fileprivate func displayMeasurements(measurements: [TemperatureMeasurement], minTemp: Int, maxTemp: Int) {
-        let maxTempLimitLine = ChartLimitLine(limit: Double(maxTemp), label: "Maximum Temperature")
-        let minTempLimitLine = ChartLimitLine(limit: Double(minTemp), label: "Minimum Temperature")
-        if let openSansLightFont = UIFont(name: "OpenSans-Light", size: 9.0) {
-            maxTempLimitLine.valueFont = openSansLightFont
-            minTempLimitLine.valueFont = openSansLightFont
+        
+        let temperatures = measurements.flatMap{ $0.temperature }
+        let timestamps = measurements.flatMap{ $0.timestamp?.timeIntervalSince1970 }
+        
+        guard temperatures.count == timestamps.count, !temperatures.isEmpty else {
+            log("Number of temperature measurements doesn't match number of timestamps or zero measurements were given!")
+            return
         }
         
+        let maxTempLimitLine = ChartLimitLine(limit: Double(maxTemp), label: "Maximum Temperature")
+        let minTempLimitLine = ChartLimitLine(limit: Double(minTemp), label: "Minimum Temperature")
+        if let openSansLightFontLarge = UIFont(name: "OpenSans-Light", size: 9.0) {
+            maxTempLimitLine.valueFont = openSansLightFontLarge
+            minTempLimitLine.valueFont = openSansLightFontLarge
+        }
+        
+        temperatureGraphView.autoScaleMinMaxEnabled = true
+        temperatureGraphView.xAxis.valueFormatter = ChartLabelDateFormatter()
+        temperatureGraphView.xAxis.labelPosition = .bottom
+        if let openSansLightFontSmall = UIFont(name: "OpenSans-Light", size: 7.0) {
+            temperatureGraphView.xAxis.labelFont = openSansLightFontSmall
+        }
+        temperatureGraphView.xAxis.labelRotationAngle = CGFloat(90.0)
         temperatureGraphView.leftAxis.axisMinimum = Double(minTemp) - 5.0
         temperatureGraphView.leftAxis.axisMaximum = Double(maxTemp) + 5.0
         
@@ -196,24 +222,22 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         temperatureGraphView.leftAxis.addLimitLine(maxTempLimitLine)
         temperatureGraphView.leftAxis.addLimitLine(minTempLimitLine)
         
-//        let temperatures = measurements.flatMap{ $0.temperature }
-//        let timestamps = measurements.flatMap{ $0.timestamp?.timeIntervalSince1970 }
-//        
-//        var dataEntries: [ChartDataEntry] = []
-//        for index in 0..<timestamps.count {
-//            let dataEntry = ChartDataEntry(x: Double(timestamps[index]), y: temperatures[index])
-//            dataEntries.append(dataEntry)
-//        }
-//        let dataSet = LineChartDataSet(values: dataEntries, label: "Temperature")
-//        dataSet.circleColors = [UIColor.red]
-//        
-//        let gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
-//        let colorLocations: [CGFloat] = [1.0, 0.0]
-//        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
-//        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0)
-//        dataSet.drawFilledEnabled = true
-//        
-//        temperatureGraphView.data = LineChartData(dataSets: [dataSet])
+        var dataEntries: [ChartDataEntry] = []
+        for index in 0..<timestamps.count {
+            let dataEntry = ChartDataEntry(x: Double(timestamps[index]), y: temperatures[index])
+            dataEntries.append(dataEntry)
+        }
+        let dataSet = LineChartDataSet(values: dataEntries, label: "Temperature")
+        dataSet.circleColors = [UIColor.red]
+        dataSet.circleRadius = 2.0
+        
+        let gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
+        let colorLocations: [CGFloat] = [1.0, 0.0]
+        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
+        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0)
+        dataSet.drawFilledEnabled = true
+        
+        temperatureGraphView.data = LineChartData(dataSets: [dataSet])
     }
     
     /*

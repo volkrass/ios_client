@@ -83,10 +83,17 @@ class ParcelsTableViewController : UITableViewController {
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
         tableView.backgroundView = backgroundView
         
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(goToSettings))
-        navigationItem.rightBarButtonItem = settingsButton
+        let settingsImage = UIImage(named: "settings")
+        let settingsButton = UIButton(type: .custom)
+        if let settingsImage = settingsImage {
+            settingsButton.frame = CGRect(x: 0, y: 0, width: settingsImage.size.width-10.0, height: settingsImage.size.height-10.0)
+            settingsButton.setBackgroundImage(settingsImage, for: .normal)
+            settingsButton.addTarget(self, action: #selector(goToSettings), for: .touchUpInside)
+            let settingsBarButton = UIBarButtonItem(customView: settingsButton)
+            navigationItem.rightBarButtonItem = settingsBarButton
+        }
         navigationItem.title = currentMode.rawValue + " Mode"
-        if let openSansFont = UIFont(name: "OpenSans-Light", size: 23.0) {
+        if let openSansFont = UIFont(name: "OpenSans-Light", size: 20.0) {
             navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : openSansFont]
         }
     }
@@ -132,7 +139,7 @@ class ParcelsTableViewController : UITableViewController {
         } else {
             parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
         }
-        if let parcelStatus = parcel.status {
+        if let parcelStatus = parcel.parcelStatus {
             switch parcelStatus {
             case .inProgress:
                 parcelTableViewCell.statusView.backgroundColor = STATUS_ORANGE
@@ -141,10 +148,10 @@ class ParcelsTableViewController : UITableViewController {
             case .successful:
                 parcelTableViewCell.statusView.backgroundColor = STATUS_GREEN
             case .undetermined:
-                parcelTableViewCell.statusView.backgroundColor = UIColor.gray
+                parcelTableViewCell.statusView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
             }
         } else {
-            parcelTableViewCell.statusView.backgroundColor = UIColor.gray
+            parcelTableViewCell.statusView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
         }
         
         return parcelTableViewCell

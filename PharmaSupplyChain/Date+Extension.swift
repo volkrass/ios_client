@@ -19,10 +19,6 @@ extension Date {
         return formatter
     }()
     
-    var iso8601: String {
-        return Date.iso8601Formatter.string(from: self)
-    }
-    
     func components() -> DateComponents {
         let calendar = Calendar.current
         return calendar.dateComponents(Set<Calendar.Component>([.year, .month, .weekOfMonth, .weekday, .day]), from:self)

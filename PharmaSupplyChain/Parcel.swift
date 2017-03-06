@@ -14,15 +14,17 @@ enum ParcelStatus : String {
     case successful = "Successful"
     case undetermined = "Undetermined"
     
-    static func getStatus(isSuccess: Bool, isFailure: Bool) -> ParcelStatus {
-        if isSuccess && isFailure {
-            return .undetermined
+    static func getStatus(isSuccess: Bool, isFailure: Bool, isReceived: Bool, localInterpretationStatus: Bool) -> ParcelStatus {
+        if !isReceived {
+            return .inProgress
         } else if isSuccess && !isFailure {
             return .successful
         } else if !isSuccess && isFailure {
             return .notWithinTemperatureRange
+        } else if localInterpretationStatus {
+            return .successful
         } else {
-            return .inProgress
+            return .undetermined
         }
     }
 }
@@ -32,7 +34,6 @@ class Parcel : Mappable/* , CoreDataObject */ {
     // MARK: Properties
     
     var id: Int?
-    var status: ParcelStatus?
     var tntNumber: String?
     var senderCompany: String?
     var receiverCompany: String?
@@ -51,6 +52,8 @@ class Parcel : Mappable/* , CoreDataObject */ {
     var maxTemp: Int?
     var temperatureCategory: String?
     
+    var parcelStatus: ParcelStatus?
+    
     // MARK: Mappable
     
     public required init?(map: Map) {}
@@ -68,13 +71,14 @@ class Parcel : Mappable/* , CoreDataObject */ {
         isSent <- map["isSent"]
         isSuccess <- map["isSuccess"]
         isFailure <- map["isFailed"]
-        if let isSuccess = isSuccess, let isFailure = isFailure {
-            status = ParcelStatus.getStatus(isSuccess: isSuccess, isFailure: isFailure)
-        }
-        dateSent <- (map["dateSent"], ISO8601DateTransform())
-        dateReceived <- (map["dateReceived"], ISO8601DateTransform())
+        dateSent <- (map["dateSent"], ServerDateTransform())
+        dateReceived <- (map["dateReceived"], ServerDateTransform())
         additionalInfo <- map["additionalInfo"]
         localInterpretationSuccess <- map["localInterpretationSuccess"]
+        /* determining status */
+        if let isSuccess = isSuccess, let isFailure = isFailure, let isReceived = isReceived, let localInterpretationSuccess = localInterpretationSuccess {
+            parcelStatus = ParcelStatus.getStatus(isSuccess: isSuccess, isFailure: isFailure, isReceived:  isReceived, localInterpretationStatus: localInterpretationSuccess)
+        }
     }
     
 //    // MARK: CoreDataObject

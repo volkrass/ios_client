@@ -35,6 +35,8 @@
 		D2908F761E69AE8200C019CC /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F751E69AE8200C019CC /* Sensor.swift */; };
 		D2908F781E69B05F00C019CC /* LoginObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F771E69B05F00C019CC /* LoginObject.swift */; };
 		D2908F7A1E69B31100C019CC /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F791E69B31100C019CC /* ServerError.swift */; };
+		D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */; };
+		D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */; };
 		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
 		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
 		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
@@ -100,6 +102,8 @@
 		D2908F751E69AE8200C019CC /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		D2908F771E69B05F00C019CC /* LoginObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginObject.swift; sourceTree = "<group>"; };
 		D2908F791E69B31100C019CC /* ServerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
+		D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDateTransform.swift; sourceTree = "<group>"; };
+		D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLabelDateFormatter.swift; sourceTree = "<group>"; };
 		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */,
+				D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -229,6 +234,14 @@
 				D28D71151E60919F0037C7D8 /* CoreDataObject.swift */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		D2908F7F1E6D5EE200C019CC /* Transform */ = {
+			isa = PBXGroup;
+			children = (
+				D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */,
+			);
+			name = Transform;
 			sourceTree = "<group>";
 		};
 		D29A6AF41E5A1E9200176B7D /* Fonts */ = {
@@ -328,6 +341,7 @@
 		D2F126DD1DBF533100964B7D /* Server */ = {
 			isa = PBXGroup;
 			children = (
+				D2908F7F1E6D5EE200C019CC /* Transform */,
 				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
 				D28FD59D1DBF87190077579A /* LoginCredentials.swift */,
 				D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */,
@@ -563,10 +577,12 @@
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,
 				D2908F701E68E47600C019CC /* PreparedShipment.swift in Sources */,
+				D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */,
 				D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */,
+				D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
 				D28D71141E6090010037C7D8 /* Parcel.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,

@@ -24,8 +24,24 @@ class TemperatureMeasurement : Mappable/*, CoreDataObject */ {
     }
     
     public func mapping(map: Map) {
-        temperature <- map["name"]
-        timestamp <- (map["minTemp"], DateTransform())
+        temperature <- map["temperature"]
+        timestamp <- (map["timestamp"], TransformOf<Date, Int>(fromJSON: {
+            (value: Int?) -> Date? in
+            
+            if let value = value {
+                return Date(timeIntervalSince1970: TimeInterval(value/1000))
+            } else {
+                return nil
+            }
+        }, toJSON: {
+            (value: Date?) -> Int? in
+            
+            if let value = value {
+                return Int(value.timeIntervalSince1970)
+            } else {
+                return nil
+            }
+        }))
     }
     
 }

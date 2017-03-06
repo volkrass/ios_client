@@ -21,9 +21,6 @@ class ServerManager {
     fileprivate let CORE_API_URL = "https://core.modum.io/api/"
     fileprivate let DEV_API_URL = "http://dev.modum.io/api/"
     
-    /* If date from the server-side is to set to nil, server automatically sets this value */
-    static let serverNilDateString: String = "0001-01-01T00:34:08+00:34"
-    
     // MARK: Properties
     
     fileprivate let coreDataManager: CoreDataManager
