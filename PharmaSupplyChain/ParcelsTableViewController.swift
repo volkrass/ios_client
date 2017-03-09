@@ -165,15 +165,15 @@ class ParcelsTableViewController : UITableViewController {
         
         let parcel = parcels[indexPath.row]
         
-        let newParcelDetailCellHeight = parcelCell.fill(FromParcel: parcel)
-        
         var duration = 0.0
         if cellHeights[indexPath.row] == CellHeight.close {
+            let newParcelDetailCellHeight = parcelCell.fill(FromParcel: parcel)
             cellHeights[indexPath.row] = newParcelDetailCellHeight
             parcelCell.selectedAnimation(true, animated: true, completion: nil)
             duration = 0.5
         } else {
             cellHeights[indexPath.row] = CellHeight.close
+            parcelCell.resetTemperatureGraphView()
             parcelCell.selectedAnimation(false, animated: true, completion: nil)
             duration = 0.8
         }

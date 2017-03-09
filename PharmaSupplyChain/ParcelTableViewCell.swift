@@ -30,19 +30,19 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     
     /* Detail cell */
     @IBOutlet weak fileprivate var parcelDetailView: UIView!
-    @IBOutlet weak var detailStatusView: UIView!
-    @IBOutlet weak var detailTntNumberLabel: UILabel!
-    @IBOutlet weak var detailSentTimeLabel: UILabel!
-    @IBOutlet weak var detailReceivedTimeLabel: UILabel!
-    @IBOutlet weak var detailSenderCompanyLabel: UILabel!
-    @IBOutlet weak var detailReceiverCompanyLabel: UILabel!
-    @IBOutlet weak var detailTempMinLabel: UILabel!
-    @IBOutlet weak var detailTempMaxLabel: UILabel!
+    @IBOutlet weak fileprivate var detailStatusView: UIView!
+    @IBOutlet weak fileprivate var detailTntNumberLabel: UILabel!
+    @IBOutlet weak fileprivate var detailSentTimeLabel: UILabel!
+    @IBOutlet weak fileprivate var detailReceivedTimeLabel: UILabel!
+    @IBOutlet weak fileprivate var detailSenderCompanyLabel: UILabel!
+    @IBOutlet weak fileprivate var detailReceiverCompanyLabel: UILabel!
+    @IBOutlet weak fileprivate var detailTempMinLabel: UILabel!
+    @IBOutlet weak fileprivate var detailTempMaxLabel: UILabel!
     @IBOutlet weak fileprivate var detailTempLine: UIView!
-    @IBOutlet weak var statusImageView: UIImageView!
-    @IBOutlet weak var infoIcon: UIImageView!
-    @IBOutlet weak var infoTextView: UITextView!
-    @IBOutlet weak var temperatureGraphView: LineChartView!
+    @IBOutlet weak fileprivate var statusImageView: UIImageView!
+    @IBOutlet weak fileprivate var infoIcon: UIImageView!
+    @IBOutlet weak fileprivate var infoTextView: UITextView!
+    @IBOutlet weak fileprivate var temperatureGraphView: LineChartView!
     
     // MARK: Actions
     
@@ -186,6 +186,14 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         }
         
         return openCellHeight
+    }
+    
+    /* Clears LineChartView from all values */
+    func resetTemperatureGraphView() {
+        temperatureGraphView.leftAxis.removeAllLimitLines()
+        if let temperatureData = temperatureGraphView.data {
+            temperatureGraphView.data = nil
+        }
     }
     
     // MARK: Helper functions
