@@ -37,6 +37,8 @@
 		D2908F7A1E69B31100C019CC /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F791E69B31100C019CC /* ServerError.swift */; };
 		D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */; };
 		D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */; };
+		D2908F871E7196F300C019CC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F861E7196F300C019CC /* SettingsViewController.swift */; };
+		D2908F891E71B34C00C019CC /* CompanyDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2908F881E71B34C00C019CC /* CompanyDefaults.plist */; };
 		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
 		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
 		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
@@ -104,6 +106,8 @@
 		D2908F791E69B31100C019CC /* ServerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDateTransform.swift; sourceTree = "<group>"; };
 		D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLabelDateFormatter.swift; sourceTree = "<group>"; };
+		D2908F861E7196F300C019CC /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D2908F881E71B34C00C019CC /* CompanyDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CompanyDefaults.plist; sourceTree = "<group>"; };
 		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 				D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */,
 				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
 				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
+				D2908F861E7196F300C019CC /* SettingsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 			children = (
 				D29A6AF41E5A1E9200176B7D /* Fonts */,
 				D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */,
+				D2908F881E71B34C00C019CC /* CompanyDefaults.plist */,
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,
 				D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */,
 				D2BA8DDC1DBF3B320023F581 /* Products */,
@@ -448,6 +454,7 @@
 				D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */,
 				D2EFD2271DD2A81400E02684 /* GoogleService-Info.plist in Resources */,
 				D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */,
+				D2908F891E71B34C00C019CC /* CompanyDefaults.plist in Resources */,
 				D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -596,6 +603,7 @@
 				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
 				D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */,
 				D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */,
+				D2908F871E7196F300C019CC /* SettingsViewController.swift in Sources */,
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
 				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,
 				D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */,

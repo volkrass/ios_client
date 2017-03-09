@@ -10,11 +10,28 @@ import ObjectMapper
 
 class CompanyDefaults : Mappable/*, CoreDataObject */ {
     
+    fileprivate let PLIST_FILE = "CompanyDefault.plist"
+    
     // MARK: Properties
     
     var defaultTemperatureCategoryIndex: Int?
     var defaultMeasurementInterval: Int?
     var companyTemperatureCategories: [CompanyTemperatureCategory]?
+    
+    // MARK: Public functions
+    
+    func toPlistFile() {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        if !paths.isEmpty, let documentsPath = URL(string: paths[0]) {
+            let plistFilePath = documentsPath.appendingPathComponent(PLIST_FILE)
+            
+            //let plistPath = do
+        }
+    }
+    
+    func fromPlistFile() {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+    }
     
     // MARK: Mappable
     
@@ -25,5 +42,7 @@ class CompanyDefaults : Mappable/*, CoreDataObject */ {
         defaultMeasurementInterval <- map["defaultMeasurementInterval"]
         companyTemperatureCategories <- map["temperatureCategories"]
     }
+    
+    
     
 }

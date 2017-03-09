@@ -31,19 +31,9 @@ class ParcelsTableViewController : UITableViewController {
     
     fileprivate var selectedParcel: Parcel?
     
-    /* indicates the mode of the view controller */
-    fileprivate enum Mode : String {
-        case sender = "Sender"
-        case receiver = "Receiver"
-    }
-    
-    fileprivate var currentMode: Mode {
+    fileprivate var currentMode: Bool {
         get {
-            if let isSender = UserDefaults.standard.object(forKey: "isSenderMode") as? Bool {
-                return isSender ? .sender : .receiver
-            } else {
-                return .sender
-            }
+            return UserDefaults.standard.bool(forKey: "isSenderMode")
         }
     }
     
@@ -91,11 +81,19 @@ class ParcelsTableViewController : UITableViewController {
             settingsButton.addTarget(self, action: #selector(goToSettings), for: .touchUpInside)
             let settingsBarButton = UIBarButtonItem(customView: settingsButton)
             navigationItem.rightBarButtonItem = settingsBarButton
+            //navigationItem.rightBarButtonItem!.isEnabled = false
         }
-        navigationItem.title = currentMode.rawValue + " Mode"
+        
+        if currentMode {
+            navigationItem.title = "Sender Mode"
+        } else {
+            navigationItem.title = "Receiver Mode"
+        }
         if let openSansFont = UIFont(name: "OpenSans-Light", size: 20.0) {
             navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : openSansFont]
         }
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -134,7 +132,7 @@ class ParcelsTableViewController : UITableViewController {
         } else {
             parcelTableViewCell.receivedTimeLabel.text = "-"
         }
-        if currentMode == .sender {
+        if currentMode {
             parcelTableViewCell.companyNameLabel.text = parcel.senderCompany
         } else {
             parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
@@ -203,15 +201,12 @@ class ParcelsTableViewController : UITableViewController {
             let titleButton = UIButton(frame: CGRect(x: modeView.bounds.width / 4.0, y: 7.5, width: modeView.bounds.width / 2.0, height: modeView.bounds.height - 15.0))
             titleButton.layer.cornerRadius = 10.0
             
-            if currentMode == .sender {
+            if currentMode {
                 titleButton.setTitle("SEND", for: .normal)
                 titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
-            } else if currentMode == .receiver {
+            } else {
                 titleButton.setTitle("RECEIVE", for: .normal)
                 titleButton.addTarget(self, action: #selector(receiveButtonDidTouchDown(sender:)), for: .touchUpInside)
-            } else {
-                log("Unknown mode \(currentMode.rawValue)!")
-                return nil
             }
             titleButton.backgroundColor = UIColor.orange
             titleButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 16.0)
@@ -238,7 +233,7 @@ class ParcelsTableViewController : UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let codeScannerController = segue.destination as? CodeScannerViewController {
-            codeScannerController.isReceivingParcel = currentMode == .receiver
+            codeScannerController.isReceivingParcel = !currentMode
         }
     }
     
