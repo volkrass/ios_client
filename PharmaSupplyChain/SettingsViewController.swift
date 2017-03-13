@@ -10,6 +10,10 @@ import UIKit
 
 class SettingsViewController : UIViewController {
     
+    // MARK: Properties
+    
+    fileprivate var companyDefaults: CompanyDefaults?
+    
     // MARK: Outlets
     
     @IBOutlet weak fileprivate var infoView: UIView!
@@ -38,7 +42,7 @@ class SettingsViewController : UIViewController {
         UserDefaults.standard.removeObject(forKey: "authToken")
         UserDefaults.standard.removeObject(forKey: "authTokenExpiry")
         
-        /* remove .plist file */
+        /* clear CompanyDefaults */
         
         if let loginViewController = storyboard!.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
             present(loginViewController, animated: true, completion: nil)
@@ -78,6 +82,12 @@ class SettingsViewController : UIViewController {
             modeLabel.text = "Sender Mode"
         } else {
             modeLabel.text = "Receiver Mode"
+        }
+        
+        let cdCompanyDefaultsRecords = CoreDataManager.shared.getAllRecords(ForEntityName: "CDCompanyDefaults")
+        if !cdCompanyDefaultsRecords.isEmpty, let cdCompanyDefaults = cdCompanyDefaultsRecords[0] as? CDCompanyDefaults {
+            companyDefaults = CompanyDefaults(WithCoreDataObject: cdCompanyDefaults)
+            
         }
     }
     

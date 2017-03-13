@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class LoginViewController: UIViewController {
     
@@ -56,21 +57,38 @@ class LoginViewController: UIViewController {
                 if let error = error {
                     loginViewController.loginErrorLabel.text = error.message
                 } else {
-                    loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
-                }
-            }
-        })
-        
-        /* Retrieving company defaults on login and persist them in CoreData */
-        ServerManager.shared.getCompanyDefaults(completionHandler: {
-            error, companyDefaults in
-        
-            if let error = error {
-                log("Error retrieving company defaults: \(error.message)")
-            } else {
-                if let companyDefaults = companyDefaults {
-                    log("Successfully retrieve company defaults!")
-                    
+                    /* Retrieving company defaults on login and persist them in CoreData */
+                    ServerManager.shared.getCompanyDefaults(completionHandler: {
+                        [weak self]
+                        error, companyDefaults in
+                        
+                        if let loginViewController = self {
+                            if let error = error {
+                                log("Error retrieving company defaults: \(error.message)")
+                                loginViewController.loginErrorLabel.text = "Failed to login! Please, try again!"
+                            } else {
+                                if let companyDefaults = companyDefaults {
+                                    loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
+                                    log("Successfully retrieve company defaults!")
+                                    CoreDataManager.shared.performBackgroundTask(WithBlock: {
+                                        backgroundContext in
+                                        
+                                        let existingRecords = CoreDataManager.getAllRecords(InContext: backgroundContext, ForEntityName: "CDCompanyDefaults")
+                                        existingRecords.forEach({
+                                            existingRecord in
+                                            
+                                            backgroundContext.delete(existingRecord as! NSManagedObject)
+                                        })
+                                        
+                                        let cdCompanyDefaults = NSEntityDescription.insertNewObject(forEntityName: "CDCompanyDefaults", into: backgroundContext) as! CDCompanyDefaults
+                                        companyDefaults.toCoreDataObject(object: cdCompanyDefaults)
+                                        
+                                        CoreDataManager.shared.saveLocally(managedContext: backgroundContext)
+                                    })
+                                }
+                            }
+                        }
+                    })
                 }
             }
         })

@@ -18,6 +18,10 @@
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
 		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
 		D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */; };
+		D27B9E081E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27B9E071E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift */; };
+		D27B9E0A1E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27B9E091E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift */; };
+		D27B9E0C1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27B9E0B1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift */; };
+		D27B9E0E1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27B9E0D1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift */; };
 		D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */; };
 		D2848A8E1DD7517300BE2D95 /* Test2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D2848A8D1DD7517300BE2D95 /* Test2.sqlite */; };
 		D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */; };
@@ -38,7 +42,6 @@
 		D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */; };
 		D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */; };
 		D2908F871E7196F300C019CC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F861E7196F300C019CC /* SettingsViewController.swift */; };
-		D2908F891E71B34C00C019CC /* CompanyDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2908F881E71B34C00C019CC /* CompanyDefaults.plist */; };
 		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
 		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
 		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
@@ -87,6 +90,10 @@
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
 		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
 		D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
+		D27B9E071E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDCompanyDefaults+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D27B9E091E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDCompanyDefaults+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D27B9E0B1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D27B9E0D1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureGradientLine.swift; sourceTree = "<group>"; };
 		D2848A8D1DD7517300BE2D95 /* Test2.sqlite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test2.sqlite; sourceTree = "<group>"; };
 		D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -107,7 +114,6 @@
 		D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDateTransform.swift; sourceTree = "<group>"; };
 		D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLabelDateFormatter.swift; sourceTree = "<group>"; };
 		D2908F861E7196F300C019CC /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		D2908F881E71B34C00C019CC /* CompanyDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CompanyDefaults.plist; sourceTree = "<group>"; };
 		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -217,7 +223,6 @@
 		D28D71171E6091AF0037C7D8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D28D71181E6091BE0037C7D8 /* Protocols */,
 				D28D71131E6090010037C7D8 /* Parcel.swift */,
 				D2908F691E68DCB000C019CC /* TemperatureCategory.swift */,
@@ -265,7 +270,6 @@
 			children = (
 				D29A6AF41E5A1E9200176B7D /* Fonts */,
 				D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */,
-				D2908F881E71B34C00C019CC /* CompanyDefaults.plist */,
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,
 				D2BA8DF51DBF3B320023F581 /* PharmaSupplyChainTests */,
 				D2BA8DDC1DBF3B320023F581 /* Products */,
@@ -326,6 +330,7 @@
 		D2E6DEF91DD2476E00431AA1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				D2E6DEFC1DD2479700431AA1 /* CoreDataObjects */,
 				D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */,
 				D2E6DEF71DD2466D00431AA1 /* CoreDataManager.swift */,
 				D2E6DEFA1DD2477900431AA1 /* UniqueManagedObject.swift */,
@@ -340,6 +345,10 @@
 				D2E1EEDB1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift */,
 				D2848A8F1DD755A600BE2D95 /* TestEntity+CoreDataClass.swift */,
 				D2848A911DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift */,
+				D27B9E071E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift */,
+				D27B9E091E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift */,
+				D27B9E0B1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift */,
+				D27B9E0D1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift */,
 			);
 			name = CoreDataObjects;
 			sourceTree = "<group>";
@@ -454,7 +463,6 @@
 				D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */,
 				D2EFD2271DD2A81400E02684 /* GoogleService-Info.plist in Resources */,
 				D2BA8DE91DBF3B320023F581 /* Assets.xcassets in Resources */,
-				D2908F891E71B34C00C019CC /* CompanyDefaults.plist in Resources */,
 				D2BA8DE41DBF3B320023F581 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,6 +583,7 @@
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2908F761E69AE8200C019CC /* Sensor.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
+				D27B9E081E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift in Sources */,
 				D2908F781E69B05F00C019CC /* LoginObject.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
@@ -586,6 +595,7 @@
 				D2908F701E68E47600C019CC /* PreparedShipment.swift in Sources */,
 				D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
+				D27B9E0E1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */,
 				D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */,
@@ -594,6 +604,7 @@
 				D28D71141E6090010037C7D8 /* Parcel.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
 				D22109631E3394240018F181 /* ModumSensor.swift in Sources */,
+				D27B9E0A1E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift in Sources */,
 				D212D9DF1DEB3BCD0075C54E /* CodeScannerViewController.swift in Sources */,
 				D2908F6E1E68E28A00C019CC /* SmartContractStatus.swift in Sources */,
 				D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */,
@@ -607,6 +618,7 @@
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
 				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,
 				D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */,
+				D27B9E0C1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

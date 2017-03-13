@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDCompanyDefaults" representedClassName=".CDCompanyDefaults" syncable="YES">
+        <attribute name="defaultMeasurementInterval" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <relationship name="defaultTempCategory" maxCount="1" deletionRule="Cascade" destinationEntity="CDTempCategory" inverseName="companyDefaultsForDefaultTemp" inverseEntity="CDTempCategory" syncable="YES"/>
+        <relationship name="tempCategories" toMany="YES" deletionRule="Cascade" destinationEntity="CDTempCategory" inverseName="companyDefaultsForTempCategories" inverseEntity="CDTempCategory" syncable="YES"/>
+    </entity>
     <entity name="CDParcel" representedClassName=".Parcel" syncable="YES">
         <attribute name="additionalInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateReceived" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -18,6 +24,15 @@
         <attribute name="tempCategory" attributeType="String" syncable="YES"/>
         <attribute name="tntNumber" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="CDTempCategory" representedClassName=".CDTempCategory" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maxTemp" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="minTemp" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="companyDefaultsForDefaultTemp" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDCompanyDefaults" inverseName="defaultTempCategory" inverseEntity="CDCompanyDefaults" syncable="YES"/>
+        <relationship name="companyDefaultsForTempCategories" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDCompanyDefaults" inverseName="tempCategories" inverseEntity="CDCompanyDefaults" syncable="YES"/>
+    </entity>
     <entity name="TestEntity" representedClassName=".TestEntity" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
@@ -27,5 +42,7 @@
     <elements>
         <element name="CDParcel" positionX="-63" positionY="-18" width="128" height="285"/>
         <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
+        <element name="CDCompanyDefaults" positionX="-63" positionY="99" width="128" height="105"/>
+        <element name="CDTempCategory" positionX="-54" positionY="108" width="128" height="150"/>
     </elements>
 </model>

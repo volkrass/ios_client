@@ -13,7 +13,7 @@ public class CDParcel : NSManagedObject, UniqueManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         
-        identifier = "Parcel." + ProcessInfo.processInfo.globallyUniqueString
+        identifier = "CDParcel." + ProcessInfo.processInfo.globallyUniqueString
     }
 
 }

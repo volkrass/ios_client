@@ -7,31 +7,15 @@
 //
 
 import ObjectMapper
+import CoreData
 
-class CompanyDefaults : Mappable/*, CoreDataObject */ {
-    
-    fileprivate let PLIST_FILE = "CompanyDefault.plist"
+class CompanyDefaults : Mappable, CoreDataObject {
     
     // MARK: Properties
     
     var defaultTemperatureCategoryIndex: Int?
     var defaultMeasurementInterval: Int?
-    var companyTemperatureCategories: [CompanyTemperatureCategory]?
-    
-    // MARK: Public functions
-    
-    func toPlistFile() {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        if !paths.isEmpty, let documentsPath = URL(string: paths[0]) {
-            let plistFilePath = documentsPath.appendingPathComponent(PLIST_FILE)
-            
-            //let plistPath = do
-        }
-    }
-    
-    func fromPlistFile() {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-    }
+    var companyTemperatureCategories: [CompanyTemperatureCategory] = []
     
     // MARK: Mappable
     
@@ -43,6 +27,43 @@ class CompanyDefaults : Mappable/*, CoreDataObject */ {
         companyTemperatureCategories <- map["temperatureCategories"]
     }
     
+    // MARK: CoreDataObject
     
+    public required init?(WithCoreDataObject object: CDCompanyDefaults) {
+        defaultMeasurementInterval = object.defaultMeasurementInterval
+        if let companyTemperatureCategories = Array(object.tempCategories) as? [CDTempCategory] {
+            self.companyTemperatureCategories = companyTemperatureCategories.flatMap{ CompanyTemperatureCategory(WithCoreDataObject: $0) }
+        }
+        defaultTemperatureCategoryIndex = companyTemperatureCategories.index(where: {
+            tempCategory in
+            
+            if let minTemp = tempCategory.tempLow, let maxTemp = tempCategory.tempHigh {
+                return object.defaultTempCategory.minTemp == minTemp && object.defaultTempCategory.maxTemp == maxTemp
+            } else {
+                return false
+            }
+        })
+    }
+    
+    public func toCoreDataObject(object: CDCompanyDefaults) {
+        if let defaultMeasurementInterval = defaultMeasurementInterval, let defaultTemperatureCategoryIndex = defaultTemperatureCategoryIndex {
+            object.defaultMeasurementInterval = defaultMeasurementInterval
+            if let context = object.managedObjectContext {
+                object.tempCategories = NSSet()
+                for tempCategory in companyTemperatureCategories {
+                    let cdTempCategory = NSEntityDescription.insertNewObject(forEntityName: "CDTempCategory", into: context) as! CDTempCategory
+                    tempCategory.toCoreDataObject(object: cdTempCategory)
+                    object.addToTempCategories(cdTempCategory)
+                }
+                if defaultTemperatureCategoryIndex >= 0 && defaultTemperatureCategoryIndex < companyTemperatureCategories.count && !companyTemperatureCategories.isEmpty {
+                    let tempCategory = companyTemperatureCategories[defaultTemperatureCategoryIndex]
+                    
+                    let cdTempCategory = NSEntityDescription.insertNewObject(forEntityName: "CDTempCategory", into: context) as! CDTempCategory
+                    tempCategory.toCoreDataObject(object: cdTempCategory)
+                    object.defaultTempCategory = cdTempCategory
+                }
+            }
+        }
+    }
     
 }

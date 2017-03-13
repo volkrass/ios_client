@@ -13,7 +13,7 @@ class TestEntity: NSManagedObject, UniqueManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         
-        identifier = "Parcel." + ProcessInfo.processInfo.globallyUniqueString
+        identifier = "TestEntity." + ProcessInfo.processInfo.globallyUniqueString
     }
     
 }

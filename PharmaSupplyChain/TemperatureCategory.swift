@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class TemperatureCategory : Mappable/*, CoreDataObject */ {
+class TemperatureCategory : Mappable, CoreDataObject {
     
     // MARK: Properties
     
@@ -28,6 +28,22 @@ class TemperatureCategory : Mappable/*, CoreDataObject */ {
         name <- map["name"]
         minTemp <- map["minTemp"]
         maxTemp <- map["maxTemp"]
+    }
+    
+    // MARK: CoreDataObject
+    
+    public required init?(WithCoreDataObject object: CDTempCategory) {
+        name = object.name
+        minTemp = object.minTemp
+        maxTemp = object.maxTemp
+    }
+    
+    public func toCoreDataObject(object: CDTempCategory) {
+        if let name = name, let minTemp = minTemp, let maxTemp = maxTemp {
+            object.name = name
+            object.minTemp = minTemp
+            object.maxTemp = maxTemp
+        }
     }
     
 }
