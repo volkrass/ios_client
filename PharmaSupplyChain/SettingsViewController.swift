@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Spring
 
 class SettingsViewController : UIViewController {
     
@@ -28,12 +29,29 @@ class SettingsViewController : UIViewController {
     // MARK: Actions
     
     @IBAction fileprivate func modeSwitchButtonTouchUpInside(_ sender: UIButton) {
-        let isSenderMode = UserDefaults.standard.bool(forKey: "isSenderMode")
-        UserDefaults.standard.set(!isSenderMode, forKey: "isSenderMode")
-        if isSenderMode {
-            modeLabel.text = "Receiver Mode"
-        } else {
-            modeLabel.text = "Sender Mode"
+        if let springButton = sender as? SpringButton {
+            let isSenderMode = UserDefaults.standard.bool(forKey: "isSenderMode")
+            UserDefaults.standard.set(!isSenderMode, forKey: "isSenderMode")
+            let timer = Timer(timeInterval: 0.7, repeats: false, block: {
+                [weak self]
+                timer in
+                
+                timer.invalidate()
+                if let settingsController = self {
+                    if isSenderMode {
+                        settingsController.modeLabel.text = "Receiver Mode"
+                    } else {
+                        settingsController.modeLabel.text = "Sender Mode"
+                    }
+                }
+            })
+            RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
+            springButton.animation = "pop"
+            springButton.curve = "easeInSine"
+            springButton.force = 1.0
+            springButton.velocity = 0.7
+            springButton.duration = 1.0
+            springButton.animate()
         }
     }
     
@@ -84,10 +102,13 @@ class SettingsViewController : UIViewController {
             modeLabel.text = "Receiver Mode"
         }
         
-        let cdCompanyDefaultsRecords = CoreDataManager.shared.getAllRecords(ForEntityName: "CDCompanyDefaults")
-        if !cdCompanyDefaultsRecords.isEmpty, let cdCompanyDefaults = cdCompanyDefaultsRecords[0] as? CDCompanyDefaults {
-            companyDefaults = CompanyDefaults(WithCoreDataObject: cdCompanyDefaults)
-            
+        if let userCredentials = LoginManager.shared.retrieveUserCredentials() {
+            if let companyName = userCredentials.companyName {
+                companyNameLabel.text = companyName
+            } else {
+                companyNameLabel.text = "-"
+            }
+            usernameLabel.text = userCredentials.username
         }
     }
     

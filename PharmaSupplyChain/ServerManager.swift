@@ -50,12 +50,6 @@ class ServerManager {
             switch response.result {
             case .success:
                 let loginObject = response.result.value
-                if let loginObject = loginObject {
-                    /* storing auth token and it's expiry date in UserDefaults*/
-                    UserDefaults.standard.set(loginObject.token, forKey: "authToken")
-                    UserDefaults.standard.set(loginObject.expire, forKey: "authTokenExpiry")
-                    UserDefaults.standard.synchronize()
-                }
                 completionHandler(nil, loginObject)
             case .failure(let error):
                 log("Error is \(error.localizedDescription)")

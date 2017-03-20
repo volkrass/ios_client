@@ -14,6 +14,7 @@ class LoginObject : Mappable/*, CoreDataObject */ {
     
     var expire: Date?
     var token: String?
+    var user: User?
     
     // MARK: Mappable
     
@@ -26,6 +27,7 @@ class LoginObject : Mappable/*, CoreDataObject */ {
     public func mapping(map: Map) {
         expire <- (map["expire"], ISO8601DateTransform())
         token <- map["token"]
+        user <- map["user"]
     }
     
 }

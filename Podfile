@@ -10,6 +10,7 @@ target 'PharmaSupplyChain' do
   pod 'FoldingCell'
   pod 'ObjectMapper'
   pod 'AlamofireObjectMapper'
+  pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
 end
 
 target 'PharmaSupplyChainTests' do
@@ -21,4 +22,5 @@ target 'PharmaSupplyChainTests' do
     pod 'FoldingCell'
     pod 'ObjectMapper'
     pod 'AlamofireObjectMapper'
+    pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
 end

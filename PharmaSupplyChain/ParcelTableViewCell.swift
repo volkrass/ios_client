@@ -9,6 +9,7 @@
 import UIKit
 import FoldingCell
 import Charts
+import Spring
 
 class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     
@@ -18,7 +19,7 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     
     // MARK: Constants
     
-    fileprivate let openCellHeight: CGFloat = 510
+    fileprivate let openCellHeight: CGFloat = 575
     
     // MARK: Outlets
     
@@ -48,6 +49,14 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     
     @IBAction fileprivate func smartContactStatusButtonTouchUpInside(_ sender: UIButton) {
         if let parcel = parcel, let tntNumber = parcel.tntNumber, let sensorID = parcel.sensorID {
+            /* rotate button animation */
+            UIView.animate(withDuration: 0.5, animations: {
+                sender.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            })
+            UIView.animate(withDuration: 0.5, delay: 0.4, options: [.curveEaseIn], animations: {
+                sender.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI*2))
+            })
+            
             /* fetch temperature measurements blockchain status */
             ServerManager.shared.getTemperatureMeasurementsStatus(tntNumber: tntNumber, sensorID: sensorID, completionHandler: {
                 [weak self]
@@ -253,59 +262,11 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
      Can be used to hide infoTextView when there is no information to display
      */
     fileprivate func hideInfoTextView() -> CGFloat? {
-        let constraints = parcelDetailView.constraints
-        let infoTextViewConstraint = constraints.first(where: {
-            constraint in
-            
-            if let identifier = constraint.identifier {
-                return identifier == "infoTextViewConstraint"
-            } else {
-                return false
-            }
-        })
-        let infoIconConstraint = constraints.first(where: {
-            constraint in
-            
-            if let identifier = constraint.identifier {
-                return identifier == "infoIconConstraint"
-            } else {
-                return false
-            }
-        })
-        if let infoIconConstraint = infoIconConstraint, let infoTextViewConstraint = infoTextViewConstraint {
-            let toContainerViewBottomConstraint = NSLayoutConstraint(item: temperatureGraphView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: parcelDetailView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
-            
-            let containerViewHeightConstraint = parcelDetailView.constraints.first(where: {
-                constraint in
-                
-                if let identifier = constraint.identifier {
-                    return identifier == "containerViewHeightConstraint"
-                } else {
-                    return false
-                }
-            })
-            if let containerViewHeightConstraint = containerViewHeightConstraint {
-                let containerViewHeight = containerViewHeightConstraint.constant
-                parcelDetailView.removeConstraint(containerViewHeightConstraint)
-                let textViewHeight = infoTextView.frame.height
-                let tempGraphViewToTextViewSpacing = infoTextViewConstraint.constant
-                
-                let newContainerHeight = containerViewHeight - (textViewHeight + tempGraphViewToTextViewSpacing)
-                
-                let newContainerViewHeightConstraint = NSLayoutConstraint(item: parcelDetailView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: newContainerHeight)
-                
-                temperatureGraphView.removeConstraints([infoIconConstraint, infoTextViewConstraint])
-                parcelDetailView.addConstraint(toContainerViewBottomConstraint)
-                parcelDetailView.addConstraint(newContainerViewHeightConstraint)
-                
-                infoIcon.isHidden = true
-                infoTextView.isHidden = true
-                
-                return newContainerHeight
-            }
-        }
+        infoIcon.removeFromSuperview()
+        infoTextView.removeFromSuperview()
+        layoutIfNeeded()
         
-        return nil
+        return 520.0
     }
     
 }

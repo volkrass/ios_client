@@ -13,6 +13,7 @@
 		D22109631E3394240018F181 /* ModumSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109621E3394240018F181 /* ModumSensor.swift */; };
 		D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109641E3397330018F181 /* Sequence+Extension.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
+		D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D251772F1E7FDC950045DFFE /* RootViewController.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
@@ -54,6 +55,9 @@
 		D2BA8DEC1DBF3B320023F581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */; };
 		D2BA8DF71DBF3B320023F581 /* PharmaSupplyChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BA8DF61DBF3B320023F581 /* PharmaSupplyChainTests.swift */; };
 		D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */; };
+		D2C857A61E7ACE6000348FFF /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C857A51E7ACE6000348FFF /* LoginManager.swift */; };
+		D2C857A81E7ACEB500348FFF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C857A71E7ACEB500348FFF /* User.swift */; };
+		D2C857AA1E7ACEC100348FFF /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C857A91E7ACEC100348FFF /* Company.swift */; };
 		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
 		D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */; };
@@ -85,6 +89,7 @@
 		D22109621E3394240018F181 /* ModumSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModumSensor.swift; sourceTree = "<group>"; };
 		D22109641E3397330018F181 /* Sequence+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		D251772F1E7FDC950045DFFE /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
@@ -130,6 +135,9 @@
 		D2BA8DF81DBF3B320023F581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2BCD5E21E24490B009D2197 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Pods/SwiftyJSON; sourceTree = "<group>"; };
 		D2BCD5E41E24DB75009D2197 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		D2C857A51E7ACE6000348FFF /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
+		D2C857A71E7ACEB500348FFF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D2C857A91E7ACEC100348FFF /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
 		D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDParcel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -207,6 +215,7 @@
 				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
 				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
 				D2908F861E7196F300C019CC /* SettingsViewController.swift */,
+				D251772F1E7FDC950045DFFE /* RootViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -234,6 +243,8 @@
 				D2908F751E69AE8200C019CC /* Sensor.swift */,
 				D2908F771E69B05F00C019CC /* LoginObject.swift */,
 				D2908F791E69B31100C019CC /* ServerError.swift */,
+				D2C857A71E7ACEB500348FFF /* User.swift */,
+				D2C857A91E7ACEC100348FFF /* Company.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -303,6 +314,7 @@
 				D2BA8DE21DBF3B320023F581 /* Main.storyboard */,
 				D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */,
 				D2BA8DED1DBF3B320023F581 /* Info.plist */,
+				D2C857A51E7ACE6000348FFF /* LoginManager.swift */,
 			);
 			path = PharmaSupplyChain;
 			sourceTree = "<group>";
@@ -580,6 +592,7 @@
 				D2A61D601E682811005E0FE7 /* Date+Extension.swift in Sources */,
 				D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */,
 				D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */,
+				D2C857A61E7ACE6000348FFF /* LoginManager.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2908F761E69AE8200C019CC /* Sensor.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
@@ -596,6 +609,7 @@
 				D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
 				D27B9E0E1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift in Sources */,
+				D2C857A81E7ACEB500348FFF /* User.swift in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */,
 				D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */,
@@ -611,9 +625,11 @@
 				D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
+				D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */,
 				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
 				D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */,
 				D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */,
+				D2C857AA1E7ACEC100348FFF /* Company.swift in Sources */,
 				D2908F871E7196F300C019CC /* SettingsViewController.swift in Sources */,
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
 				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,

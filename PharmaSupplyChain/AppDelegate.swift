@@ -24,11 +24,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         window = UIWindow(frame: UIScreen.main.bounds)
+        if let window = window {
+            window.rootViewController = storyboard.instantiateViewController(withIdentifier: "RootViewControllerID") as? RootViewController
+        }
         
-        if let tokenExpiryDate = UserDefaults.standard.object(forKey: "authTokenExpiry") as? Date, tokenExpiryDate > Date() {
-            if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
-                window!.rootViewController = parcelsNavigationController
-            }
+        /* re-login user every time he starts the app */
+        if let userCredentials = LoginManager.shared.retrieveUserCredentials() {
+            ServerManager.shared.login(username: userCredentials.username, password: userCredentials.password, completionHandler: {
+                [weak self]
+                error, response in
+                
+                if let appDelegate = self {
+                    if let error = error {
+                        log("Error during login! Error is: \(error.message)")
+                        if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+                            appDelegate.window!.rootViewController = loginViewController
+                        }
+                    } else if let response = response {
+                        /* Retrieving company defaults on login and persist them in CoreData */
+                        ServerManager.shared.getCompanyDefaults(completionHandler: {
+                            [weak self]
+                            error, companyDefaults in
+                            
+                            if let appDelegate = self {
+                                if let error = error {
+                                    log("Error retrieving company defaults: \(error.message)")
+                                    if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+                                        appDelegate.window!.rootViewController = loginViewController
+                                    }
+                                } else {
+                                    /* store user credentials */
+                                    if let user = response.user, let company = user.company, let companyName = company.name {
+                                        LoginManager.shared.storeUserCredentials(username: userCredentials.username, password: userCredentials.password, companyName: companyName)
+                                    } else {
+                                        log("Failed to retrieve company name!")
+                                        LoginManager.shared.storeUserCredentials(username: userCredentials.username, password: userCredentials.password)
+                                    }
+                                    
+                                    if let companyDefaults = companyDefaults {
+                                        if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
+                                            appDelegate.window!.rootViewController = parcelsNavigationController
+                                        }
+                                        CoreDataManager.shared.performBackgroundTask(WithBlock: {
+                                            backgroundContext in
+                                            
+                                            let existingRecords = CoreDataManager.getAllRecords(InContext: backgroundContext, ForEntityName: "CDCompanyDefaults")
+                                            existingRecords.forEach({
+                                                existingRecord in
+                                                
+                                                backgroundContext.delete(existingRecord as! NSManagedObject)
+                                            })
+                                            
+                                            let cdCompanyDefaults = NSEntityDescription.insertNewObject(forEntityName: "CDCompanyDefaults", into: backgroundContext) as! CDCompanyDefaults
+                                            companyDefaults.toCoreDataObject(object: cdCompanyDefaults)
+                                            
+                                            CoreDataManager.shared.saveLocally(managedContext: backgroundContext)
+                                        })
+                                    }
+                                }
+                            }
+                        })
+                    }
+                }
+            })
         } else {
             if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
                 window!.rootViewController = loginViewController

@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
         
         ServerManager.shared.login(username: username, password: password, completionHandler: {
             [weak self]
-            error, _ in
+            error, response in
             
             if let loginViewController = self {
                 /* Error when authenticating */
@@ -67,6 +67,14 @@ class LoginViewController: UIViewController {
                                 log("Error retrieving company defaults: \(error.message)")
                                 loginViewController.loginErrorLabel.text = "Failed to login! Please, try again!"
                             } else {
+                                /* store user credentials */
+                                if let response = response, let user = response.user, let company = user.company, let companyName = company.name {
+                                    LoginManager.shared.storeUserCredentials(username: username, password: password, companyName: companyName)
+                                } else {
+                                    log("Failed to retrieve company name!")
+                                    LoginManager.shared.storeUserCredentials(username: username, password: password)
+                                }
+                                
                                 if let companyDefaults = companyDefaults {
                                     loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
                                     log("Successfully retrieve company defaults!")

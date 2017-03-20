@@ -16,7 +16,7 @@ class ParcelsTableViewController : UITableViewController {
     
     fileprivate struct CellHeight {
         static let close: CGFloat = 179.0
-        static let open: CGFloat = 510.0
+        static let open: CGFloat = 575.0
     }
     
     fileprivate var cellHeights: [CGFloat] = []
@@ -84,11 +84,6 @@ class ParcelsTableViewController : UITableViewController {
             //navigationItem.rightBarButtonItem!.isEnabled = false
         }
         
-        if currentMode {
-            navigationItem.title = "Sender Mode"
-        } else {
-            navigationItem.title = "Receiver Mode"
-        }
         if let openSansFont = UIFont(name: "OpenSans-Light", size: 20.0) {
             navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : openSansFont]
         }
@@ -100,6 +95,12 @@ class ParcelsTableViewController : UITableViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = false
+        if currentMode {
+            navigationItem.title = "Sender Mode"
+        } else {
+            navigationItem.title = "Receiver Mode"
+        }
+        tableView.reloadInputViews()
     }
     
     // MARK: UITableViewDelegate
