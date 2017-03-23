@@ -130,7 +130,7 @@ class LoginViewController: UIViewController {
         view.layer.insertSublayer(gradientLayer, at: 0)
         
         /* making views rounded */
-        modumLogoView.layer.cornerRadius = 10.0
+        modumLogoView.layer.cornerRadius = 25.0
         modumLogoView.layer.masksToBounds = true
         loginView.layer.cornerRadius = 10.0
         loginView.layer.masksToBounds = true

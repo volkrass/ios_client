@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -52,7 +53,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2E-ce-5H4">
-                                <rect key="frame" x="26" y="375" width="323" height="111"/>
+                                <rect key="frame" x="26" y="448" width="323" height="111"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="42k-X1-rHc">
                                         <rect key="frame" x="10" y="5" width="303" height="45"/>
@@ -122,23 +123,23 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fC7-79-Too">
-                                <rect key="frame" x="26" y="45" width="323" height="250"/>
+                                <rect key="frame" x="26" y="45" width="323" height="323"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="modum_logo" translatesAutoresizingMaskIntoConstraints="NO" id="LgB-IS-TCk">
-                                        <rect key="frame" x="15" y="15" width="293" height="220"/>
+                                        <rect key="frame" x="15" y="15" width="293" height="293"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="250" id="7fq-Kj-leG"/>
                                     <constraint firstItem="LgB-IS-TCk" firstAttribute="leading" secondItem="fC7-79-Too" secondAttribute="leading" constant="15" id="Hdz-wG-bYd"/>
                                     <constraint firstAttribute="trailing" secondItem="LgB-IS-TCk" secondAttribute="trailing" constant="15" id="Q2o-FY-FPk"/>
                                     <constraint firstItem="LgB-IS-TCk" firstAttribute="top" secondItem="fC7-79-Too" secondAttribute="top" constant="15" id="Vdn-Ch-jrx"/>
                                     <constraint firstAttribute="bottom" secondItem="LgB-IS-TCk" secondAttribute="bottom" constant="15" id="jjw-O8-plf"/>
+                                    <constraint firstAttribute="width" secondItem="fC7-79-Too" secondAttribute="height" multiplier="1:1" id="y2X-eb-nZL"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="59z-Kx-Gy9">
-                                <rect key="frame" x="91.5" y="496" width="192.5" height="31"/>
+                                <rect key="frame" x="91.5" y="569" width="192.5" height="31"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jc9-gO-eKg">
                                         <rect key="frame" x="52" y="5" width="140.5" height="21"/>
@@ -163,7 +164,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L5L-42-Gzg">
-                                <rect key="frame" x="26" y="370" width="323" height="0.0"/>
+                                <rect key="frame" x="26" y="443" width="323" height="0.0"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.17579792599999999" blue="0.22168335859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -882,7 +883,7 @@
             <objects>
                 <navigationController storyboardIdentifier="ParcelsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Uc6-a7-Y36" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="iEZ-uk-9Oh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iEZ-uk-9Oh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
