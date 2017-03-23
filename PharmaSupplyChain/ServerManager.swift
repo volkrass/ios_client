@@ -26,7 +26,7 @@ class ServerManager {
     fileprivate let coreDataManager: CoreDataManager
     
     fileprivate var authenticationToken: String? {
-        return UserDefaults.standard.value(forKey: "authToken") as? String
+        return UserDefaults.standard.string(forKey: "authToken")
     }
     
     fileprivate var authorizationHeader: String? {

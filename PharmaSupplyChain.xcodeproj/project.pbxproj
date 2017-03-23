@@ -13,6 +13,8 @@
 		D22109631E3394240018F181 /* ModumSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109621E3394240018F181 /* ModumSensor.swift */; };
 		D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109641E3397330018F181 /* Sequence+Extension.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
+		D246367B1E84468D00B8F81F /* CounterBasedMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D246367A1E84468D00B8F81F /* CounterBasedMeasurement.swift */; };
+		D246367D1E84600500B8F81F /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D246367C1E84600500B8F81F /* KeychainStore.swift */; };
 		D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D251772F1E7FDC950045DFFE /* RootViewController.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
@@ -89,6 +91,8 @@
 		D22109621E3394240018F181 /* ModumSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModumSensor.swift; sourceTree = "<group>"; };
 		D22109641E3397330018F181 /* Sequence+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		D246367A1E84468D00B8F81F /* CounterBasedMeasurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CounterBasedMeasurement.swift; sourceTree = "<group>"; };
+		D246367C1E84600500B8F81F /* KeychainStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		D251772F1E7FDC950045DFFE /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +210,14 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		D24636791E84468000B8F81F /* Sensor */ = {
+			isa = PBXGroup;
+			children = (
+				D246367A1E84468D00B8F81F /* CounterBasedMeasurement.swift */,
+			);
+			name = Sensor;
+			sourceTree = "<group>";
+		};
 		D27786D61DC2520F007D3FB5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +244,7 @@
 		D28D71171E6091AF0037C7D8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				D24636791E84468000B8F81F /* Sensor */,
 				D28D71181E6091BE0037C7D8 /* Protocols */,
 				D28D71131E6090010037C7D8 /* Parcel.swift */,
 				D2908F691E68DCB000C019CC /* TemperatureCategory.swift */,
@@ -315,6 +328,7 @@
 				D2BA8DEA1DBF3B320023F581 /* LaunchScreen.storyboard */,
 				D2BA8DED1DBF3B320023F581 /* Info.plist */,
 				D2C857A51E7ACE6000348FFF /* LoginManager.swift */,
+				D246367C1E84600500B8F81F /* KeychainStore.swift */,
 			);
 			path = PharmaSupplyChain;
 			sourceTree = "<group>";
@@ -593,6 +607,7 @@
 				D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */,
 				D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */,
 				D2C857A61E7ACE6000348FFF /* LoginManager.swift in Sources */,
+				D246367B1E84468D00B8F81F /* CounterBasedMeasurement.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2908F761E69AE8200C019CC /* Sensor.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
@@ -615,6 +630,7 @@
 				D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */,
 				D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
+				D246367D1E84600500B8F81F /* KeychainStore.swift in Sources */,
 				D28D71141E6090010037C7D8 /* Parcel.swift in Sources */,
 				D2E6DF0C1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift in Sources */,
 				D22109631E3394240018F181 /* ModumSensor.swift in Sources */,

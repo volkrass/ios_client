@@ -100,7 +100,7 @@ class ParcelsTableViewController : UITableViewController {
         } else {
             navigationItem.title = "Receiver Mode"
         }
-        tableView.reloadInputViews()
+        tableView.reloadData()
     }
     
     // MARK: UITableViewDelegate

@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         /* re-login user every time he starts the app */
-        if let userCredentials = LoginManager.shared.retrieveUserCredentials() {
-            ServerManager.shared.login(username: userCredentials.username, password: userCredentials.password, completionHandler: {
+        if let username = LoginManager.shared.getUsername(), let password = LoginManager.shared.getPassword() {
+            ServerManager.shared.login(username: username, password: password, completionHandler: {
                 [weak self]
                 error, response in
                 
@@ -41,6 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             appDelegate.window!.rootViewController = loginViewController
                         }
                     } else if let response = response {
+                        /* store user credentials */
+                        LoginManager.shared.storeUser(username: username, password: password, response: response, rememberMe: true)
+                        
                         /* Retrieving company defaults on login and persist them in CoreData */
                         ServerManager.shared.getCompanyDefaults(completionHandler: {
                             [weak self]
@@ -53,14 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                         appDelegate.window!.rootViewController = loginViewController
                                     }
                                 } else {
-                                    /* store user credentials */
-                                    if let user = response.user, let company = user.company, let companyName = company.name {
-                                        LoginManager.shared.storeUserCredentials(username: userCredentials.username, password: userCredentials.password, companyName: companyName)
-                                    } else {
-                                        log("Failed to retrieve company name!")
-                                        LoginManager.shared.storeUserCredentials(username: userCredentials.username, password: userCredentials.password)
-                                    }
-                                    
                                     if let companyDefaults = companyDefaults {
                                         if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
                                             appDelegate.window!.rootViewController = parcelsNavigationController

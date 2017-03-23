@@ -313,7 +313,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         }
     }
     
-    func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [TemperatureMeasurement]?) {
+    func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [CounterBasedMeasurement]?) {
         if let modumSensor = modumSensor {
             bluetoothManager!.disconnect(peripheral: modumSensor.sensor)
         }

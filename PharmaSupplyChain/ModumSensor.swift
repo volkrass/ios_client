@@ -16,7 +16,7 @@ protocol ModumSensorDelegate {
     func modumSensorCheckBeforeSendingPerformed()
     func modumSensorCheckBeforeReceivingPerformed()
     func modumSensorShipmentDataWritten()
-    func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [TemperatureMeasurement]?)
+    func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [CounterBasedMeasurement]?)
 }
 
 enum SensorError: Error {
@@ -50,7 +50,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     fileprivate var measurementsInterval: UInt8?
     fileprivate var measurementsCount: UInt32?
     fileprivate var measurementsIndex: UInt32?
-    fileprivate var measurements: [TemperatureMeasurement]?
+    fileprivate var measurements: [CounterBasedMeasurement]?
     
     /**********  Characteristics **********/
     
@@ -579,30 +579,31 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                     }
             }
             case measurementsUUID:
-                if let measurementsValue = characteristic.value, !measurementsValue.isEmpty {
-//                    if let temperatureMeasurements = TemperatureMeasurement.fromData(measurementsValue) {
-//                        if measurements == nil {
-//                            measurements = []
-//                        }
-//                        measurements!.append(contentsOf: temperatureMeasurements)
-//                        if let measurementsCount = measurementsCount, measurements!.count >= Int(measurementsCount) {
-//                            log("Finished reading temperature measurements")
-//                            log("Temperature measurements are: \(measurements!)")
-//                            if sensorDataRead != nil {
-//                                sensorDataRead!.didReadMeasurements = true
-//                            }
-//                        } else {
-//                            self.measurementsIndex = self.measurementsIndex! + UInt32(temperatureMeasurements.count)
-//                            writeMeasurementsIndex(self.measurementsIndex!)
-//                        }
-//                    } else {
-//                        if measurementsValue == Data(bytes: [0x0]) {
-//                            log("No measurements recorded!")
-//                            if sensorDataRead != nil {
-//                                sensorDataRead!.didReadMeasurements = true
-//                            }
-//                        }
-//                    }
+                if let measurementsValue = characteristic.value {
+                    guard measurementsValue != Data(bytes: [0x0]) else {
+                        log("No measurements recorded!")
+                        if sensorDataRead != nil {
+                            sensorDataRead!.didReadMeasurements = true
+                        }
+                        break
+                    }
+                    let temperatureMeasurements = CounterBasedMeasurement.measurementsFromData(data: measurementsValue)
+                    if !temperatureMeasurements.isEmpty {
+                        if measurements == nil {
+                            measurements = []
+                        }
+                        measurements!.append(contentsOf: temperatureMeasurements)
+                        if let measurementsCount = measurementsCount, measurements!.count >= Int(measurementsCount) {
+                            log("Finished reading temperature measurements")
+                            log("Temperature measurements are: \(measurements!)")
+                            if sensorDataRead != nil {
+                                sensorDataRead!.didReadMeasurements = true
+                            }
+                        } else {
+                            self.measurementsIndex = self.measurementsIndex! + UInt32(temperatureMeasurements.count)
+                            writeMeasurementsIndex(self.measurementsIndex!)
+                        }
+                    }
                 }
                 break
             case startTimeUUID:

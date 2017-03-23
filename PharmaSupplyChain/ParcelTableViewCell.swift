@@ -9,7 +9,6 @@
 import UIKit
 import FoldingCell
 import Charts
-import Spring
 
 class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     
@@ -64,7 +63,8 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
                 
                 if let parcelCell = self {
                     if let error = error {
-                        /* TODO: design view indicating error */
+                        log("Error fetching parcel blockchain status: \(error)")
+                        parcelCell.statusImageView.image = UIImage(named: "status_unknown")
                     } else if let smartContractStatus = smartContractStatus {
                         if let isMined = smartContractStatus.isMined {
                             if isMined {
@@ -119,7 +119,7 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
                 
                 if let parcelCell = self {
                     if let error = error {
-                        /* TODO: design view indicating error */
+                        log("Error fetching temperature measurements: \(error)")
                     } else if let temperatureMeasurements = temperatureMeasurements, let minTemp = parcel.minTemp, let maxTemp = parcel.maxTemp {
                         parcelCell.displayMeasurements(measurements: temperatureMeasurements, minTemp: minTemp, maxTemp: maxTemp)
                     }
@@ -133,7 +133,8 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
                 
                 if let parcelCell = self {
                     if let error = error {
-                        /* TODO: design view indicating error */
+                        log("Error fetching parcel blockchain status: \(error)")
+                        parcelCell.statusImageView.image = UIImage(named: "status_unknown")
                     } else if let smartContractStatus = smartContractStatus {
                         if let isMined = smartContractStatus.isMined {
                             if isMined {
@@ -200,7 +201,7 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
     /* Clears LineChartView from all values */
     func resetTemperatureGraphView() {
         temperatureGraphView.leftAxis.removeAllLimitLines()
-        if let temperatureData = temperatureGraphView.data {
+        if temperatureGraphView.data != nil {
             temperatureGraphView.data = nil
         }
     }

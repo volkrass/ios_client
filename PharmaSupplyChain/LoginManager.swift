@@ -12,23 +12,39 @@ class LoginManager: NSObject {
     
     static let shared: LoginManager = LoginManager()
     
-    func storeUserCredentials(username: String, password: String, companyName: String? = nil) {
+    func storeUser(username: String, password: String, response: LoginObject?, rememberMe: Bool) {
+        /* if "Remember Me" is set, store "username", "authToken" and "companyName" only */
         UserDefaults.standard.set(username, forKey: "username")
-        UserDefaults.standard.set(password, forKey: "pass")
-        if let companyName = companyName {
-            UserDefaults.standard.set(companyName, forKey: "companyName")
+        if rememberMe {
+            KeychainStore.storePassword(password: password)
+        }
+        if let response = response {
+            if let companyName = response.user?.company?.name {
+                UserDefaults.standard.set(companyName, forKey: "companyName")
+            }
+            if let authToken = response.token {
+                UserDefaults.standard.set(authToken, forKey: "authToken")
+            }
         }
     }
     
-    func retrieveUserCredentials() -> (username: String, password: String, companyName: String?)? {
-        let username = UserDefaults.standard.string(forKey: "username")
-        let password = UserDefaults.standard.string(forKey: "pass")
-        let companyName = UserDefaults.standard.string(forKey: "companyName")
-        if let username = username, let password = password {
-            return (username: username, password: password, companyName: companyName)
-        } else {
-            return nil
-        }
+    func getUsername() -> String? {
+        return UserDefaults.standard.string(forKey: "username")
+    }
+    
+    func getPassword() -> String? {
+        return KeychainStore.loadPassword()
+    }
+    
+    func getCompanyName() -> String? {
+        return UserDefaults.standard.string(forKey: "companyName")
+    }
+    
+    func clear() {
+        UserDefaults.standard.removeObject(forKey: "username")
+        KeychainStore.clear()
+        UserDefaults.standard.removeObject(forKey: "companyName")
+        UserDefaults.standard.removeObject(forKey: "authToken")
     }
     
 }

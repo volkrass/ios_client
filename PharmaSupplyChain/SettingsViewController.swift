@@ -56,11 +56,7 @@ class SettingsViewController : UIViewController {
     }
     
     @IBAction fileprivate func logoutButtonTouchUpInside(_ sender: UIButton) {
-        /* clear UserDefaults */
-        UserDefaults.standard.removeObject(forKey: "authToken")
-        UserDefaults.standard.removeObject(forKey: "authTokenExpiry")
-        
-        /* clear CompanyDefaults */
+        LoginManager.shared.clear()
         
         if let loginViewController = storyboard!.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
             present(loginViewController, animated: true, completion: nil)
@@ -102,14 +98,8 @@ class SettingsViewController : UIViewController {
             modeLabel.text = "Receiver Mode"
         }
         
-        if let userCredentials = LoginManager.shared.retrieveUserCredentials() {
-            if let companyName = userCredentials.companyName {
-                companyNameLabel.text = companyName
-            } else {
-                companyNameLabel.text = "-"
-            }
-            usernameLabel.text = userCredentials.username
-        }
+        usernameLabel.text = LoginManager.shared.getUsername() ?? "-"
+        companyNameLabel.text = LoginManager.shared.getCompanyName() ?? "-"
     }
     
 }

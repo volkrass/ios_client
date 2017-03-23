@@ -13,12 +13,16 @@ class LoginViewController: UIViewController {
     
     // MARK: Outlets
     
+    @IBOutlet weak fileprivate var modumLogoView: UIView!
+    
+    @IBOutlet weak fileprivate var loginView: UIView!
     @IBOutlet weak fileprivate var usernameTextField: UITextField!
-    @IBOutlet weak fileprivate var usernameErrorLabel: UILabel!
+    @IBOutlet weak fileprivate var separatorLine: UIView!
     @IBOutlet weak fileprivate var passwordTextField: UITextField!
-    @IBOutlet weak fileprivate var passwordErrorLabel: UILabel!
-    @IBOutlet weak fileprivate var loginButton: UIButton!
+    
     @IBOutlet weak fileprivate var loginErrorLabel: UILabel!
+    
+    @IBOutlet weak fileprivate var rememberMeSwitch: UISwitch!
     
     // MARK: Actions
     
@@ -26,27 +30,17 @@ class LoginViewController: UIViewController {
         loginErrorLabel.text = ""
         
         guard !usernameTextField.text!.isEmpty else {
-            usernameErrorLabel.text = "Please, enter your username"
+            loginErrorLabel.text = "Please, enter your username"
             return
         }
         
         guard !passwordTextField.text!.isEmpty else {
-            passwordErrorLabel.text = "Please, enter your password"
+            loginErrorLabel.text = "Please, enter your password"
             return
         }
         
         let username = usernameTextField.text!
         let password = passwordTextField.text!
-        
-        guard username.characters.count >= 3 else {
-            loginErrorLabel.text = "Username is too short"
-            return
-        }
-        
-        guard password.characters.count >= 3 else {
-            loginErrorLabel.text = "Password is too short"
-            return
-        }
         
         ServerManager.shared.login(username: username, password: password, completionHandler: {
             [weak self]
@@ -56,7 +50,10 @@ class LoginViewController: UIViewController {
                 /* Error when authenticating */
                 if let error = error {
                     loginViewController.loginErrorLabel.text = error.message
-                } else {
+                } else if let response = response {
+                    /* store user credentials */
+                    LoginManager.shared.storeUser(username: username, password: password, response: response, rememberMe: loginViewController.rememberMeSwitch.isOn)
+                    
                     /* Retrieving company defaults on login and persist them in CoreData */
                     ServerManager.shared.getCompanyDefaults(completionHandler: {
                         [weak self]
@@ -67,14 +64,6 @@ class LoginViewController: UIViewController {
                                 log("Error retrieving company defaults: \(error.message)")
                                 loginViewController.loginErrorLabel.text = "Failed to login! Please, try again!"
                             } else {
-                                /* store user credentials */
-                                if let response = response, let user = response.user, let company = user.company, let companyName = company.name {
-                                    LoginManager.shared.storeUserCredentials(username: username, password: password, companyName: companyName)
-                                } else {
-                                    log("Failed to retrieve company name!")
-                                    LoginManager.shared.storeUserCredentials(username: username, password: password)
-                                }
-                                
                                 if let companyDefaults = companyDefaults {
                                     loginViewController.performSegue(withIdentifier: "showParcels", sender: loginViewController)
                                     log("Successfully retrieve company defaults!")
@@ -102,38 +91,61 @@ class LoginViewController: UIViewController {
         })
     }
     
+    @IBAction fileprivate func usernameTextFieldEditingDidBegin(_ sender: UITextField) {
+        separatorLine.backgroundColor = MODUM_LIGHT_BLUE
+    }
+    
     @IBAction fileprivate func usernameTextFieldEditingChanged(_ sender: UITextField) {
-        usernameErrorLabel.text = ""
+        loginErrorLabel.text = ""
+    }
+    
+    @IBAction fileprivate func usernameTextFieldEditingDidEnd(_ sender: UITextField) {
+        separatorLine.backgroundColor = UIColor.lightGray
+    }
+    
+    @IBAction fileprivate func passwordTextFieldEditingDidBegin(_ sender: UITextField) {
+        separatorLine.backgroundColor = MODUM_LIGHT_BLUE
     }
     
     @IBAction fileprivate func passwordTextFieldEditingChanged(_ sender: UITextField) {
-        passwordErrorLabel.text = ""
+        loginErrorLabel.text = ""
+    }
+    
+    @IBAction fileprivate func passwordTextFieldEditingDidEnd(_ sender: UITextField) {
+        separatorLine.backgroundColor = UIColor.lightGray
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        /* adding gradient background */
+        let leftColor = TEMPERATURE_LIGHT_BLUE.cgColor
+        let rightColor = TEMPERATURE_LIGHT_RED.cgColor
         
-        /* setting UITextField visual properties */
-        usernameTextField.layer.masksToBounds = true
-        usernameTextField.layer.borderWidth = 1.0
-        usernameTextField.layer.cornerRadius = 10.0
-        usernameTextField.layer.borderColor = view.tintColor.cgColor
-        passwordTextField.layer.masksToBounds = true
-        passwordTextField.layer.borderWidth = 1.0
-        passwordTextField.layer.cornerRadius = 10.0
-        passwordTextField.layer.borderColor = view.tintColor.cgColor
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [leftColor, rightColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        /* making views rounded */
+        modumLogoView.layer.cornerRadius = 10.0
+        modumLogoView.layer.masksToBounds = true
+        loginView.layer.cornerRadius = 10.0
+        loginView.layer.masksToBounds = true
         
         /* configure gesture recognizer for keyboard dismissing */
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gestureRecognizer.numberOfTapsRequired = 1
         gestureRecognizer.numberOfTouchesRequired = 1
         gestureRecognizer.cancelsTouchesInView = false
         view.addGestureRecognizer(gestureRecognizer)
     }
     
-    func hideKeyboard() {
+    // MARK: Helper functions
+    
+    @objc fileprivate func hideKeyboard() {
         view.endEditing(true)
     }
     
