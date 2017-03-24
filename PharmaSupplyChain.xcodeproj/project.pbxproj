@@ -19,7 +19,6 @@
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
-		D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */; };
 		D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */; };
 		D27B9E081E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27B9E071E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift */; };
 		D27B9E0A1E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27B9E091E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift */; };
@@ -32,7 +31,6 @@
 		D28D71141E6090010037C7D8 /* Parcel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28D71131E6090010037C7D8 /* Parcel.swift */; };
 		D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28D71151E60919F0037C7D8 /* CoreDataObject.swift */; };
 		D28FD59C1DBF83310077579A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59B1DBF83310077579A /* Utils.swift */; };
-		D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FD59D1DBF87190077579A /* LoginCredentials.swift */; };
 		D2908F6A1E68DCB000C019CC /* TemperatureCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F691E68DCB000C019CC /* TemperatureCategory.swift */; };
 		D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F6B1E68E0A800C019CC /* TemperatureMeasurement.swift */; };
 		D2908F6E1E68E28A00C019CC /* SmartContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F6D1E68E28A00C019CC /* SmartContractStatus.swift */; };
@@ -97,7 +95,6 @@
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
-		D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
 		D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
 		D27B9E071E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDCompanyDefaults+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D27B9E091E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDCompanyDefaults+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -110,7 +107,6 @@
 		D28D71131E6090010037C7D8 /* Parcel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parcel.swift; sourceTree = "<group>"; };
 		D28D71151E60919F0037C7D8 /* CoreDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataObject.swift; sourceTree = "<group>"; };
 		D28FD59B1DBF83310077579A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		D28FD59D1DBF87190077579A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
 		D2908F691E68DCB000C019CC /* TemperatureCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureCategory.swift; sourceTree = "<group>"; };
 		D2908F6B1E68E0A800C019CC /* TemperatureMeasurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureMeasurement.swift; sourceTree = "<group>"; };
 		D2908F6D1E68E28A00C019CC /* SmartContractStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartContractStatus.swift; sourceTree = "<group>"; };
@@ -384,8 +380,6 @@
 			children = (
 				D2908F7F1E6D5EE200C019CC /* Transform */,
 				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
-				D28FD59D1DBF87190077579A /* LoginCredentials.swift */,
-				D27786DA1DC259FC007D3FB5 /* AuthenticationError.swift */,
 				D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */,
 			);
 			name = Server;
@@ -642,13 +636,11 @@
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */,
-				D27786DB1DC259FC007D3FB5 /* AuthenticationError.swift in Sources */,
 				D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */,
 				D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */,
 				D2C857AA1E7ACEC100348FFF /* Company.swift in Sources */,
 				D2908F871E7196F300C019CC /* SettingsViewController.swift in Sources */,
 				D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */,
-				D28FD59E1DBF87190077579A /* LoginCredentials.swift in Sources */,
 				D2E6DEFB1DD2477900431AA1 /* UniqueManagedObject.swift in Sources */,
 				D27B9E0C1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift in Sources */,
 			);

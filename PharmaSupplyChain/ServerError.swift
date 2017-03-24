@@ -11,6 +11,7 @@ import ObjectMapper
 class ServerError: Mappable {
     
     static let defaultError: ServerError = ServerError(code: nil, message: "Server error occured. Please, try again!")
+    static let noInternet: ServerError = ServerError(code: nil, message: "No network connection!")
     
     // MARK: Properties
 

@@ -11,6 +11,7 @@ target 'PharmaSupplyChain' do
   pod 'ObjectMapper'
   pod 'AlamofireObjectMapper'
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
+  pod 'ReachabilitySwift', '~> 3'
 end
 
 target 'PharmaSupplyChainTests' do
@@ -23,4 +24,5 @@ target 'PharmaSupplyChainTests' do
     pod 'ObjectMapper'
     pod 'AlamofireObjectMapper'
     pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
+    pod 'ReachabilitySwift', '~> 3'
 end

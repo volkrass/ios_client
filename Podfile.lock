@@ -27,6 +27,7 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.0):
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - ObjectMapper (2.2.3)
+  - ReachabilitySwift (3)
   - Spring (1.0.3)
   - SwiftyJSON (3.1.1)
   - UXCam (2.5.8)
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - Firebase/Core
   - FoldingCell
   - ObjectMapper
+  - ReachabilitySwift (~> 3)
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift3`)
   - SwiftyJSON
   - UXCam
@@ -65,10 +67,11 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   ObjectMapper: d3b3de11267f5d971f390eb8d63dd509116a4329
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
-PODFILE CHECKSUM: 2931449266c1de8edbf78315a016e6f8ddf9d3e1
+PODFILE CHECKSUM: 14e091aa5f53f79bc44d4d44bde75cf197fac0fd
 
 COCOAPODS: 1.2.0.beta.3

@@ -40,6 +40,10 @@ class LoginManager: NSObject {
         return UserDefaults.standard.string(forKey: "companyName")
     }
     
+    func getAuthToken() -> String? {
+        return UserDefaults.standard.string(forKey: "authToken")
+    }
+    
     func clear() {
         UserDefaults.standard.removeObject(forKey: "username")
         KeychainStore.clear()

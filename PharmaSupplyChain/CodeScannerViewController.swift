@@ -32,6 +32,7 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     // MARK: Outlets
     
     @IBOutlet weak fileprivate var infoLabel: UILabel!
+    @IBOutlet weak fileprivate var typeOfCodeIcon: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,11 +189,28 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         }
         
         /* UI configuration */
-        infoLabel.backgroundColor = MODUM_LIGHT_GRAY
+        
+        /* adding transparent overlay */
+        let overlayPath = UIBezierPath(rect: view.bounds)
+        let transparentHole = UIBezierPath(rect: CGRect(x: 0, y: view.bounds.height/2.0 - 100.0, width: view.bounds.width, height: 300.0))
+        overlayPath.append(transparentHole)
+        overlayPath.usesEvenOddFillRule = true
+        
+        let fillLayer = CAShapeLayer()
+        fillLayer.path = overlayPath.cgPath
+        fillLayer.fillRule = kCAFillRuleEvenOdd
+        fillLayer.fillColor = UIColor.black.withAlphaComponent(0.5).cgColor
+        
+        view.layer.addSublayer(fillLayer)
+        view.bringSubview(toFront: infoLabel)
+        view.bringSubview(toFront: typeOfCodeIcon)
+        
         if isReceivingParcel {
-            infoLabel.text = "Please, scan shipment ID on the parcel"
+            infoLabel.text = "Please, scan Track N Trace number"
+            //typeOfCodeIcon.image = UIImage(named: "")
         } else {
-            infoLabel.text = "Please, scan shipment ID or QR code on the sensor"
+            infoLabel.text = "Please, scan QR code on the sensor"
+            //typeOfCodeIcon.image = UIImage(named: "")
         }
     }
     
@@ -218,7 +236,6 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         cameraNotAvailableAlertController.addAction(cancelAction)
         
         present(cameraNotAvailableAlertController, animated: true, completion: nil)
-        
     }
 
 }

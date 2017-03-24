@@ -120,11 +120,12 @@ class LoginViewController: UIViewController {
         
         /* adding gradient background */
         let leftColor = TEMPERATURE_LIGHT_BLUE.cgColor
-        let rightColor = TEMPERATURE_LIGHT_RED.cgColor
+        let middleColor = ROSE_COLOR.cgColor
+        let rightColor = LIGHT_BLUE_COLOR.cgColor
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
-        gradientLayer.colors = [leftColor, rightColor]
+        gradientLayer.colors = [leftColor, middleColor, rightColor]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
         view.layer.insertSublayer(gradientLayer, at: 0)
