@@ -15,7 +15,6 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     
     fileprivate var captureSession: AVCaptureSession?
     fileprivate var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    fileprivate var scannedCodeFrameView: UIView?
     
     fileprivate var isSensorMACDiscovered: Bool = false
     fileprivate var sensorMACAddress: String?
@@ -67,65 +66,58 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     // MARK: AVCaptureMetadataOutputObjectsDelegate
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        
-        if metadataObjects == nil || metadataObjects.isEmpty {
-            scannedCodeFrameView?.frame = CGRect.zero
-            return
-        }
-        
-        let metadataObject = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
-        if metadataObject.type == AVMetadataObjectTypeQRCode, let videoPreviewLayer = videoPreviewLayer, !isSensorMACDiscovered && !isReceivingParcel {
-            let qrCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
-            scannedCodeFrameView?.frame = qrCodeObject.bounds
+        if !metadataObjects.isEmpty {
+            let metadataObject = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
             
-            if metadataObject.stringValue != nil && !isSensorMACDiscovered {
-                infoLabel.text = metadataObject.stringValue
-                let scannedHexString = metadataObject.stringValue.removeNonHexSymbols()
-                if isValidMacAddress(scannedHexString) {
-                    isSensorMACDiscovered = true
-                    sensorMACAddress = scannedHexString
-                    infoLabel.backgroundColor = UIColor.green
-                    if isContractIDDiscovered {
-                        performSegue(withIdentifier: "goToSensorConnect", sender: self)
-                    } else {
-                        let dispatchTime = DispatchTime.now() + 0.5
-                        DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
-                            [weak self] in
-                            
-                            if let codeScannerViewController = self {
-                                codeScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
-                                codeScannerViewController.infoLabel.text = "Please, scan shipment ID code!"
-                                codeScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
-                            }
-                        })
+            if metadataObject.type == AVMetadataObjectTypeQRCode, !isSensorMACDiscovered && !isReceivingParcel {
+                if metadataObject.stringValue != nil && !isSensorMACDiscovered {
+                    let scannedHexString = metadataObject.stringValue.removeNonHexSymbols()
+                    if isValidMacAddress(scannedHexString) {
+                        isSensorMACDiscovered = true
+                        sensorMACAddress = scannedHexString
+                        if isContractIDDiscovered {
+                            performSegue(withIdentifier: "goToSensorConnect", sender: self)
+                        } else {
+                            UIView.transition(with: infoLabel, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
+                                [weak self] in
+                                
+                                if let codeScannerController = self {
+                                    codeScannerController.infoLabel.text = "Please, scan Track&Trace number"
+                                }
+                                }, completion: nil)
+                            UIView.transition(with: typeOfCodeIcon, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
+                                [weak self] in
+                                
+                                if let codeScannerController = self {
+                                    codeScannerController.typeOfCodeIcon.image = UIImage(named: "barcode")
+                                }
+                                }, completion: nil)
+                        }
                     }
                 }
-            }
-        } else if metadataObject.type == AVMetadataObjectTypeCode128Code, let videoPreviewLayer = videoPreviewLayer, !isContractIDDiscovered {
-            let barCodeObject = videoPreviewLayer.transformedMetadataObject(for: metadataObject as AVMetadataMachineReadableCodeObject) as! AVMetadataMachineReadableCodeObject
-            scannedCodeFrameView?.frame = barCodeObject.bounds
-            
-            if metadataObject.stringValue != nil && !isContractIDDiscovered {
-                infoLabel.text = metadataObject.stringValue
-                /* TODO: add validation code for contract ID */
-                isContractIDDiscovered = true
-                contractID = metadataObject.stringValue
-                infoLabel.backgroundColor = UIColor.green
-                
-                if isReceivingParcel || (!isReceivingParcel && isSensorMACDiscovered) {
-                    performSegue(withIdentifier: "goToSensorConnect", sender: self)
-                } else {
-                    let dispatchTime = DispatchTime.now() + 0.5
-                    DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
-                        [weak self] in
-                        
-                        if let codeScannerViewController = self {
-                            codeScannerViewController.scannedCodeFrameView?.frame = CGRect.zero
-                            codeScannerViewController.infoLabel.text = "Please, scan QR code on the sensor device!"
-                            codeScannerViewController.infoLabel.backgroundColor = MODUM_LIGHT_GRAY
-                        }
-                    })
+            } else if metadataObject.type == AVMetadataObjectTypeCode128Code, !isContractIDDiscovered {
+                if metadataObject.stringValue != nil && !isContractIDDiscovered {
+                    isContractIDDiscovered = true
+                    contractID = metadataObject.stringValue
+                    
+                    if isReceivingParcel || (!isReceivingParcel && isSensorMACDiscovered) {
+                        performSegue(withIdentifier: "goToSensorConnect", sender: self)
+                    } else {
+                        UIView.transition(with: infoLabel, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
+                            [weak self] in
+                            
+                            if let codeScannerController = self {
+                                codeScannerController.infoLabel.text = "Please, scan QR code on the sensor"
+                            }
+                            }, completion: nil)
+                        UIView.transition(with: typeOfCodeIcon, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
+                            [weak self] in
+                            
+                            if let codeScannerController = self {
+                                codeScannerController.typeOfCodeIcon.image = UIImage(named: "qr_code")
+                            }
+                            }, completion: nil)
+                    }
                 }
             }
         }
@@ -179,16 +171,21 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
             captureSession?.startRunning()
             
             view.bringSubview(toFront: infoLabel)
-            
-            /* initialize frame to highlight QR code */
-            scannedCodeFrameView = UIView()
-            scannedCodeFrameView?.layer.borderColor = UIColor.green.cgColor
-            scannedCodeFrameView?.layer.borderWidth = 2
-            view.addSubview(scannedCodeFrameView!)
-            view.bringSubview(toFront: scannedCodeFrameView!)
         }
         
         /* UI configuration */
+        
+        /* adding gradient backgroud */
+        let leftColor = TEMPERATURE_LIGHT_BLUE.cgColor
+        let middleColor = ROSE_COLOR.cgColor
+        let rightColor = LIGHT_BLUE_COLOR.cgColor
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [leftColor, middleColor, rightColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        view.layer.insertSublayer(gradientLayer, at: 0)
         
         /* adding transparent overlay */
         let overlayPath = UIBezierPath(rect: view.bounds)
@@ -206,11 +203,11 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         view.bringSubview(toFront: typeOfCodeIcon)
         
         if isReceivingParcel {
-            infoLabel.text = "Please, scan Track N Trace number"
-            //typeOfCodeIcon.image = UIImage(named: "")
+            infoLabel.text = "Please, scan Track&Trace number"
+            typeOfCodeIcon.image = UIImage(named: "barcode")
         } else {
             infoLabel.text = "Please, scan QR code on the sensor"
-            //typeOfCodeIcon.image = UIImage(named: "")
+            typeOfCodeIcon.image = UIImage(named: "qr_code")
         }
     }
     
