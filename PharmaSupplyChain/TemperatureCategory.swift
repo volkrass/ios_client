@@ -16,6 +16,8 @@ class TemperatureCategory : Mappable, CoreDataObject {
     var minTemp: Int?
     var maxTemp: Int?
     
+    public init() {}
+    
     // MARK: Mappable
     
     public required init?(map: Map) {

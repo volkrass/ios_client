@@ -76,7 +76,7 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
                         isSensorMACDiscovered = true
                         sensorMACAddress = scannedHexString
                         if isContractIDDiscovered {
-                            performSegue(withIdentifier: "goToSensorConnect", sender: self)
+                            performSegue(withIdentifier: "goToParcelCreate", sender: self)
                         } else {
                             UIView.transition(with: infoLabel, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
                                 [weak self] in
@@ -100,23 +100,27 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
                     isContractIDDiscovered = true
                     contractID = metadataObject.stringValue
                     
-                    if isReceivingParcel || (!isReceivingParcel && isSensorMACDiscovered) {
-                        performSegue(withIdentifier: "goToSensorConnect", sender: self)
+                    if isReceivingParcel {
+                        performSegue(withIdentifier: "goToParcelReceive", sender: self)
                     } else {
-                        UIView.transition(with: infoLabel, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
-                            [weak self] in
-                            
-                            if let codeScannerController = self {
-                                codeScannerController.infoLabel.text = "Please, scan QR code on the sensor"
-                            }
+                        if isSensorMACDiscovered {
+                            performSegue(withIdentifier: "goToParcelCreate", sender: self)
+                        } else {
+                            UIView.transition(with: infoLabel, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
+                                [weak self] in
+                                
+                                if let codeScannerController = self {
+                                    codeScannerController.infoLabel.text = "Please, scan QR code on the sensor"
+                                }
                             }, completion: nil)
-                        UIView.transition(with: typeOfCodeIcon, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
-                            [weak self] in
-                            
-                            if let codeScannerController = self {
-                                codeScannerController.typeOfCodeIcon.image = UIImage(named: "qr_code")
-                            }
+                            UIView.transition(with: typeOfCodeIcon, duration: 1.0, options: [.curveEaseInOut, .transitionFlipFromRight], animations: {
+                                [weak self] in
+                                
+                                if let codeScannerController = self {
+                                    codeScannerController.typeOfCodeIcon.image = UIImage(named: "qr_code")
+                                }
                             }, completion: nil)
+                        }
                     }
                 }
             }
@@ -126,10 +130,11 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     // MARK: Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let sensorConnectViewController = segue.destination as? SensorConnectViewController {
-            sensorConnectViewController.sensorMACAddress = sensorMACAddress
-            sensorConnectViewController.contractID = contractID
-            sensorConnectViewController.isReceivingParcel = isReceivingParcel
+        if let parcelCreateViewController = segue.destination as? ParcelCreateViewController {
+            parcelCreateViewController.sensorMAC = sensorMACAddress
+            parcelCreateViewController.tntNumber = contractID
+        } else if let parcelReceiveViewController = segue.destination as? ParcelReceiveViewController {
+            parcelReceiveViewController.tntNumber = contractID
         }
     }
     

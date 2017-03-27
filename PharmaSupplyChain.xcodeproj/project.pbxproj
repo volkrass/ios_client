@@ -13,8 +13,14 @@
 		D22109631E3394240018F181 /* ModumSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109621E3394240018F181 /* ModumSensor.swift */; };
 		D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22109641E3397330018F181 /* Sequence+Extension.swift */; };
 		D22376481DD0B02C00877A6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22376471DD0B02C00877A6D /* String+Extension.swift */; };
+		D22B18D91E87F15800E1D6D2 /* ParcelCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B18D81E87F15800E1D6D2 /* ParcelCreateViewController.swift */; };
+		D22B18DB1E883A5600E1D6D2 /* UIActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B18DA1E883A5600E1D6D2 /* UIActivityIndicator.swift */; };
 		D246367B1E84468D00B8F81F /* CounterBasedMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D246367A1E84468D00B8F81F /* CounterBasedMeasurement.swift */; };
 		D246367D1E84600500B8F81F /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D246367C1E84600500B8F81F /* KeychainStore.swift */; };
+		D24808F61E8868E500A60F12 /* CreatedParcel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24808F51E8868E500A60F12 /* CreatedParcel.swift */; };
+		D24808F81E88775D00A60F12 /* UILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24808F71E88775D00A60F12 /* UILoadingView.swift */; };
+		D24808FA1E887A9800A60F12 /* ParcelReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24808F91E887A9800A60F12 /* ParcelReceiveViewController.swift */; };
+		D24808FE1E88812500A60F12 /* TemperatureMeasurementsObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24808FD1E88812500A60F12 /* TemperatureMeasurementsObject.swift */; };
 		D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D251772F1E7FDC950045DFFE /* RootViewController.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
@@ -89,8 +95,14 @@
 		D22109621E3394240018F181 /* ModumSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModumSensor.swift; sourceTree = "<group>"; };
 		D22109641E3397330018F181 /* Sequence+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		D22376471DD0B02C00877A6D /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		D22B18D81E87F15800E1D6D2 /* ParcelCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelCreateViewController.swift; sourceTree = "<group>"; };
+		D22B18DA1E883A5600E1D6D2 /* UIActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIActivityIndicator.swift; sourceTree = "<group>"; };
 		D246367A1E84468D00B8F81F /* CounterBasedMeasurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CounterBasedMeasurement.swift; sourceTree = "<group>"; };
 		D246367C1E84600500B8F81F /* KeychainStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		D24808F51E8868E500A60F12 /* CreatedParcel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatedParcel.swift; sourceTree = "<group>"; };
+		D24808F71E88775D00A60F12 /* UILoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILoadingView.swift; sourceTree = "<group>"; };
+		D24808F91E887A9800A60F12 /* ParcelReceiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelReceiveViewController.swift; sourceTree = "<group>"; };
+		D24808FD1E88812500A60F12 /* TemperatureMeasurementsObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureMeasurementsObject.swift; sourceTree = "<group>"; };
 		D251772F1E7FDC950045DFFE /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +236,8 @@
 				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
 				D2908F861E7196F300C019CC /* SettingsViewController.swift */,
 				D251772F1E7FDC950045DFFE /* RootViewController.swift */,
+				D22B18D81E87F15800E1D6D2 /* ParcelCreateViewController.swift */,
+				D24808F91E887A9800A60F12 /* ParcelReceiveViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -233,6 +247,8 @@
 			children = (
 				D27FF33C1E5C40F9005C011D /* TemperatureGradientLine.swift */,
 				D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */,
+				D22B18DA1E883A5600E1D6D2 /* UIActivityIndicator.swift */,
+				D24808F71E88775D00A60F12 /* UILoadingView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -254,6 +270,8 @@
 				D2908F791E69B31100C019CC /* ServerError.swift */,
 				D2C857A71E7ACEB500348FFF /* User.swift */,
 				D2C857A91E7ACEC100348FFF /* Company.swift */,
+				D24808F51E8868E500A60F12 /* CreatedParcel.swift */,
+				D24808FD1E88812500A60F12 /* TemperatureMeasurementsObject.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -596,17 +614,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2908F741E68E71A00C019CC /* CompanyTemperatureCategory.swift in Sources */,
+				D24808F81E88775D00A60F12 /* UILoadingView.swift in Sources */,
+				D22B18D91E87F15800E1D6D2 /* ParcelCreateViewController.swift in Sources */,
+				D22B18DB1E883A5600E1D6D2 /* UIActivityIndicator.swift in Sources */,
 				D2908F6A1E68DCB000C019CC /* TemperatureCategory.swift in Sources */,
 				D2A61D601E682811005E0FE7 /* Date+Extension.swift in Sources */,
 				D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */,
 				D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */,
 				D2C857A61E7ACE6000348FFF /* LoginManager.swift in Sources */,
+				D24808F61E8868E500A60F12 /* CreatedParcel.swift in Sources */,
 				D246367B1E84468D00B8F81F /* CounterBasedMeasurement.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2908F761E69AE8200C019CC /* Sensor.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
 				D27B9E081E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift in Sources */,
 				D2908F781E69B05F00C019CC /* LoginObject.swift in Sources */,
+				D24808FA1E887A9800A60F12 /* ParcelReceiveViewController.swift in Sources */,
 				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D2B5E8441E4775A30035EB31 /* UIAlertController+Extension.swift in Sources */,
@@ -636,6 +659,7 @@
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */,
+				D24808FE1E88812500A60F12 /* TemperatureMeasurementsObject.swift in Sources */,
 				D2908F721E68E60800C019CC /* CompanyDefaults.swift in Sources */,
 				D27FF33D1E5C40F9005C011D /* TemperatureGradientLine.swift in Sources */,
 				D2C857AA1E7ACEC100348FFF /* Company.swift in Sources */,

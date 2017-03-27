@@ -20,11 +20,6 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     fileprivate var modumSensor: ModumSensor?
     fileprivate var bluetoothManager: BluetoothManager?
     
-    // MARK: Constants
-    
-    /* sensor should have at least 30% of battery before sending process */
-    fileprivate let MIN_BATTERY_LEVEL: Int = 30
-    
     // MARK: Outlets
     
     @IBOutlet weak fileprivate var progressBar: UIProgressView!
@@ -149,7 +144,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
         UserDefaults.standard.set(["A0E6F8C1D386"], forKey: "bluetoothDevices")
         
         if isReceivingParcel {
-            bluetoothManager!.scanForPeripheral(WithName: nil, WithTimeout: 15.0)
+            bluetoothManager!.scanForPeripheral(WithName: nil)
         } else {
             /* TODO: debug */
             if var devicesArray = UserDefaults.standard.array(forKey: "bluetoothDevices") as? [String] {
@@ -158,7 +153,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             } else {
                 UserDefaults.standard.set([sensorMACAddress!], forKey: "bluetoothDevices")
             }
-            bluetoothManager!.scanForPeripheral(WithName: sensorMACAddress!, WithTimeout: 15.0)
+            bluetoothManager!.scanForPeripheral(WithName: sensorMACAddress!)
         }
     }
     

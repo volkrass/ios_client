@@ -91,7 +91,10 @@ class ServerManager {
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                let serverError = ServerError(JSONString: errorResponseJSON)
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
                                 completionHandler(serverError, nil)
                             } else {
                                 completionHandler(ServerError.defaultError, nil)
@@ -127,7 +130,10 @@ class ServerManager {
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                let serverError = ServerError(JSONString: errorResponseJSON)
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
                                 completionHandler(serverError, nil)
                             } else {
                                 completionHandler(ServerError.defaultError, nil)
@@ -154,7 +160,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures/status", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures/status", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                         (response: DataResponse<SmartContractStatus>) -> Void in
                         
                         switch response.result {
@@ -163,7 +169,10 @@ class ServerManager {
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                let serverError = ServerError(JSONString: errorResponseJSON)
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
                                 completionHandler(serverError, nil)
                             } else {
                                 completionHandler(ServerError.defaultError, nil)
@@ -182,7 +191,8 @@ class ServerManager {
     }
     
     /*
-     Requests a prepared shipment for a specified Track-n-Trace number
+     Requests a prepared shipment for a specified Track&Trace number
+     API call: http://dev.modum.io/api/preparedshipments/tntNumber/<tntNumber>
      - @tntNumber: Track-N-Trace number of the shipment
      - @completionHandler: returns a boolean variable, indicating whether request was successful or not
      */
@@ -190,7 +200,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "preparedshipments/tntnumber/\(tntNumber)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                    Alamofire.request(DEV_API_URL + "preparedshipments/tntnumber/\(tntNumber)", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                         (response: DataResponse<PreparedShipment>) -> Void in
                         
                         switch response.result {
@@ -199,7 +209,10 @@ class ServerManager {
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                let serverError = ServerError(JSONString: errorResponseJSON)
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
                                 completionHandler(serverError, nil)
                             } else {
                                 completionHandler(ServerError.defaultError, nil)
@@ -226,7 +239,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
+                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
                         (response: DataResponse<[Sensor]>) -> Void in
                         
                         switch response.result {
@@ -235,7 +248,10 @@ class ServerManager {
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                let serverError = ServerError(JSONString: errorResponseJSON)
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
                                 completionHandler(serverError, nil)
                             } else {
                                 completionHandler(ServerError.defaultError, nil)
@@ -256,16 +272,73 @@ class ServerManager {
     /*
      Uploads temperature measurements for a parcel given @tntNumber and @sensorID parameters
      API call: POST http://dev.modum.io/api/parcels/<tntNumber>/<sensorID>/temperatures/status
-     - @completionHandler returns Error object if error occured and SmartContractStatus object if it was returned
+     - @completionHandler returns ServerError object if error occured and SmartContractStatus object if it was returned
      */
-    func postTemperatureMeasurements(tntNumber: String, sensorID: String, completionHandler: @escaping (ServerError?, CompanyDefaults?) -> Void) {
+    func postTemperatureMeasurements(tntNumber: String, sensorID: String, measurements: TemperatureMeasurementsObject, completionHandler: @escaping (ServerError?, TemperatureMeasurementsObject?) -> Void) {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    //            Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil/* ["Authorization" : authorizationHeader] */).validate().responseObject(completionHandler: {
-                    //                _ in
-                    //
-                    //            })
+                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                        (response: DataResponse<TemperatureMeasurementsObject>) -> Void in
+                        
+                        switch response.result {
+                        case .success:
+                            completionHandler(nil, response.result.value)
+                        case .failure(let error):
+                            log("Error is \(error.localizedDescription)")
+                            if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
+                                completionHandler(serverError, nil)
+                            } else {
+                                completionHandler(ServerError.defaultError, nil)
+                            }
+                        }
+                    })
+                } else {
+                    completionHandler(ServerError.defaultError, nil)
+                }
+            } else {
+                completionHandler(ServerError.noInternet, nil)
+            }
+        } else {
+            completionHandler(ServerError.defaultError, nil)
+        }
+    }
+    
+    /*
+     Uploads created parcel to the server
+     API call: POST http://dev.modum.io/api/v2/parcels/create
+     - @completionHandler returns ServerError object if error occured
+     */
+    func createParcel(parcel: CreatedParcel, completionHandler: @escaping (ServerError?, Parcel?) -> Void) {
+        if let reachability = reachability {
+            if reachability.isReachable {
+                if let authorizationHeader = authorizationHeader {
+                    log("JSON parcel: \(parcel.toJSON())")
+                    Alamofire.request(DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                        (response: DataResponse<Parcel>) -> Void in
+                        
+                        switch response.result {
+                        case .success:
+                            completionHandler(nil, response.result.value)
+                        case .failure(let error):
+                            log("Error is \(error.localizedDescription)")
+                            if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
+                                completionHandler(serverError, nil)
+                            } else {
+                                completionHandler(ServerError.defaultError, nil)
+                            }
+                        }
+                    })
+                } else {
+                    completionHandler(ServerError.defaultError, nil)
                 }
             } else {
                 completionHandler(ServerError.noInternet, nil)
@@ -293,7 +366,10 @@ class ServerManager {
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                let serverError = ServerError(JSONString: errorResponseJSON)
+                                var serverError = ServerError(JSONString: errorResponseJSON)
+                                if serverError == nil {
+                                    serverError = ServerError.defaultError
+                                }
                                 completionHandler(serverError, nil)
                             } else {
                                 completionHandler(ServerError.defaultError, nil)

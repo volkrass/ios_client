@@ -263,8 +263,8 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
      Can be used to hide infoTextView when there is no information to display
      */
     fileprivate func hideInfoTextView() -> CGFloat? {
-        infoIcon.removeFromSuperview()
-        infoTextView.removeFromSuperview()
+        infoIcon.isHidden = true
+        infoTextView.isHidden = true
         layoutIfNeeded()
         
         return 520.0

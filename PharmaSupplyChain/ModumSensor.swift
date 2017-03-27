@@ -214,7 +214,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     // MARK: Constants
     
     /* sensor should have at least 30% of battery before sending process */
-    fileprivate let MIN_BATTERY_LEVEL: Int = 30
+    static let MIN_BATTERY_LEVEL: Int = 30
     
     /**********  Services UUIDs **********/
     
@@ -526,7 +526,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                     if sensorBeforeSendCheck != nil {
                         sensorBeforeSendCheck!.checkedBatteryLevel = true
                     } 
-                    if let delegate = delegate, batteryLevel <= MIN_BATTERY_LEVEL {
+                    if let delegate = delegate, batteryLevel <= ModumSensor.MIN_BATTERY_LEVEL {
                         delegate.modumSensorErrorOccured(.batteryLevelTooLow)
                     }
                 }

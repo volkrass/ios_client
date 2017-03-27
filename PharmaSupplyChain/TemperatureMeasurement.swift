@@ -15,6 +15,8 @@ class TemperatureMeasurement : Mappable/*, CoreDataObject */ {
     var temperature: Double?
     var timestamp: Date?
     
+    public init() {}
+    
     // MARK: Mappable
     
     public required init?(map: Map) {

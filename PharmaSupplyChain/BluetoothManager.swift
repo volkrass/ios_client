@@ -43,6 +43,11 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     
     fileprivate var nameToScanFor: String?
     
+    // MARK: Constants
+    
+    /* default value for scanning timeout, in seconds */
+    fileprivate static let scanTimeout: Double = 15.0
+    
     private override init() {
         dispatchQueue = DispatchQueue.global(qos: .userInteractive)
         centralManager = CBCentralManager.init(delegate: nil, queue: dispatchQueue)
@@ -81,29 +86,27 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         })
     }
     
-    func scanForPeripheral(WithName name: String?, WithTimeout timeout: Double?) {
+    func scanForPeripheral(WithName name: String?) {
         if !centralManager.isScanning {
             nameToScanFor = name
-            if let timeout = timeout {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    
-                    if let bluetoothManager = self {
-                        bluetoothManager.scanTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: {
-                            [weak self]
-                            timer in
-                            
-                            log("Scan didn't find peripheral \(name) in \(timeout) seconds! Finishing scan...")
-                            timer.invalidate()
-                            
-                            if let bluetoothManager = self {
-                                bluetoothManager.centralManager.stopScan()
-                                if let delegate = bluetoothManager.delegate {
-                                    delegate.bluetoothManagerFailedToDiscoverPeripheral()
-                                }
+            DispatchQueue.main.async {
+                [weak self] in
+                
+                if let bluetoothManager = self {
+                    bluetoothManager.scanTimer = Timer.scheduledTimer(withTimeInterval: BluetoothManager.scanTimeout, repeats: false, block: {
+                        [weak self]
+                        timer in
+                        
+                        log("Scan didn't find peripheral \(name) in \(BluetoothManager.scanTimeout) seconds! Finishing scan...")
+                        timer.invalidate()
+                        
+                        if let bluetoothManager = self {
+                            bluetoothManager.centralManager.stopScan()
+                            if let delegate = bluetoothManager.delegate {
+                                delegate.bluetoothManagerFailedToDiscoverPeripheral()
                             }
-                        })
-                    }
+                        }
+                    })
                 }
             }
             centralManager.scanForPeripherals(withServices: nil, options: nil)
