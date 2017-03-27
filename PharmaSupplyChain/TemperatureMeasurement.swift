@@ -39,7 +39,7 @@ class TemperatureMeasurement : Mappable/*, CoreDataObject */ {
             (value: Date?) -> Int? in
             
             if let value = value {
-                return Int(value.timeIntervalSince1970)
+                return Int(value.timeIntervalSince1970) * 1000
             } else {
                 return nil
             }

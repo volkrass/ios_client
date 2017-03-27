@@ -218,6 +218,11 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
             return
         }
         
+        guard uniq(timestamps).count == timestamps.count else {
+            log("Certain timestamps occur more than once!")
+            return
+        }
+        
         let maxTempLimitLine = ChartLimitLine(limit: Double(maxTemp), label: "Maximum Temperature")
         let minTempLimitLine = ChartLimitLine(limit: Double(minTemp), label: "Minimum Temperature")
         if let openSansLightFontLarge = UIFont(name: "OpenSans-Light", size: 9.0) {

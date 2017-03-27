@@ -193,7 +193,7 @@ class ServerManager {
     /*
      Requests a prepared shipment for a specified Track&Trace number
      API call: http://dev.modum.io/api/preparedshipments/tntNumber/<tntNumber>
-     - @tntNumber: Track-N-Trace number of the shipment
+     - @tntNumber: Track&Trace number of the shipment
      - @completionHandler: returns a boolean variable, indicating whether request was successful or not
      */
     func getPreparedShipment(tntNumber: String, completionHandler: @escaping (ServerError?, PreparedShipment?) -> Void) {
