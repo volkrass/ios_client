@@ -53,7 +53,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2E-ce-5H4">
-                                <rect key="frame" x="26" y="448" width="323" height="111"/>
+                                <rect key="frame" x="26" y="290" width="323" height="111"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="42k-X1-rHc">
                                         <rect key="frame" x="10" y="5" width="303" height="45"/>
@@ -122,24 +122,8 @@
                                     <constraint firstAttribute="bottom" secondItem="83h-MA-NeM" secondAttribute="bottom" constant="5" id="tzS-bC-NH3"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fC7-79-Too">
-                                <rect key="frame" x="26" y="45" width="323" height="323"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="modum_logo" translatesAutoresizingMaskIntoConstraints="NO" id="LgB-IS-TCk">
-                                        <rect key="frame" x="15" y="15" width="293" height="293"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="LgB-IS-TCk" firstAttribute="leading" secondItem="fC7-79-Too" secondAttribute="leading" constant="15" id="Hdz-wG-bYd"/>
-                                    <constraint firstAttribute="trailing" secondItem="LgB-IS-TCk" secondAttribute="trailing" constant="15" id="Q2o-FY-FPk"/>
-                                    <constraint firstItem="LgB-IS-TCk" firstAttribute="top" secondItem="fC7-79-Too" secondAttribute="top" constant="15" id="Vdn-Ch-jrx"/>
-                                    <constraint firstAttribute="bottom" secondItem="LgB-IS-TCk" secondAttribute="bottom" constant="15" id="jjw-O8-plf"/>
-                                    <constraint firstAttribute="width" secondItem="fC7-79-Too" secondAttribute="height" multiplier="1:1" id="y2X-eb-nZL"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="59z-Kx-Gy9">
-                                <rect key="frame" x="91.5" y="569" width="192.5" height="31"/>
+                                <rect key="frame" x="91.5" y="411" width="192.5" height="31"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jc9-gO-eKg">
                                         <rect key="frame" x="52" y="5" width="140.5" height="21"/>
@@ -164,33 +148,38 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L5L-42-Gzg">
-                                <rect key="frame" x="26" y="443" width="323" height="0.0"/>
+                                <rect key="frame" x="26" y="285" width="323" height="0.0"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.17579792599999999" blue="0.22168335859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="modum_logo" translatesAutoresizingMaskIntoConstraints="NO" id="LgB-IS-TCk">
+                                <rect key="frame" x="50" y="70" width="275" height="165"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="LgB-IS-TCk" secondAttribute="height" multiplier="250:150" id="YHt-2C-FTe"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="e2E-ce-5H4" secondAttribute="trailing" constant="10" id="0Ha-eF-jKw"/>
-                            <constraint firstItem="fC7-79-Too" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4GD-vc-dOl"/>
                             <constraint firstItem="59z-Kx-Gy9" firstAttribute="top" secondItem="e2E-ce-5H4" secondAttribute="bottom" constant="10" id="7bb-Ay-61d"/>
                             <constraint firstItem="L5L-42-Gzg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="Brb-Gn-XC4"/>
                             <constraint firstItem="e2E-ce-5H4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CQe-dS-Y3B"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="fC7-79-Too" secondAttribute="trailing" constant="10" id="Cyg-wd-gdp"/>
-                            <constraint firstItem="fC7-79-Too" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="25" id="FIz-bS-pAf"/>
                             <constraint firstItem="e2E-ce-5H4" firstAttribute="top" secondItem="L5L-42-Gzg" secondAttribute="bottom" constant="5" id="IVF-fV-5AR"/>
+                            <constraint firstItem="LgB-IS-TCk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="L7a-Qn-7Vj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="L5L-42-Gzg" secondAttribute="trailing" constant="10" id="M4A-Cf-GC2"/>
-                            <constraint firstItem="e2E-ce-5H4" firstAttribute="top" secondItem="fC7-79-Too" secondAttribute="bottom" constant="80" id="SWu-53-m68"/>
+                            <constraint firstItem="L5L-42-Gzg" firstAttribute="top" secondItem="LgB-IS-TCk" secondAttribute="bottom" constant="50" id="NLA-kK-1kt"/>
                             <constraint firstItem="59z-Kx-Gy9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bwg-CP-BF9"/>
-                            <constraint firstItem="fC7-79-Too" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="eoB-dh-4Ub"/>
+                            <constraint firstItem="LgB-IS-TCk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="c70-g3-moa"/>
                             <constraint firstItem="e2E-ce-5H4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="hST-7I-chr"/>
+                            <constraint firstItem="LgB-IS-TCk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="iJr-hU-co2"/>
+                            <constraint firstAttribute="trailing" secondItem="LgB-IS-TCk" secondAttribute="trailing" constant="50" id="rbM-YH-A3t"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="loginErrorLabel" destination="L5L-42-Gzg" id="zEW-jc-Cyx"/>
                         <outlet property="loginView" destination="e2E-ce-5H4" id="2wb-Vs-MGq"/>
-                        <outlet property="modumLogoView" destination="fC7-79-Too" id="gab-iT-k6J"/>
                         <outlet property="passwordTextField" destination="wwF-hk-PkF" id="bKY-rC-4pY"/>
                         <outlet property="rememberMeSwitch" destination="Fr0-Ad-S7t" id="d9Y-rj-EKv"/>
                         <outlet property="separatorLine" destination="chZ-Yz-GFc" id="Msy-vA-sTM"/>

@@ -13,8 +13,6 @@ class LoginViewController: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak fileprivate var modumLogoView: UIView!
-    
     @IBOutlet weak fileprivate var loginView: UIView!
     @IBOutlet weak fileprivate var usernameTextField: UITextField!
     @IBOutlet weak fileprivate var separatorLine: UIView!
@@ -131,8 +129,6 @@ class LoginViewController: UIViewController {
         view.layer.insertSublayer(gradientLayer, at: 0)
         
         /* making views rounded */
-        modumLogoView.layer.cornerRadius = 25.0
-        modumLogoView.layer.masksToBounds = true
         loginView.layer.cornerRadius = 10.0
         loginView.layer.masksToBounds = true
         
