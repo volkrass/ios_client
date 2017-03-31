@@ -91,6 +91,7 @@
 		4E451B3924BFC50E879F4C34 /* Pods_PharmaSupplyChainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PharmaSupplyChainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A0D2782D1AAC38AD4D6560D /* Pods-PharmaSupplyChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChainTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChainTests/Pods-PharmaSupplyChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7410104D999D1176E158685C /* Pods-PharmaSupplyChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PharmaSupplyChain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PharmaSupplyChain/Pods-PharmaSupplyChain.debug.xcconfig"; sourceTree = "<group>"; };
+		D210CF1F1E8E815D00B1AA58 /* PharmaSupplyChain_Bridging_Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PharmaSupplyChain_Bridging_Header.h; path = PharmaSupplyChain/PharmaSupplyChain_Bridging_Header.h; sourceTree = "<group>"; };
 		D212D9DE1DEB3BCD0075C54E /* CodeScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeScannerViewController.swift; sourceTree = "<group>"; };
 		D22109621E3394240018F181 /* ModumSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModumSensor.swift; sourceTree = "<group>"; };
 		D22109641E3397330018F181 /* Sequence+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
@@ -306,6 +307,7 @@
 		D2BA8DD21DBF3B320023F581 = {
 			isa = PBXGroup;
 			children = (
+				D210CF1F1E8E815D00B1AA58 /* PharmaSupplyChain_Bridging_Header.h */,
 				D29A6AF41E5A1E9200176B7D /* Fonts */,
 				D2E1EEDF1DD29C6300B26463 /* GoogleService-Info.plist */,
 				D2BA8DDD1DBF3B320023F581 /* PharmaSupplyChain */,

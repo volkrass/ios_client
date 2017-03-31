@@ -3,6 +3,7 @@ PODS:
   - AlamofireObjectMapper (4.0.0):
     - Alamofire (~> 4.0)
     - ObjectMapper (~> 2.0)
+  - AMPopTip (1.4.2)
   - Charts (3.0.1):
     - Charts/Core (= 3.0.1)
   - Charts/Core (3.0.1)
@@ -31,10 +32,12 @@ PODS:
   - Spring (1.0.3)
   - SwiftyJSON (3.1.1)
   - UXCam (2.5.8)
+  - YNDropDownMenu (2.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - AlamofireObjectMapper
+  - AMPopTip
   - Charts
   - Firebase/Core
   - FoldingCell
@@ -43,6 +46,7 @@ DEPENDENCIES:
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift3`)
   - SwiftyJSON
   - UXCam
+  - YNDropDownMenu
 
 EXTERNAL SOURCES:
   Spring:
@@ -57,6 +61,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   AlamofireObjectMapper: 9faa3ce5a240efda1b209009a2d6e1e949227abc
+  AMPopTip: e53d714c276d2a3b2b10914c5d7db486d35a041e
   Charts: 0e84f4418e87dad6a9edde221fba37ebb51d3ba7
   Firebase: ff77ffb77b317c3720fef57a60e9335cebf962e6
   FirebaseAnalytics: 6e58fc9b397664369ac7617fb0ba93fab6ba7b5b
@@ -71,7 +76,8 @@ SPEC CHECKSUMS:
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
+  YNDropDownMenu: 64d2d882d1de76095172de12133e7bd173fe4d26
 
-PODFILE CHECKSUM: 14e091aa5f53f79bc44d4d44bde75cf197fac0fd
+PODFILE CHECKSUM: f4e44bc70692634cbcfd7cf37251703e3aa391fe
 
 COCOAPODS: 1.2.0.beta.3

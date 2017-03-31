@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Spring
+import AMPopTip
+import YNDropDownMenu
 
 class SettingsViewController : UIViewController {
     
@@ -21,38 +22,49 @@ class SettingsViewController : UIViewController {
     @IBOutlet weak fileprivate var usernameLabel: UILabel!
     @IBOutlet weak fileprivate var companyNameLabel: UILabel!
     
+    @IBOutlet weak fileprivate var modeInfoButton: UIButton!
     @IBOutlet weak fileprivate var modeView: UIView!
     @IBOutlet weak fileprivate var modeLabel: UILabel!
+    @IBOutlet weak fileprivate var modeNextButton: UIButton!
     
     @IBOutlet weak fileprivate var logoutView: UIView!
     
     // MARK: Actions
     
-    @IBAction fileprivate func modeSwitchButtonTouchUpInside(_ sender: UIButton) {
-        if let springButton = sender as? SpringButton {
-            let isSenderMode = UserDefaults.standard.bool(forKey: "isSenderMode")
-            UserDefaults.standard.set(!isSenderMode, forKey: "isSenderMode")
-            let timer = Timer(timeInterval: 0.7, repeats: false, block: {
-                [weak self]
-                timer in
-                
-                timer.invalidate()
-                if let settingsController = self {
-                    if isSenderMode {
-                        settingsController.modeLabel.text = "Receiver Mode"
-                    } else {
-                        settingsController.modeLabel.text = "Sender Mode"
-                    }
-                }
-            })
-            RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
-            springButton.animation = "pop"
-            springButton.curve = "easeInSine"
-            springButton.force = 1.0
-            springButton.velocity = 0.7
-            springButton.duration = 1.0
-            springButton.animate()
-        }
+    @IBAction fileprivate func modeInfoIconTouchUpInside(_ sender: UIButton) {
+        let tipView = AMPopTip()
+        tipView.shouldDismissOnTap = true
+        tipView.popoverColor = UIColor.red
+        let attributedTipText = NSAttributedString(string: "Set operation mode to \"Sender\" to be able to send parcels or set operation mode to \"Receiver\" to receive parcels", attributes: [NSFontAttributeName : UIFont(name: "OpenSans-Light", size: 14.0)!])
+        tipView.showAttributedText(attributedTipText, direction: .up, maxWidth: 200.0, in: modeView, fromFrame: modeView.frame)
+    }
+    
+    @IBAction fileprivate func nextButtonTouchUpInside(_ sender: UIButton) {
+        let dropdownMenu = YNDropDownMenu(frame: CGRect(x: modeView.frame.minX, y: modeView.frame.maxY, width: modeView.frame.width, height: 200), dropDownViews: [], dropDownViewTitles: ["Sender Mode", "Receiver Mode"])
+//        if let springButton = sender as? SpringButton {
+//            let isSenderMode = UserDefaults.standard.bool(forKey: "isSenderMode")
+//            UserDefaults.standard.set(!isSenderMode, forKey: "isSenderMode")
+//            let timer = Timer(timeInterval: 0.7, repeats: false, block: {
+//                [weak self]
+//                timer in
+//                
+//                timer.invalidate()
+//                if let settingsController = self {
+//                    if isSenderMode {
+//                        settingsController.modeLabel.text = "Receiver Mode"
+//                    } else {
+//                        settingsController.modeLabel.text = "Sender Mode"
+//                    }
+//                }
+//            })
+//            RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
+//            springButton.animation = "pop"
+//            springButton.curve = "easeInSine"
+//            springButton.force = 1.0
+//            springButton.velocity = 0.7
+//            springButton.duration = 1.0
+//            springButton.animate()
+//        }
     }
     
     @IBAction fileprivate func logoutButtonTouchUpInside(_ sender: UIButton) {
