@@ -32,7 +32,6 @@ PODS:
   - Spring (1.0.3)
   - SwiftyJSON (3.1.1)
   - UXCam (2.5.8)
-  - YNDropDownMenu (2.0.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -46,7 +45,6 @@ DEPENDENCIES:
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift3`)
   - SwiftyJSON
   - UXCam
-  - YNDropDownMenu
 
 EXTERNAL SOURCES:
   Spring:
@@ -76,8 +74,7 @@ SPEC CHECKSUMS:
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
-  YNDropDownMenu: 64d2d882d1de76095172de12133e7bd173fe4d26
 
-PODFILE CHECKSUM: f4e44bc70692634cbcfd7cf37251703e3aa391fe
+PODFILE CHECKSUM: 060dcf763b054c409a423f2c7f27e3ace845aeb7
 
 COCOAPODS: 1.2.0.beta.3

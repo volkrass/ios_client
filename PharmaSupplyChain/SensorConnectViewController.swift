@@ -28,7 +28,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let contractID = contractID else {
+        guard contractID != nil else {
             log("contractID string is nil!")
             
             let internalErrorAlertController = UIAlertController(title: nil, message: "Internal error occured! Please, try again!", preferredStyle: .alert)
@@ -47,7 +47,7 @@ class SensorConnectViewController : UIViewController, BluetoothManagerDelegate, 
             return
         }
         if !isReceivingParcel {
-            guard let sensorMACAddress = sensorMACAddress else {
+            guard sensorMACAddress != nil else {
                 log("Sensor MAC address string is nil!")
                 
                 let internalErrorAlertController = UIAlertController(title: nil, message: "Internal error occured! Please, try again!", preferredStyle: .alert)

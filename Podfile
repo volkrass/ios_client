@@ -13,7 +13,6 @@ target 'PharmaSupplyChain' do
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
   pod 'ReachabilitySwift', '~> 3'
   pod 'AMPopTip'
-  pod 'YNDropDownMenu'
 end
 
 target 'PharmaSupplyChainTests' do
@@ -28,5 +27,4 @@ target 'PharmaSupplyChainTests' do
     pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
     pod 'ReachabilitySwift', '~> 3'
     pod 'AMPopTip'
-    pod 'YNDropDownMenu'
 end
