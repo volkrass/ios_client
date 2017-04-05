@@ -34,33 +34,35 @@ class SettingsViewController : UIViewController {
     // MARK: Actions
     
     @IBAction fileprivate func modeInfoIconTouchUpInside(_ sender: UIButton) {
-        if currentTipView != nil {
-            /* don't show anything, tip already presented */
+        if let currentTipView = currentTipView {
+            currentTipView.hide()
+            self.currentTipView = nil
             return
-        }
-        let tipView = AMPopTip()
-        tipView.shouldDismissOnTap = true
-        tipView.popoverColor = UIColor.white.withAlphaComponent(0.7)
-        tipView.dismissHandler = {
-            [weak self] in
-            
-            if let settingsViewController = self {
-                settingsViewController.currentTipView = nil
-                settingsViewController.modeSwitchButton.layer.removeAllAnimations()
+        } else {
+            let tipView = AMPopTip()
+            tipView.shouldDismissOnTap = true
+            tipView.popoverColor = UIColor.white.withAlphaComponent(0.7)
+            tipView.dismissHandler = {
+                [weak self] in
+                
+                if let settingsViewController = self {
+                    settingsViewController.currentTipView = nil
+                    settingsViewController.modeSwitchButton.layer.removeAllAnimations()
+                }
             }
+            let attributedTipText = NSAttributedString(string: "Set operation mode to \"Sender\" to be able to send parcels or set operation mode to \"Receiver\" to receive parcels", attributes: [NSFontAttributeName : UIFont(name: "OpenSans-Light", size: 14.0)!])
+            tipView.showAttributedText(attributedTipText, direction: .up, maxWidth: 300.0, in: view, fromFrame: modeView.frame)
+            currentTipView = tipView
+            
+            /* add animation to mode switch button */
+            let colorAnimation = CABasicAnimation(keyPath: "opacity")
+            colorAnimation.fromValue = 1.0
+            colorAnimation.toValue = 0.0
+            colorAnimation.duration = 1
+            colorAnimation.autoreverses = true
+            colorAnimation.repeatCount = FLT_MAX
+            modeSwitchButton.layer.add(colorAnimation, forKey: "animateOpacity")
         }
-        let attributedTipText = NSAttributedString(string: "Set operation mode to \"Sender\" to be able to send parcels or set operation mode to \"Receiver\" to receive parcels", attributes: [NSFontAttributeName : UIFont(name: "OpenSans-Light", size: 14.0)!])
-        tipView.showAttributedText(attributedTipText, direction: .up, maxWidth: 300.0, in: view, fromFrame: modeView.frame)
-        currentTipView = tipView
-        
-        /* add animation to mode switch button */
-        let colorAnimation = CABasicAnimation(keyPath: "opacity")
-        colorAnimation.fromValue = 1.0
-        colorAnimation.toValue = 0.0
-        colorAnimation.duration = 1
-        colorAnimation.autoreverses = true
-        colorAnimation.repeatCount = FLT_MAX
-        modeSwitchButton.layer.add(colorAnimation, forKey: "animateOpacity")
     }
     
     @IBAction fileprivate func modeSwitchButtonTouchUpInside(_ sender: UIButton) {

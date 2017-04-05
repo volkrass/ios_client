@@ -1,5 +1,5 @@
 //
-//  ParcelParametersViewController.swift
+//  ParcelCreateViewController.swift
 //  PharmaSupplyChain
 //
 //  Created by Yury Belevskiy on 26.03.17.
@@ -127,9 +127,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                 [weak self]
                 _ in
                 
-                if let parcelParametersViewController = self {
+                if let parcelCreateViewController = self {
                     internalErrorAlertController.dismiss(animated: true, completion: nil)
-                    _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                    _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                 }
             })
             
@@ -166,9 +166,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                 [weak self]
                 _ in
                 
-                if let parcelParametersViewController = self {
+                if let parcelCreateViewController = self {
                     internalErrorAlertController.dismiss(animated: true, completion: nil)
-                    _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                    _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                 }
             })
             
@@ -182,28 +182,28 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
             [weak self]
             error, preparedShipment in
             
-            if let parcelParametersViewController = self {
+            if let parcelCreateViewController = self {
                 if error != nil {
-                    parcelParametersViewController.hideLoadingView()
+                    parcelCreateViewController.hideLoadingView()
                 } else if let preparedShipment = preparedShipment {
                     if let category = preparedShipment.temperatureCategory {
-                        parcelParametersViewController.createdParcel!.tempCategory = category
+                        parcelCreateViewController.createdParcel!.tempCategory = category
                     } else {
                         let internalErrorAlertController = UIAlertController(title: nil, message: "Internal error occured! Please, try again!", preferredStyle: .alert)
                         let alertControllerWithDismiss = internalErrorAlertController.addDismissAction(WithHandler: {
                             [weak self]
                             _ in
                             
-                            if let parcelParametersViewController = self {
+                            if let parcelCreateViewController = self {
                                 internalErrorAlertController.dismiss(animated: true, completion: nil)
-                                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                                _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                             }
                         })
                         
-                        parcelParametersViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
+                        parcelCreateViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
                     }
                     /* Connect to sensor and write data from prepared shipment */
-                    parcelParametersViewController.bluetoothManager!.start()
+                    parcelCreateViewController.bluetoothManager!.start()
                 }
             }
         })
@@ -266,9 +266,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
             [weak self]
             _ in
             
-            if let parcelParametersViewController = self {
+            if let parcelCreateViewController = self {
                 noBluetoothAlertController.dismiss(animated: true, completion: nil)
-                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         let goToSettingsAction = UIAlertAction(title: "Settings", style: .default, handler: {
@@ -290,9 +290,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
             [weak self]
             _ in
             
-            if let parcelParametersViewController = self {
+            if let parcelCreateViewController = self {
                 bluetoothUnavailableAlertController.dismiss(animated: true, completion: nil)
-                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -300,8 +300,12 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
     }
     
     func bluetoothManagerIsReady() {
-        if let loadingView = loadingView {
-            loadingView.setText(text: "Scanning for Bluetooth devices...")
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let parcelCreateViewController = self, let loadingView = parcelCreateViewController.loadingView {
+                loadingView.setText(text: "Scanning for Bluetooth devices...")
+            }
         }
         bluetoothManager!.scanForPeripheral(WithName: sensorMAC!)
     }
@@ -318,9 +322,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
             [weak self]
             _ in
             
-            if let parcelParametersViewController = self {
+            if let parcelCreateViewController = self {
                 discoveryFailureAlertController.dismiss(animated: true, completion: nil)
-                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -328,8 +332,12 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
     }
     
     func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool) {
-        if let loadingView = loadingView {
-            loadingView.setText(text: "Connected to sensor!")
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let parcelCreateViewController = self, let loadingView = parcelCreateViewController.loadingView {
+                loadingView.setText(text: "Connected to sensor!")
+            }
         }
         guard let peripheralName = peripheral.name, peripheralName == sensorMAC! else {
             log("Wrong peripheral connected: \(peripheral.name)")
@@ -355,9 +363,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
             [weak self]
             _ in
             
-            if let parcelParametersViewController = self {
+            if let parcelCreateViewController = self {
                 sensorUnsupportedAlertController.dismiss(animated: true, completion: nil)
-                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -366,17 +374,16 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
     
     func modumSensorCheckBeforeSendingPerformed() {
         if let companyDefaults = companyDefaults, let timeInterval = companyDefaults.defaultMeasurementInterval {
-            /* TODO: timeinterval debug */
-            modumSensor!.writeShipmentData(startTime: Date(), timeInterval: UInt8(1), contractID: tntNumber!)
+            modumSensor!.writeShipmentData(startTime: Date(), timeInterval: UInt8(timeInterval), contractID: tntNumber!)
         } else {
             let internalErrorAlertController = UIAlertController(title: nil, message: "Internal error occured! Please, try again!", preferredStyle: .alert)
             let alertControllerWithDismiss = internalErrorAlertController.addDismissAction(WithHandler: {
                 [weak self]
                 _ in
                 
-                if let parcelParametersViewController = self {
+                if let parcelCreateViewController = self {
                     internalErrorAlertController.dismiss(animated: true, completion: nil)
-                    _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                    _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                 }
             })
             
@@ -391,11 +398,11 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
         DispatchQueue.main.async {
             [weak self] in
             
-            if let parcelParametersViewController = self {
-                if let loadingView = parcelParametersViewController.loadingView {
+            if let parcelCreateViewController = self {
+                if let loadingView = parcelCreateViewController.loadingView {
                     loadingView.setText(text: "Parcel created!")
                 }
-                if let createdParcel = parcelParametersViewController.createdParcel {
+                if let createdParcel = parcelCreateViewController.createdParcel {
                     ServerManager.shared.createParcel(parcel: createdParcel, completionHandler: {
                         [weak self]
                         error, parcel in
@@ -408,8 +415,8 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                 DispatchQueue.main.asyncAfter(deadline: dispatchAfter, execute: {
                     [weak self] in
                     
-                    if let parcelParametersViewController = self {
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                    if let parcelCreateViewController = self {
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
             }
@@ -428,9 +435,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelCreateViewController = self {
                         outOfBatteryAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -441,9 +448,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelCreateViewController = self {
                         sensorIsRecordingAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -454,9 +461,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelCreateViewController = self {
                         sensorBrokenAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -467,9 +474,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelCreateViewController = self {
                         serviceUnavailableAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -480,9 +487,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelCreateViewController = self {
                         notRecordingAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 

@@ -20,7 +20,7 @@ class UILoadingView : UIView {
         activityIndicator = UIActivityIndicator(frame: CGRect(x: rect.width/2 - 50.0, y: rect.minY + 50.0, width: 100.0, height: 100.0))
         
         /* adding info label */
-        infoLabel = UILabel(frame: CGRect(x: rect.minX + 25.0, y: rect.height + 75.0, width: rect.width - 50.0, height: 25.0))
+        infoLabel = UILabel(frame: CGRect(x: rect.minX + 25.0, y: rect.minY + 175.0, width: rect.width - 50.0, height: 25.0))
         infoLabel.font = UIFont(name: "OpenSans-Light", size: 20.0)
         infoLabel.textColor = IOS7_BLUE_COLOR
         infoLabel.textAlignment = .center

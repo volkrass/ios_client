@@ -112,9 +112,9 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
             [weak self]
             _ in
             
-            if let parcelParametersViewController = self {
+            if let parcelReceiveViewController = self {
                 noBluetoothAlertController.dismiss(animated: true, completion: nil)
-                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         let goToSettingsAction = UIAlertAction(title: "Settings", style: .default, handler: {
@@ -136,9 +136,9 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
             [weak self]
             _ in
             
-            if let parcelParametersViewController = self {
+            if let parcelReceiveViewController = self {
                 bluetoothUnavailableAlertController.dismiss(animated: true, completion: nil)
-                _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
             }
         })
         
@@ -146,8 +146,12 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerIsReady() {
-        if let loadingView = loadingView {
-            loadingView.setText(text: "Scanning for Bluetooth devices...")
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let parcelReceiveViewController = self, let loadingView = parcelReceiveViewController.loadingView {
+                loadingView.setText(text: "Scanning for Bluetooth devices...")
+            }
         }
         if let sensor = sensor, let sensorMAC = sensor.sensorMAC {
             bluetoothManager!.scanForPeripheral(WithName: sensorMAC)
@@ -176,8 +180,12 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func bluetoothManagerPeripheralConnected(_ peripheral: CBPeripheral, _ success: Bool) {
-        if let loadingView = loadingView {
-            loadingView.setText(text: "Connected to sensor!")
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let parcelReceiveViewController = self, let loadingView = parcelReceiveViewController.loadingView {
+                loadingView.setText(text: "Connected to sensor!")
+            }
         }
         guard let peripheralName = peripheral.name, peripheralName == sensor!.sensorMAC! else {
             log("Wrong peripheral connected: \(peripheral.name)")
@@ -232,9 +240,9 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelReceiveViewController = self {
                         outOfBatteryAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -245,9 +253,9 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelReceiveViewController = self {
                         sensorIsRecordingAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -258,9 +266,9 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelReceiveViewController = self {
                         sensorBrokenAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -271,9 +279,9 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                     [weak self]
                     _ in
                     
-                    if let parcelParametersViewController = self {
+                    if let parcelReceiveViewController = self {
                         serviceUnavailableAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelParametersViewController.navigationController?.popToRootViewController(animated: true)
+                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
@@ -296,8 +304,12 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
     }
     
     func modumSensorCheckBeforeReceivingPerformed() {
-        if let loadingView = loadingView {
-            loadingView.setText(text: "Downloading data from sensor...")
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            if let parcelReceiveViewController = self, let loadingView = parcelReceiveViewController.loadingView {
+                loadingView.setText(text: "Downloading data from sensor...")
+            }
         }
         modumSensor!.downloadShipmentData()
     }
@@ -311,7 +323,7 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
             
             if let parcelReceiveViewController = self {
                 if let loadingView = parcelReceiveViewController.loadingView {
-                    loadingView.setText(text: "Uploading measurements to server...")
+                    loadingView.setText(text: "Uploading measurements...")
                 }
                 /* uploading measurements data to server */
                 if let startTime = startTime, let interval = interval, let measurements = measurements, let tempCategory =  parcelReceiveViewController.sensor?.tempCategory {
