@@ -82,8 +82,13 @@ class KeychainStore : NSObject {
      Otherwise, does nothing
      */
     fileprivate static func delete(service: String) {
-        let keychainQuery = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, userAccount, kCFBooleanTrue, kSecMatchLimitOneValue], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecReturnDataValue, kSecMatchLimitValue])
-        SecItemDelete(keychainQuery)
+        let keychainQuery = NSMutableDictionary(objects: [kSecClassGenericPasswordValue], forKeys: [kSecClassValue])
+        let status = SecItemDelete(keychainQuery)
+        if status == errSecSuccess {
+            log("Successfully cleared Keychain!")
+        } else {
+            log("Failed to clear keychain! Status is \(status)")
+        }
     }
     
 }

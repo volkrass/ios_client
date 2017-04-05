@@ -18,6 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        /* clear keychain if app was de-installed */
+        if UserDefaults.standard.object(forKey: "FirstLaunch") == nil {
+            /* first launch detected */
+            LoginManager.shared.clear()
+            UserDefaults.standard.set(true, forKey: "FirstLaunch")
+        }
+        
         /* setting up analytics */
         FIRApp.configure()
         UXCam.start(withKey: "4e331aa53d215bd")
