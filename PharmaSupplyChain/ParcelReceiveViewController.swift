@@ -338,8 +338,8 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                                     parcelReceiveViewController.loadingView?.stopAnimating()
                                 } else {
                                     parcelReceiveViewController.loadingView?.setText(text: "Uploaded measurements successfully!")
-                                    _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
                                 }
+                                _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
                             }
                         })
                     }

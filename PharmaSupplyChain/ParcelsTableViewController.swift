@@ -135,9 +135,9 @@ class ParcelsTableViewController : UITableViewController {
             parcelTableViewCell.receivedTimeLabel.text = "-"
         }
         if currentMode {
-            parcelTableViewCell.companyNameLabel.text = parcel.senderCompany
+            parcelTableViewCell.companyNameLabel.text = parcel.senderCompany ?? "-"
         } else {
-            parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany
+            parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany ?? "-"
         }
         if let parcelStatus = parcel.parcelStatus {
             switch parcelStatus {
