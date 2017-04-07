@@ -45,10 +45,10 @@ class LoginManager: NSObject {
     }
     
     func clear() {
-        UserDefaults.standard.removeObject(forKey: "username")
+        if let bundle = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundle)
+        }
         KeychainStore.clear()
-        UserDefaults.standard.removeObject(forKey: "companyName")
-        UserDefaults.standard.removeObject(forKey: "authToken")
     }
     
 }

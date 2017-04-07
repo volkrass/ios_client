@@ -278,6 +278,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
+                    
                     Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                         (response: DataResponse<TemperatureMeasurementsObject>) -> Void in
                         
