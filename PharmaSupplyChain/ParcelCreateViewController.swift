@@ -178,7 +178,7 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
         }
         
         /* attempt to fetch prepared shipment details for scanned TNT. If they aren't available or there is no internet, suggest user to choose from CompanyDefaults. If those are non-available, abort sending parcel */
-        ServerManager.shared.getPreparedShipment(tntNumber: tntNumber, completionHandler: {
+        ServerManager.shared.getPreparedShipment(tntNumber: "", completionHandler: {
             [weak self]
             error, preparedShipment in
             

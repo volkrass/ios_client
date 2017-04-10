@@ -195,6 +195,7 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         /* adding transparent overlay */
         let overlayPath = UIBezierPath(rect: view.bounds)
         var transparentHole: UIBezierPath!
+        let screenSize = getDeviceScreenSize()
         if getDeviceScreenSize() == .small {
             transparentHole = UIBezierPath(rect: CGRect(x: 0, y: view.bounds.height/2.0 - 50.0, width: view.bounds.width, height: 200.0))
         } else {

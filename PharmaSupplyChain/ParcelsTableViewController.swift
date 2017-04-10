@@ -82,7 +82,6 @@ class ParcelsTableViewController : UITableViewController {
             settingsButton.addTarget(self, action: #selector(goToSettings), for: .touchUpInside)
             let settingsBarButton = UIBarButtonItem(customView: settingsButton)
             navigationItem.rightBarButtonItem = settingsBarButton
-            //navigationItem.rightBarButtonItem!.isEnabled = false
         }
         
         if let openSansFont = UIFont(name: "OpenSans-Light", size: 20.0) {
