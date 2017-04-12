@@ -60,7 +60,7 @@ class SettingsViewController : UIViewController {
             colorAnimation.toValue = 0.0
             colorAnimation.duration = 1
             colorAnimation.autoreverses = true
-            colorAnimation.repeatCount = FLT_MAX
+            colorAnimation.repeatCount = Float.greatestFiniteMagnitude
             modeSwitchButton.layer.add(colorAnimation, forKey: "animateOpacity")
         }
     }

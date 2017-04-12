@@ -271,7 +271,7 @@ class ServerManager {
     
     /*
      Uploads temperature measurements for a parcel given @tntNumber and @sensorID parameters
-     API call: POST http://dev.modum.io/api/parcels/<tntNumber>/<sensorID>/temperatures/status
+     API call: POST http://dev.modum.io/api/parcels/<tntNumber>/<sensorID>/temperatures
      - @completionHandler returns ServerError object if error occured and SmartContractStatus object if it was returned
      */
     func postTemperatureMeasurements(tntNumber: String, sensorID: String, measurements: TemperatureMeasurementsObject, completionHandler: @escaping (ServerError?, TemperatureMeasurementsObject?) -> Void) {

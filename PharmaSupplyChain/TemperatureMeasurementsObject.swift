@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class TemperatureMeasurementsObject : Mappable {
+class TemperatureMeasurementsObject : Mappable, CoreDataObject {
     
     // MARK: Properties
     
@@ -39,6 +39,16 @@ class TemperatureMeasurementsObject : Mappable {
     public func mapping(map: Map) {
         temperatureMeasurements <- map["measurements"]
         localInterpretationSuccess <- map["localInterpretationSuccess"]
+    }
+    
+    // MARK: CoreDataObject
+    
+    public required init?(WithCoreDataObject object: CDTempMeasurementsObject) {
+        
+    }
+    
+    public func toCoreDataObject(object: CDTempMeasurementsObject) {
+        
     }
     
 }

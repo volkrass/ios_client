@@ -31,7 +31,7 @@ class ParcelsTableViewController : UITableViewController {
     
     fileprivate var selectedParcel: Parcel?
     
-    fileprivate var currentMode: Bool {
+    fileprivate var isSender: Bool {
         get {
             return UserDefaults.standard.bool(forKey: "isSenderMode")
         }
@@ -95,7 +95,7 @@ class ParcelsTableViewController : UITableViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = false
-        if currentMode {
+        if isSender {
             navigationItem.title = "Sender Mode"
         } else {
             navigationItem.title = "Receiver Mode"
@@ -133,10 +133,18 @@ class ParcelsTableViewController : UITableViewController {
         } else {
             parcelTableViewCell.receivedTimeLabel.text = "-"
         }
-        if currentMode {
-            parcelTableViewCell.companyNameLabel.text = parcel.senderCompany ?? "-"
+        if isSender {
+            if let senderCompany = parcel.senderCompany, !senderCompany.isEmpty {
+                parcelTableViewCell.companyNameLabel.text = senderCompany
+            } else {
+                parcelTableViewCell.companyNameLabel.text = "-"
+            }
         } else {
-            parcelTableViewCell.companyNameLabel.text = parcel.receiverCompany ?? "-"
+            if let receiverCompany = parcel.receiverCompany, !receiverCompany.isEmpty {
+                parcelTableViewCell.companyNameLabel.text = receiverCompany
+            } else {
+                parcelTableViewCell.companyNameLabel.text = "-"
+            }
         }
         if let parcelStatus = parcel.parcelStatus {
             switch parcelStatus {
@@ -202,7 +210,7 @@ class ParcelsTableViewController : UITableViewController {
             let titleButton = UIButton(frame: CGRect(x: modeView.bounds.width / 4.0, y: 7.5, width: modeView.bounds.width / 2.0, height: modeView.bounds.height - 15.0))
             titleButton.layer.cornerRadius = 10.0
             
-            if currentMode {
+            if isSender {
                 titleButton.setTitle("SEND", for: .normal)
                 titleButton.addTarget(self, action: #selector(sendButtonDidTouchDown(sender:)), for: .touchUpInside)
             } else {
@@ -234,7 +242,7 @@ class ParcelsTableViewController : UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let codeScannerController = segue.destination as? CodeScannerViewController {
-            codeScannerController.isReceivingParcel = !currentMode
+            codeScannerController.isReceivingParcel = !isSender
         }
     }
     

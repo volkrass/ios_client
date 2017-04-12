@@ -8,6 +8,7 @@
 
 import CoreData
 
+/* CoreData class dedicated to store TemperatureCategory model object */
 public class CDTempCategory : NSManagedObject, UniqueManagedObject {
     
     override public func awakeFromInsert() {

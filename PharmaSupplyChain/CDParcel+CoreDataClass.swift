@@ -8,6 +8,7 @@
 
 import CoreData
 
+/* CoreData class dedicated to store Parcel model object */
 public class CDParcel : NSManagedObject, UniqueManagedObject {
     
     override public func awakeFromInsert() {

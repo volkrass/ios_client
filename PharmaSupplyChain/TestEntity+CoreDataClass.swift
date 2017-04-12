@@ -8,6 +8,7 @@
 
 import CoreData
 
+/* CoreData class that is used for testing purposes */
 class TestEntity: NSManagedObject, UniqueManagedObject {
     
     override public func awakeFromInsert() {

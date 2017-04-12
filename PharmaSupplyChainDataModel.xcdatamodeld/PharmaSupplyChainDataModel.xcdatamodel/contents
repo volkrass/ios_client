@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CDCompanyDefaults" representedClassName=".CDCompanyDefaults" syncable="YES">
         <attribute name="defaultMeasurementInterval" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <relationship name="defaultTempCategory" maxCount="1" deletionRule="Cascade" destinationEntity="CDTempCategory" inverseName="companyDefaultsForDefaultTemp" inverseEntity="CDTempCategory" syncable="YES"/>
         <relationship name="tempCategories" toMany="YES" deletionRule="Cascade" destinationEntity="CDTempCategory" inverseName="companyDefaultsForTempCategories" inverseEntity="CDTempCategory" syncable="YES"/>
     </entity>
-    <entity name="CDParcel" representedClassName=".Parcel" syncable="YES">
+    <entity name="CDCreatedParcel" representedClassName=".CDCreatedParcel" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="maxFailsTemp" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sensorMAC" attributeType="String" syncable="YES"/>
+        <attribute name="tntNumber" attributeType="String" syncable="YES"/>
+        <relationship name="tempCategory" maxCount="1" deletionRule="Nullify" destinationEntity="CDTempCategory" inverseName="createdParcels" inverseEntity="CDTempCategory" syncable="YES"/>
+    </entity>
+    <entity name="CDParcel" representedClassName=".CDParcel" syncable="YES">
         <attribute name="additionalInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateReceived" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="dateSent" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -32,6 +39,25 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="companyDefaultsForDefaultTemp" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDCompanyDefaults" inverseName="defaultTempCategory" inverseEntity="CDCompanyDefaults" syncable="YES"/>
         <relationship name="companyDefaultsForTempCategories" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDCompanyDefaults" inverseName="tempCategories" inverseEntity="CDCompanyDefaults" syncable="YES"/>
+        <relationship name="createdParcels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDCreatedParcel" inverseName="tempCategory" inverseEntity="CDCreatedParcel" syncable="YES"/>
+    </entity>
+    <entity name="CDTempMeasurement" representedClassName=".CDTempMeasurement" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="temperature" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="measurementsObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDTempMeasurementsObject" inverseName="measurements" inverseEntity="CDTempMeasurementsObject" syncable="YES"/>
+    </entity>
+    <entity name="CDTempMeasurementsObject" representedClassName=".CDTempMeasurementsUpload" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="localInterpretationSuccess" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="measurements" toMany="YES" deletionRule="Cascade" destinationEntity="CDTempMeasurement" inverseName="measurementsObject" inverseEntity="CDTempMeasurement" syncable="YES"/>
+        <relationship name="uploadObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDTempMeasurementsUpload" inverseName="measurementsObject" inverseEntity="CDTempMeasurementsUpload" syncable="YES"/>
+    </entity>
+    <entity name="CDTempMeasurementsUpload" representedClassName=".CDTempMeasurementsUpload" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="sensorMAC" attributeType="String" syncable="YES"/>
+        <attribute name="tntNumber" attributeType="String" syncable="YES"/>
+        <relationship name="measurementsObject" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDTempMeasurementsObject" inverseName="uploadObject" inverseEntity="CDTempMeasurementsObject" syncable="YES"/>
     </entity>
     <entity name="TestEntity" representedClassName=".TestEntity" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -40,9 +66,13 @@
         <attribute name="optional" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDParcel" positionX="-63" positionY="-18" width="128" height="285"/>
-        <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
         <element name="CDCompanyDefaults" positionX="-63" positionY="99" width="128" height="105"/>
-        <element name="CDTempCategory" positionX="-54" positionY="108" width="128" height="150"/>
+        <element name="CDParcel" positionX="-63" positionY="-18" width="128" height="285"/>
+        <element name="CDTempCategory" positionX="-54" positionY="108" width="128" height="165"/>
+        <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
+        <element name="CDTempMeasurement" positionX="-63" positionY="108" width="128" height="105"/>
+        <element name="CDTempMeasurementsObject" positionX="-54" positionY="117" width="128" height="105"/>
+        <element name="CDTempMeasurementsUpload" positionX="-36" positionY="126" width="128" height="105"/>
+        <element name="CDCreatedParcel" positionX="-27" positionY="135" width="128" height="120"/>
     </elements>
 </model>

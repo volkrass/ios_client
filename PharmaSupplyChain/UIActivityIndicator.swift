@@ -63,14 +63,14 @@ class UIActivityIndicator : UIView {
         circleShapeLayer.path            = UIBezierPath(arcCenter: center,
                                                         radius: center.x,
                                                         startAngle: 0,
-                                                        endAngle: CGFloat(M_PI*2),
+                                                        endAngle: CGFloat(Double.pi*2),
                                                         clockwise: true).cgPath
         layer.addSublayer(circleShapeLayer)
     }
     
     fileprivate func startRotatingAnimation() {
         let rotation            = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotation.toValue        = M_PI*2
+        rotation.toValue        = Double.pi*2
         rotation.duration       = 2.2
         rotation.isCumulative     = true
         rotation.isAdditive       = true
@@ -109,7 +109,7 @@ class UIActivityIndicator : UIView {
         CATransaction.begin()
         CATransaction.setCompletionBlock {
             if self.circleShapeLayer.animation(forKey: "stroke") != nil {
-                self.circleShapeLayer.transform = CATransform3DRotate(self.circleShapeLayer.transform, CGFloat(M_PI*2) * progress, 0, 0, 1)
+                self.circleShapeLayer.transform = CATransform3DRotate(self.circleShapeLayer.transform, CGFloat(Double.pi*2) * progress, 0, 0, 1)
                 self.circleShapeLayer.removeAnimation(forKey: "stroke")
                 self.startStrokeAnimation()
             }

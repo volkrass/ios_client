@@ -25,5 +25,6 @@ extension CDTempCategory {
     /* relationships */
     @NSManaged public var companyDefaultsForDefaultTemp: CDCompanyDefaults?
     @NSManaged public var companyDefaultsForDefaultCategories: CDCompanyDefaults?
+    @NSManaged public var createdParcels: NSSet?
     
 }

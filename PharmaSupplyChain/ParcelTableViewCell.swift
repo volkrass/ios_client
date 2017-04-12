@@ -50,10 +50,10 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         if let parcel = parcel, let tntNumber = parcel.tntNumber, let sensorID = parcel.sensorID {
             /* rotate button animation */
             UIView.animate(withDuration: 0.5, animations: {
-                sender.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                sender.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
             })
             UIView.animate(withDuration: 0.5, delay: 0.4, options: [.curveEaseIn], animations: {
-                sender.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI*2))
+                sender.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi*2))
             })
             
             /* fetch temperature measurements blockchain status */
@@ -174,8 +174,16 @@ class ParcelTableViewCell : FoldingCell, ChartViewDelegate {
         } else {
             detailReceivedTimeLabel.text = "-"
         }
-        detailSenderCompanyLabel.text = parcel.senderCompany ?? "-"
-        detailReceiverCompanyLabel.text = parcel.receiverCompany ?? "-"
+        if let senderCompany = parcel.senderCompany, !senderCompany.isEmpty {
+            detailSenderCompanyLabel.text = senderCompany
+        } else {
+            detailSenderCompanyLabel.text = "-"
+        }
+        if let receiverCompany = parcel.receiverCompany, !receiverCompany.isEmpty {
+            detailReceiverCompanyLabel.text = receiverCompany
+        } else {
+            detailReceiverCompanyLabel.text = "-"
+        }
         if let minTemp = parcel.minTemp, let maxTemp = parcel.maxTemp {
             detailTempMinLabel.text = String(minTemp) + "℃"
             detailTempMaxLabel.text = String(maxTemp) + "℃"

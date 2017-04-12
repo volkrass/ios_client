@@ -23,7 +23,12 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
         didSet {
             categoryPickerView.reloadComponent(0)
             if let companyDefaults = companyDefaults, let measurementInterval = companyDefaults.defaultMeasurementInterval {
-                measurementsIntervalLabel.text = "\(measurementInterval) minutes"
+                if getDeviceScreenSize() == .small {
+                    measurementsIntervalLabel.font = UIFont(name: "OpenSans-Light", size: 18.0)
+                    measurementsIntervalLabel.text = "\(measurementInterval) min"
+                } else {
+                    measurementsIntervalLabel.text = "\(measurementInterval) minutes"
+                }
             } else {
                 measurementsIntervalLabel.text = "-"
             }

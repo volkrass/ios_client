@@ -8,6 +8,7 @@
 
 import CoreData
 
+/* CoreData class dedicated to store CompanyDefaults model object */
 public class CDCompanyDefaults : NSManagedObject, UniqueManagedObject {
 
     override public func awakeFromInsert() {

@@ -22,6 +22,15 @@
 		D24808FA1E887A9800A60F12 /* ParcelReceiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24808F91E887A9800A60F12 /* ParcelReceiveViewController.swift */; };
 		D24808FE1E88812500A60F12 /* TemperatureMeasurementsObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24808FD1E88812500A60F12 /* TemperatureMeasurementsObject.swift */; };
 		D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D251772F1E7FDC950045DFFE /* RootViewController.swift */; };
+		D253CC821E9E5D280076589B /* CDTempMeasurement+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC811E9E5D280076589B /* CDTempMeasurement+CoreDataClass.swift */; };
+		D253CC841E9E5D410076589B /* CDTempMeasurement+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC831E9E5D410076589B /* CDTempMeasurement+CoreDataProperties.swift */; };
+		D253CC861E9E6F3F0076589B /* CDTempMeasurementsObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC851E9E6F3F0076589B /* CDTempMeasurementsObject+CoreDataClass.swift */; };
+		D253CC881E9E6F490076589B /* CDTempMeasurementsObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC871E9E6F490076589B /* CDTempMeasurementsObject+CoreDataProperties.swift */; };
+		D253CC8A1E9E70950076589B /* CDTempMeasurementsUpload+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC891E9E70950076589B /* CDTempMeasurementsUpload+CoreDataClass.swift */; };
+		D253CC8C1E9E709E0076589B /* CDTempMeasurementsUpload+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC8B1E9E709E0076589B /* CDTempMeasurementsUpload+CoreDataProperties.swift */; };
+		D253CC8E1E9E7E530076589B /* CDCreatedParcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC8D1E9E7E530076589B /* CDCreatedParcel+CoreDataClass.swift */; };
+		D253CC901E9E7E620076589B /* CDCreatedParcel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC8F1E9E7E620076589B /* CDCreatedParcel+CoreDataProperties.swift */; };
+		D253CC921E9E88420076589B /* ReccurentUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D253CC911E9E88420076589B /* ReccurentUploader.swift */; };
 		D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */; };
 		D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */; };
 		D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */; };
@@ -65,7 +74,6 @@
 		D2C857A61E7ACE6000348FFF /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C857A51E7ACE6000348FFF /* LoginManager.swift */; };
 		D2C857A81E7ACEB500348FFF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C857A71E7ACEB500348FFF /* User.swift */; };
 		D2C857AA1E7ACEC100348FFF /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C857A91E7ACEC100348FFF /* Company.swift */; };
-		D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */; };
 		D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED61DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld */; };
 		D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */; };
 		D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1EEDB1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift */; };
@@ -106,6 +114,15 @@
 		D24808F91E887A9800A60F12 /* ParcelReceiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelReceiveViewController.swift; sourceTree = "<group>"; };
 		D24808FD1E88812500A60F12 /* TemperatureMeasurementsObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureMeasurementsObject.swift; sourceTree = "<group>"; };
 		D251772F1E7FDC950045DFFE /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		D253CC811E9E5D280076589B /* CDTempMeasurement+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempMeasurement+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D253CC831E9E5D410076589B /* CDTempMeasurement+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempMeasurement+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D253CC851E9E6F3F0076589B /* CDTempMeasurementsObject+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempMeasurementsObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D253CC871E9E6F490076589B /* CDTempMeasurementsObject+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempMeasurementsObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D253CC891E9E70950076589B /* CDTempMeasurementsUpload+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempMeasurementsUpload+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D253CC8B1E9E709E0076589B /* CDTempMeasurementsUpload+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTempMeasurementsUpload+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D253CC8D1E9E7E530076589B /* CDCreatedParcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDCreatedParcel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D253CC8F1E9E7E620076589B /* CDCreatedParcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDCreatedParcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D253CC911E9E88420076589B /* ReccurentUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReccurentUploader.swift; sourceTree = "<group>"; };
 		D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelsTableViewController.swift; sourceTree = "<group>"; };
 		D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParcelTableViewCell.swift; sourceTree = "<group>"; };
@@ -153,7 +170,6 @@
 		D2C857A51E7ACE6000348FFF /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		D2C857A71E7ACEB500348FFF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D2C857A91E7ACEC100348FFF /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
-		D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorConnectViewController.swift; sourceTree = "<group>"; };
 		D2E1EED71DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PharmaSupplyChainDataModel.xcdatamodel; sourceTree = "<group>"; };
 		D2E1EED91DD2581500B26463 /* CDParcel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDParcel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D2E1EEDB1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDParcel+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -233,7 +249,6 @@
 			isa = PBXGroup;
 			children = (
 				D212D9DE1DEB3BCD0075C54E /* CodeScannerViewController.swift */,
-				D2DDC9FD1DFEE7040057686D /* SensorConnectViewController.swift */,
 				D27786CE1DC2499F007D3FB5 /* LoginViewController.swift */,
 				D27786D41DC25204007D3FB5 /* ParcelsTableViewController.swift */,
 				D27786D81DC2529A007D3FB5 /* ParcelTableViewCell.swift */,
@@ -393,6 +408,14 @@
 				D27B9E091E76D7E8004B3CE1 /* CDCompanyDefaults+CoreDataProperties.swift */,
 				D27B9E0B1E76D7F9004B3CE1 /* CDTempCategory+CoreDataClass.swift */,
 				D27B9E0D1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift */,
+				D253CC811E9E5D280076589B /* CDTempMeasurement+CoreDataClass.swift */,
+				D253CC831E9E5D410076589B /* CDTempMeasurement+CoreDataProperties.swift */,
+				D253CC851E9E6F3F0076589B /* CDTempMeasurementsObject+CoreDataClass.swift */,
+				D253CC871E9E6F490076589B /* CDTempMeasurementsObject+CoreDataProperties.swift */,
+				D253CC891E9E70950076589B /* CDTempMeasurementsUpload+CoreDataClass.swift */,
+				D253CC8B1E9E709E0076589B /* CDTempMeasurementsUpload+CoreDataProperties.swift */,
+				D253CC8D1E9E7E530076589B /* CDCreatedParcel+CoreDataClass.swift */,
+				D253CC8F1E9E7E620076589B /* CDCreatedParcel+CoreDataProperties.swift */,
 			);
 			name = CoreDataObjects;
 			sourceTree = "<group>";
@@ -404,6 +427,7 @@
 				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
 				D27786DF1DC283B5007D3FB5 /* ServerUtils.swift */,
 				D2B7E67D1E97E5E30079D431 /* ModumRequestRetrier.swift */,
+				D253CC911E9E88420076589B /* ReccurentUploader.swift */,
 			);
 			name = Server;
 			sourceTree = "<group>";
@@ -626,37 +650,45 @@
 				D2908F741E68E71A00C019CC /* CompanyTemperatureCategory.swift in Sources */,
 				D24808F81E88775D00A60F12 /* UILoadingView.swift in Sources */,
 				D22B18D91E87F15800E1D6D2 /* ParcelCreateViewController.swift in Sources */,
+				D253CC841E9E5D410076589B /* CDTempMeasurement+CoreDataProperties.swift in Sources */,
 				D22B18DB1E883A5600E1D6D2 /* UIActivityIndicator.swift in Sources */,
 				D2908F6A1E68DCB000C019CC /* TemperatureCategory.swift in Sources */,
 				D2A61D601E682811005E0FE7 /* Date+Extension.swift in Sources */,
+				D253CC921E9E88420076589B /* ReccurentUploader.swift in Sources */,
 				D2E1EEDA1DD2581500B26463 /* CDParcel+CoreDataClass.swift in Sources */,
 				D28D71161E60919F0037C7D8 /* CoreDataObject.swift in Sources */,
 				D2C857A61E7ACE6000348FFF /* LoginManager.swift in Sources */,
+				D253CC8C1E9E709E0076589B /* CDTempMeasurementsUpload+CoreDataProperties.swift in Sources */,
 				D24808F61E8868E500A60F12 /* CreatedParcel.swift in Sources */,
 				D246367B1E84468D00B8F81F /* CounterBasedMeasurement.swift in Sources */,
+				D253CC8E1E9E7E530076589B /* CDCreatedParcel+CoreDataClass.swift in Sources */,
 				D27786D91DC2529A007D3FB5 /* ParcelTableViewCell.swift in Sources */,
 				D2908F761E69AE8200C019CC /* Sensor.swift in Sources */,
+				D253CC8A1E9E70950076589B /* CDTempMeasurementsUpload+CoreDataClass.swift in Sources */,
 				D2BCD5E51E24DB75009D2197 /* BluetoothManager.swift in Sources */,
 				D27B9E081E76D7DA004B3CE1 /* CDCompanyDefaults+CoreDataClass.swift in Sources */,
 				D2908F781E69B05F00C019CC /* LoginObject.swift in Sources */,
 				D24808FA1E887A9800A60F12 /* ParcelReceiveViewController.swift in Sources */,
-				D2DDC9FE1DFEE7040057686D /* SensorConnectViewController.swift in Sources */,
 				D27786CF1DC2499F007D3FB5 /* LoginViewController.swift in Sources */,
 				D2B5E8441E4775A30035EB31 /* UIAlertController+Extension.swift in Sources */,
 				D2908F7A1E69B31100C019CC /* ServerError.swift in Sources */,
 				D2F126DF1DBF78AF00964B7D /* ServerManager.swift in Sources */,
 				D2E6DEF81DD2466D00431AA1 /* CoreDataManager.swift in Sources */,
 				D2848A901DD755A600BE2D95 /* TestEntity+CoreDataClass.swift in Sources */,
+				D253CC821E9E5D280076589B /* CDTempMeasurement+CoreDataClass.swift in Sources */,
 				D2908F701E68E47600C019CC /* PreparedShipment.swift in Sources */,
 				D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */,
+				D253CC901E9E7E620076589B /* CDCreatedParcel+CoreDataProperties.swift in Sources */,
 				D2E1EED81DD2577100B26463 /* PharmaSupplyChainDataModel.xcdatamodeld in Sources */,
 				D27B9E0E1E76D801004B3CE1 /* CDTempCategory+CoreDataProperties.swift in Sources */,
 				D2C857A81E7ACEB500348FFF /* User.swift in Sources */,
+				D253CC861E9E6F3F0076589B /* CDTempMeasurementsObject+CoreDataClass.swift in Sources */,
 				D28FD59C1DBF83310077579A /* Utils.swift in Sources */,
 				D2B7E67E1E97E5E30079D431 /* ModumRequestRetrier.swift in Sources */,
 				D2E1EEDC1DD2584B00B26463 /* CDParcel+CoreDataProperties.swift in Sources */,
 				D2908F6C1E68E0A800C019CC /* TemperatureMeasurement.swift in Sources */,
 				D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */,
+				D253CC881E9E6F490076589B /* CDTempMeasurementsObject+CoreDataProperties.swift in Sources */,
 				D27786D51DC25204007D3FB5 /* ParcelsTableViewController.swift in Sources */,
 				D246367D1E84600500B8F81F /* KeychainStore.swift in Sources */,
 				D28D71141E6090010037C7D8 /* Parcel.swift in Sources */,

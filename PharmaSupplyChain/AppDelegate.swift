@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if let appDelegate = self {
                     if let error = error {
-                        log("Error during login! Error is: \(error.message)")
+                        log("Error during login! Error is: \(error.message ?? "")")
                         if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
                             appDelegate.window!.rootViewController = loginViewController
                         }
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             if let appDelegate = self {
                                 if let error = error {
-                                    log("Error retrieving company defaults: \(error.message)")
+                                    log("Error retrieving company defaults: \(error.message ?? "")")
                                     if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
                                         appDelegate.window!.rootViewController = loginViewController
                                     }
