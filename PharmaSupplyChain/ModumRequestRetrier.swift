@@ -12,9 +12,6 @@ class ModumRequestRetrier : RequestRetrier {
     
     // MARK: Properties
     
-    /* determines until which date request should be retried */
-    fileprivate let endDate: Date
-    
     /* how often should request be retried */
     fileprivate let timeInterval: TimeInterval?
     
@@ -22,21 +19,17 @@ class ModumRequestRetrier : RequestRetrier {
     
     fileprivate let DEFAULT_TIME_INTERVAL: TimeInterval = 10
     
-    init(endDate: Date, timeInterval: TimeInterval? = nil) {
-        self.endDate = endDate
+    init(timeInterval: TimeInterval? = nil) {
         self.timeInterval = timeInterval
     }
     
     // MARK: RequestRetrier
     
     func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-        let now = Date()
-        if now < endDate {
-            if let timeInterval = timeInterval {
-                completion(true, timeInterval)
-            } else {
-                completion(true, DEFAULT_TIME_INTERVAL)
-            }
+        if let timeInterval = timeInterval {
+            completion(true, timeInterval)
+        } else {
+            completion(true, DEFAULT_TIME_INTERVAL)
         }
     }
     

@@ -7,8 +7,9 @@
 //
 
 import ObjectMapper
+import CoreData
 
-class CreatedParcel : Mappable {
+class CreatedParcel : Mappable, CoreDataObject {
     
     // MARK: Properties
     
@@ -28,6 +29,27 @@ class CreatedParcel : Mappable {
         sensorUUID <- map["sensorUUID"]
         tempCategory <- map["tempCategory"]
         maxFailsTemp <- map["maxFailsTemp"]
+    }
+    
+    // MARK: CoreDataObject
+    
+    public required init?(WithCoreDataObject object: CDCreatedParcel) {
+        tntNumber = object.tntNumber
+        sensorUUID = object.sensorMAC
+        maxFailsTemp = object.maxFailsTemp
+        tempCategory = TemperatureCategory(WithCoreDataObject: object.tempCategory)
+    }
+
+    public func toCoreDataObject(object: CDCreatedParcel) {
+        if let tempCategory = tempCategory, let sensorUUID = sensorUUID, let tntNumber = tntNumber, let maxFailsTemp = maxFailsTemp {
+            if let moc = object.managedObjectContext, let cdTempCategory = NSEntityDescription.insertNewObject(forEntityName: "CDTempCategory", into: moc) as? CDTempCategory {
+                tempCategory.toCoreDataObject(object: cdTempCategory)
+                object.tempCategory = cdTempCategory
+            }
+            object.sensorMAC = sensorUUID
+            object.maxFailsTemp = maxFailsTemp
+            object.tntNumber = tntNumber
+        }
     }
     
 }

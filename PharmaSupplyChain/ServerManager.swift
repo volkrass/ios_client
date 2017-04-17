@@ -278,10 +278,7 @@ class ServerManager {
         if let authorizationHeader = authorizationHeader {
             let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "modum.io.iosclient")
             let sessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
-            var dateComponents = DateComponents()
-            dateComponents.day = 3
-            let in3Days = Calendar.current.date(byAdding: dateComponents, to: Date())
-            sessionManager.retrier = ModumRequestRetrier(endDate: in3Days!)
+            sessionManager.retrier = ModumRequestRetrier()
             sessionManager.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                 (response: DataResponse<TemperatureMeasurementsObject>) -> Void in
                 
@@ -312,35 +309,30 @@ class ServerManager {
      - @completionHandler returns ServerError object if error occured
      */
     func createParcel(parcel: CreatedParcel, completionHandler: @escaping (ServerError?, Parcel?) -> Void) {
-        if let reachability = reachability {
-            if reachability.isReachable {
-                if let authorizationHeader = authorizationHeader {
-                    log("JSON parcel: \(parcel.toJSON())")
-                    Alamofire.request(DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
-                        (response: DataResponse<Parcel>) -> Void in
-                        
-                        switch response.result {
-                        case .success:
-                            completionHandler(nil, response.result.value)
-                        case .failure(let error):
-                            log("Error is \(error.localizedDescription)")
-                            if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                                var serverError = ServerError(JSONString: errorResponseJSON)
-                                if serverError == nil {
-                                    serverError = ServerError.defaultError
-                                }
-                                completionHandler(serverError, nil)
-                            } else {
-                                completionHandler(ServerError.defaultError, nil)
-                            }
+        if let authorizationHeader = authorizationHeader {
+            log("JSON parcel: \(parcel.toJSON())")
+            let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "modum.io.iosclient")
+            let sessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
+            sessionManager.retrier = ModumRequestRetrier()
+            sessionManager.request(DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                (response: DataResponse<Parcel>) -> Void in
+                
+                switch response.result {
+                case .success:
+                    completionHandler(nil, response.result.value)
+                case .failure(let error):
+                    log("Error is \(error.localizedDescription)")
+                    if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
+                        var serverError = ServerError(JSONString: errorResponseJSON)
+                        if serverError == nil {
+                            serverError = ServerError.defaultError
                         }
-                    })
-                } else {
-                    completionHandler(ServerError.defaultError, nil)
+                        completionHandler(serverError, nil)
+                    } else {
+                        completionHandler(ServerError.defaultError, nil)
+                    }
                 }
-            } else {
-                completionHandler(ServerError.noInternet, nil)
-            }
+            })
         } else {
             completionHandler(ServerError.defaultError, nil)
         }

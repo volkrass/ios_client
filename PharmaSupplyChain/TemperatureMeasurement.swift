@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class TemperatureMeasurement : Mappable/*, CoreDataObject */ {
+class TemperatureMeasurement : Mappable, CoreDataObject {
     
     // MARK: Properties
     
@@ -44,6 +44,20 @@ class TemperatureMeasurement : Mappable/*, CoreDataObject */ {
                 return nil
             }
         }))
+    }
+    
+    // MARK: CoreDataObject
+    
+    public required init?(WithCoreDataObject object: CDTempMeasurement) {
+        temperature = object.temperature
+        timestamp = object.timestamp
+    }
+    
+    public func toCoreDataObject(object: CDTempMeasurement) {
+        if let temperature = temperature, let timestamp = timestamp {
+            object.temperature = temperature
+            object.timestamp = timestamp
+        }
     }
     
 }
