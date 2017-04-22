@@ -26,6 +26,7 @@ class ParcelsTableViewController : UITableViewController {
     fileprivate var parcels: [Parcel] = [] {
         didSet {
             cellHeights = (0..<parcels.count).map { _ in CellHeight.close }
+            tableView.reloadData()
         }
     }
     
@@ -260,9 +261,12 @@ class ParcelsTableViewController : UITableViewController {
         parcelFetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateSent", ascending: false)]
         do {
             let coreDataParcels = try CoreDataManager.shared.viewingContext.fetch(parcelFetchRequest)
-            //parcels = coreDataParcels.map{ $0.}
+            parcels = coreDataParcels.flatMap{ Parcel(WithCoreDataObject: $0) }
         } catch {
-             //TODO: design a view indicating fetch error
+             log("Error fetching parcels from CoreData! Error is \(error.localizedDescription)")
+        }
+        if let refreshControl = refreshControl {
+            refreshControl.endRefreshing()
         }
     }
     
@@ -273,13 +277,15 @@ class ParcelsTableViewController : UITableViewController {
             error, parcels in
             
             if let parcelsTableViewController = self {
-                parcelsTableViewController.refreshControl!.endRefreshing()
                 if let error = error {
-                    //TODO: design a view indicating fetch error
+                    log("Error fetching parcels \(error.message ?? "-")! Pulling existing parcels from CoreData...")
+                    parcelsTableViewController.fetchStoredParcels()
                 } else {
                     if let parcels = parcels {
                         parcelsTableViewController.parcels = parcels
-                        parcelsTableViewController.tableView.reloadData()
+                        if let refreshControl = parcelsTableViewController.refreshControl {
+                            refreshControl.endRefreshing()
+                        }
                     }
                 }
             }

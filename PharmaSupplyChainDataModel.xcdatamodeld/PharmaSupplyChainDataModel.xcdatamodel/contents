@@ -23,6 +23,7 @@
         <attribute name="isReceived" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSent" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSuccess" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="localInterpretationSuccess" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="maxTemp" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="minTemp" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="receiverCompany" attributeType="String" syncable="YES"/>
@@ -67,12 +68,12 @@
     </entity>
     <elements>
         <element name="CDCompanyDefaults" positionX="-63" positionY="99" width="128" height="105"/>
-        <element name="CDParcel" positionX="-63" positionY="-18" width="128" height="285"/>
+        <element name="CDCreatedParcel" positionX="-27" positionY="135" width="128" height="120"/>
+        <element name="CDParcel" positionX="-63" positionY="-18" width="128" height="300"/>
         <element name="CDTempCategory" positionX="-54" positionY="108" width="128" height="165"/>
-        <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
         <element name="CDTempMeasurement" positionX="-63" positionY="108" width="128" height="105"/>
         <element name="CDTempMeasurementsObject" positionX="-54" positionY="117" width="128" height="105"/>
         <element name="CDTempMeasurementsUpload" positionX="-36" positionY="126" width="128" height="105"/>
-        <element name="CDCreatedParcel" positionX="-27" positionY="135" width="128" height="120"/>
+        <element name="TestEntity" positionX="-63" positionY="117" width="128" height="105"/>
     </elements>
 </model>

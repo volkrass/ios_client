@@ -32,5 +32,6 @@ extension CDParcel {
     @NSManaged public var maxTemp: Int
     @NSManaged public var tntNumber: String
     @NSManaged public var additionalInfo: String?
+    @NSManaged public var localInterpretationSuccess: Bool
     
 }

@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class ServerError: Mappable {
+class ServerError: Mappable, Equatable {
     
     static let defaultError: ServerError = ServerError(code: nil, message: "Server error occured. Please, try again!")
     static let noInternet: ServerError = ServerError(code: nil, message: "No network connection!")
@@ -36,6 +36,12 @@ class ServerError: Mappable {
     func mapping(map: Map) {
         code <- map["code"]
         message <- map["message"]
+    }
+    
+    // MARK: Equatable
+    
+    static public func ==(lhs: ServerError, rhs: ServerError) -> Bool {
+        return lhs.code == rhs.code && lhs.message == rhs.message
     }
     
 }

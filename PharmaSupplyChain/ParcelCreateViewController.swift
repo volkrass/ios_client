@@ -408,22 +408,28 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                     loadingView.setText(text: "Parcel created!")
                 }
                 if let createdParcel = parcelCreateViewController.createdParcel {
-                    ServerManager.shared.createParcel(parcel: createdParcel, completionHandler: {
+                    ServerManager.shared.createParcel(parcel: createdParcel, backgroundUpload: false, completionHandler: {
                         [weak self]
                         error, parcel in
                         
-                        
+                        if let parcelCreateViewController = self {
+                            if let error = error {
+                                log("Failed to upload parcel \(error)! Starting background upload...")
+                                parcelCreateViewController.loadingView?.setText(text: "Parcel will be uploaded in background mode...")
+                                parcelCreateViewController.loadingView?.stopAnimating()
+                                RecurrentUploader.shared.addParcelToUpload(parcel: createdParcel)
+                            }
+                            let after = DispatchTime.now() + 1.5
+                            DispatchQueue.main.asyncAfter(deadline: after, execute: {
+                                [weak self] in
+                                
+                                if let parcelCreateViewController = self {
+                                    _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
+                                }
+                            })
+                        }
                     })
                 }
-                
-                let dispatchAfter = DispatchTime.now() + 1.0
-                DispatchQueue.main.asyncAfter(deadline: dispatchAfter, execute: {
-                    [weak self] in
-                    
-                    if let parcelCreateViewController = self {
-                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
-                    }
-                })
             }
         }
     }

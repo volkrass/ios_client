@@ -44,8 +44,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let appDelegate = self {
                     if let error = error {
                         log("Error during login! Error is: \(error.message ?? "")")
-                        if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
-                            appDelegate.window!.rootViewController = loginViewController
+                        /* if there is no internet and token isn't yet expired, present parcels screen */
+                        if error == ServerError.noInternet  {
+                            if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
+                                appDelegate.window!.rootViewController = parcelsNavigationController
+                            }
+                        } else {
+                            if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+                                appDelegate.window!.rootViewController = loginViewController
+                            }
                         }
                     } else if let response = response {
                         /* store user credentials */

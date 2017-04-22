@@ -58,6 +58,7 @@
 		D2908F811E6D5EF300C019CC /* ServerDateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */; };
 		D2908F851E6DD04300C019CC /* ChartLabelDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */; };
 		D2908F871E7196F300C019CC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2908F861E7196F300C019CC /* SettingsViewController.swift */; };
+		D29316EE1EAA578D00706A00 /* UNUserNotificationCenter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29316ED1EAA578D00706A00 /* UNUserNotificationCenter+Extension.swift */; };
 		D29A6AF01E5A1E8A00176B7D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */; };
 		D29A6AF11E5A1E8A00176B7D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */; };
 		D29A6AF21E5A1E8A00176B7D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */; };
@@ -150,6 +151,7 @@
 		D2908F801E6D5EF300C019CC /* ServerDateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDateTransform.swift; sourceTree = "<group>"; };
 		D2908F841E6DD04300C019CC /* ChartLabelDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLabelDateFormatter.swift; sourceTree = "<group>"; };
 		D2908F861E7196F300C019CC /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D29316ED1EAA578D00706A00 /* UNUserNotificationCenter+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Extension.swift"; sourceTree = "<group>"; };
 		D29A6AEC1E5A1E8A00176B7D /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D29A6AED1E5A1E8A00176B7D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		D29A6AEE1E5A1E8A00176B7D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				D2E6DF0B1DD253A000431AA1 /* NSManagedObjectContext+Extension.swift */,
 				D22109641E3397330018F181 /* Sequence+Extension.swift */,
 				D2B5E8431E4775A30035EB31 /* UIAlertController+Extension.swift */,
+				D29316ED1EAA578D00706A00 /* UNUserNotificationCenter+Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -700,6 +703,7 @@
 				D2848A921DD755B200BE2D95 /* TestEntity+CoreDataProperties.swift in Sources */,
 				D22109651E3397330018F181 /* Sequence+Extension.swift in Sources */,
 				D2BA8DDF1DBF3B320023F581 /* AppDelegate.swift in Sources */,
+				D29316EE1EAA578D00706A00 /* UNUserNotificationCenter+Extension.swift in Sources */,
 				D27786E01DC283B5007D3FB5 /* ServerUtils.swift in Sources */,
 				D25177301E7FDC950045DFFE /* RootViewController.swift in Sources */,
 				D24808FE1E88812500A60F12 /* TemperatureMeasurementsObject.swift in Sources */,

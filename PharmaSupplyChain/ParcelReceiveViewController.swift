@@ -328,18 +328,26 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                 /* uploading measurements data to server */
                 if let startTime = startTime, let interval = interval, let measurements = measurements, let tempCategory =  parcelReceiveViewController.sensor?.tempCategory {
                     if let temperatureMeasurementsObject = TemperatureMeasurementsObject(timeInterval: Int(interval), startDate: startTime, measurements: measurements, tempCategory: tempCategory) {
-                        ServerManager.shared.postTemperatureMeasurements(tntNumber: parcelReceiveViewController.tntNumber!, sensorID: parcelReceiveViewController.sensor!.sensorMAC!, measurements: temperatureMeasurementsObject, completionHandler: {
+                        ServerManager.shared.postTemperatureMeasurements(tntNumber: parcelReceiveViewController.tntNumber!, sensorID: parcelReceiveViewController.sensor!.sensorMAC!, measurements: temperatureMeasurementsObject, backgroundUpload: false, completionHandler: {
                             [weak self]
                             error, measurementsObject in
                             
                             if let parcelReceiveViewController = self {
                                 if error != nil {
-                                    parcelReceiveViewController.loadingView?.setText(text: "Failed uploading measurements to the server!")
+                                    parcelReceiveViewController.loadingView?.setText(text: "Failed uploading measurements to the server! Adding upload to background...")
                                     parcelReceiveViewController.loadingView?.stopAnimating()
+                                    RecurrentUploader.shared.addMeasurementsToUpload(tntNumber: parcelReceiveViewController.tntNumber!, sensorMAC: parcelReceiveViewController.sensor!.sensorMAC!, measurements: temperatureMeasurementsObject)
                                 } else {
                                     parcelReceiveViewController.loadingView?.setText(text: "Uploaded measurements successfully!")
                                 }
-                                _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
+                                let after = DispatchTime.now() + 1.5
+                                DispatchQueue.main.asyncAfter(deadline: after, execute: {
+                                    [weak self] in
+                                    
+                                    if let parcelReceiveViewController = self {
+                                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
+                                    }
+                                })
                             }
                         })
                     }

@@ -29,7 +29,7 @@ enum ParcelStatus : String {
     }
 }
 
-class Parcel : Mappable/* , CoreDataObject */ {
+class Parcel : Mappable, CoreDataObject {
     
     // MARK: Properties
     
@@ -81,46 +81,43 @@ class Parcel : Mappable/* , CoreDataObject */ {
         }
     }
     
-//    // MARK: CoreDataObject
-//    
-//    required init?(WithCoreDataObject object: CDParcel) {
-//        id = object.id
-//        temperatureCategory = object.tempCategory
-//        minTemp = object.minTemp
-//        maxTemp = object.maxTemp
-//        tntNumber = object.tntNumber
-//        senderCompany = object.senderCompany
-//        receiverCompany = object.receiverCompany
-//        isReceived = object.isReceived
-//        isSent = object.isSent
-//        isSuccess = object.isSuccess
-//        isFailure = object.isFailed
-//        if let isSuccess = isSuccess, let isFailure = isFailure {
-//            status = ParcelStatus.getStatus(isSuccess: isSuccess, isFailure: isFailure)
-//        }
-//        dateSent = object.dateSent
-//        dateReceived = object.dateReceived
-//        additionalInfo = object.additionalInfo
-//        localInterpretationSuccess = object.localInterpretationSuccess
-//    }
-//    
-//    func toCoreDataObject(object: CDParcel) {
-//        if let id = id, let temperatureCategory = temperatureCategory, let minTemp = minTemp, let maxTemp = maxTemp, let tntNumber = tntNumber, let senderCompany = senderCompany, let receiverCompany = receiverCompany, let isReceived = isReceived, let isSent = isSent, let isFailure = isFailure, let isSuccess = isSuccess, let dateSent = dateSent {
-//            object.id = id
-//            object.tempCategory = temperatureCategory
-//            object.minTemp = minTemp
-//            object.maxTemp = maxTemp
-//            object.tntNumber = tntNumber
-//            object.senderCompany = senderCompany
-//            object.receiverCompany = receiverCompany
-//            object.isReceived = isReceived
-//            object.isSent = isSent
-//            object.isFailed = isFailure
-//            object.isSuccess = isSuccess
-//            object.dateSent = dateSent
-//            object.dateReceived = dateReceived
-//            object.additionalInfo = additionalInfo
-//        }
-//    }
+    // MARK: CoreDataObject
+    
+    required public init?(WithCoreDataObject object: CDParcel) {
+        id = object.id
+        temperatureCategory = object.tempCategory
+        minTemp = object.minTemp
+        maxTemp = object.maxTemp
+        tntNumber = object.tntNumber
+        senderCompany = object.senderCompany
+        receiverCompany = object.receiverCompany
+        isReceived = object.isReceived
+        isSent = object.isSent
+        isSuccess = object.isSuccess
+        isFailure = object.isFailed
+        dateSent = object.dateSent
+        dateReceived = object.dateReceived
+        additionalInfo = object.additionalInfo
+        localInterpretationSuccess = object.localInterpretationSuccess
+    }
+    
+    public func toCoreDataObject(object: CDParcel) {
+        if let id = id, let temperatureCategory = temperatureCategory, let minTemp = minTemp, let maxTemp = maxTemp, let tntNumber = tntNumber, let senderCompany = senderCompany, let receiverCompany = receiverCompany, let isReceived = isReceived, let isSent = isSent, let isFailure = isFailure, let isSuccess = isSuccess, let dateSent = dateSent {
+            object.id = id
+            object.tempCategory = temperatureCategory
+            object.minTemp = minTemp
+            object.maxTemp = maxTemp
+            object.tntNumber = tntNumber
+            object.senderCompany = senderCompany
+            object.receiverCompany = receiverCompany
+            object.isReceived = isReceived
+            object.isSent = isSent
+            object.isFailed = isFailure
+            object.isSuccess = isSuccess
+            object.dateSent = dateSent
+            object.dateReceived = dateReceived
+            object.additionalInfo = additionalInfo
+        }
+    }
     
 }
