@@ -37,9 +37,9 @@ class ServerManager {
     private init() {
         self.reachability = Reachability()
         
-        /* configuring background session manager */
-        let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "modum.io.iosclient")
-        sessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
+        /* configuring session manager */
+        let configuration = Alamofire.URLSessionConfiguration.default
+        sessionManager = Alamofire.SessionManager(configuration: configuration)
         sessionManager.retrier = ModumRequestRetrier()
     }
     

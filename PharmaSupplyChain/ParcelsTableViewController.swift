@@ -283,6 +283,32 @@ class ParcelsTableViewController : UITableViewController {
                 } else {
                     if let parcels = parcels {
                         parcelsTableViewController.parcels = parcels
+                        
+                        /* store parcels in CoreData */
+                        CoreDataManager.shared.performBackgroundTask(WithBlock: {
+                            backgroundContext in
+                            
+                            /* delete existing parcels from CoreData */
+                            let allParcelsFetchRequest = NSFetchRequest<CDParcel>(entityName: "CDParcel")
+                            allParcelsFetchRequest.predicate = NSPredicate(value: true)
+                            allParcelsFetchRequest.propertiesToFetch = nil
+                            do {
+                                let results = try backgroundContext.fetch(allParcelsFetchRequest)
+                                for result in results {
+                                    backgroundContext.delete(result)
+                                }
+                            } catch {
+                                log("Failed to delete existing parcels from CoreData! Error is \(error.localizedDescription)")
+                            }
+                            
+                            /* store new parcels in CoreData */
+                            for parcel in parcels {
+                                let cdParcel = NSEntityDescription.insertNewObject(forEntityName: "CDParcel", into: backgroundContext) as! CDParcel
+                                parcel.toCoreDataObject(object: cdParcel)
+                            }
+                            CoreDataManager.shared.saveLocally(managedContext: backgroundContext)
+                        })
+                        
                         if let refreshControl = parcelsTableViewController.refreshControl {
                             refreshControl.endRefreshing()
                         }

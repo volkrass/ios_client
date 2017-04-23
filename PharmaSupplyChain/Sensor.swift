@@ -15,6 +15,8 @@ class Sensor : Mappable/*, CoreDataObject */ {
     var sensorMAC: String?
     var tempCategory: TemperatureCategory?
     
+    public init() {}
+    
     // MARK: Mappable
     
     public required init?(map: Map) {}

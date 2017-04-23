@@ -26,7 +26,7 @@ extension CDParcel {
     @NSManaged public var isReceived: Bool
     @NSManaged public var isFailed: Bool
     @NSManaged public var isSuccess: Bool
-    @NSManaged public var sensorID: String
+    @NSManaged public var sensorID: String?
     @NSManaged public var tempCategory: String
     @NSManaged public var minTemp: Int
     @NSManaged public var maxTemp: Int

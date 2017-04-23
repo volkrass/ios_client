@@ -20,23 +20,9 @@ class RecurrentUploader {
     
     static let shared = RecurrentUploader()
     
-    fileprivate var createdParcels: [CreatedParcel] = []
-    fileprivate var measurementsToUpload: [(tntNumber: String, sensorID: String, measurements: TemperatureMeasurementsObject)] = []
-    
     // MARK: Constants
     
-    private init() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {
-            success, error in
-            
-            if !success {
-                log("Notifications are disabled for the application")
-            }
-            if let error = error {
-                log("Error requesting permission to send notifications: \(error.localizedDescription)")
-            }
-        })
-    }
+    private init() {}
     
     func resumeDownloads() {
         let allCreatedParcelsRequest = NSFetchRequest<CDCreatedParcel>(entityName: "CDCreatedParcel")
@@ -69,8 +55,6 @@ class RecurrentUploader {
     }
     
     func addMeasurementsToUpload(tntNumber: String, sensorMAC: String, measurements: TemperatureMeasurementsObject, notifyUser: Bool = true) {
-        measurementsToUpload.append((tntNumber: tntNumber, sensorID: sensorMAC, measurements: measurements))
-        
         /* store object in CoreData */
         CoreDataManager.shared.performBackgroundTask(WithBlock: {
             backgroundContext in
@@ -91,7 +75,9 @@ class RecurrentUploader {
                     if notifyUser {
                         /* generate notification */
                         let notificationContent = UNMutableNotificationContent()
-                        notificationContent.body = "Temperature measurements for parcel with \(tntNumber) failed to upload"
+                        notificationContent.title = "Pending upload"
+                        notificationContent.body = "Temperature measurements for Track&Trace \(tntNumber) failed to upload!"
+                        notificationContent.sound = UNNotificationSound.default()
                         let notificationRequest = UNNotificationRequest(identifier: "measurements_\(tntNumber)_\(sensorMAC)", content: notificationContent, trigger: nil)
                         UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
                             settings in
@@ -112,7 +98,6 @@ class RecurrentUploader {
                     
                     /* start background upload session */
                     ServerManager.shared.postTemperatureMeasurements(tntNumber: tntNumber, sensorID: sensorMAC, measurements: measurements, backgroundUpload: true, completionHandler: {
-                        [weak self]
                         error, measurementsObject in
                         
                         if measurementsObject != nil, error == nil {
@@ -140,16 +125,6 @@ class RecurrentUploader {
                             } catch {
                                 log("Failed to execute fetch request! Error is \(error.localizedDescription)")
                             }
-                            
-                            if let reccurentUploader = self {
-                                if let index = reccurentUploader.measurementsToUpload.index(where: {
-                                    object in
-                                    
-                                    return object.tntNumber == tntNumber && object.sensorID == sensorMAC
-                                }) {
-                                    reccurentUploader.measurementsToUpload.remove(at: index)
-                                }
-                            }
                         }
                     })
                 } else {
@@ -160,8 +135,6 @@ class RecurrentUploader {
     }
     
     func addParcelToUpload(parcel: CreatedParcel, notifyUser: Bool = true) {
-        createdParcels.append(parcel)
-        
         /* store object in CoreData */
         CoreDataManager.shared.performBackgroundTask(WithBlock: {
             backgroundContext in
@@ -176,7 +149,9 @@ class RecurrentUploader {
                     if notifyUser {
                         /* generate notification */
                         let notificationContent = UNMutableNotificationContent()
-                        notificationContent.body = "Created parcel with \(cdCreatedParcel.tntNumber) failed to upload"
+                        notificationContent.title = "Pending upload"
+                        notificationContent.body = "Parcel for Track&Trace \(cdCreatedParcel.tntNumber) failed to upload!"
+                        notificationContent.sound = UNNotificationSound.default()
                         let notificationRequest = UNNotificationRequest(identifier: "parcel_\(cdCreatedParcel.tntNumber)_\(cdCreatedParcel.sensorMAC)", content: notificationContent, trigger: nil)
                         UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
                             settings in
@@ -197,7 +172,6 @@ class RecurrentUploader {
                     
                     /* start background upload session */
                     ServerManager.shared.createParcel(parcel: parcel, backgroundUpload: true, completionHandler: {
-                        [weak self]
                         error, parcel in
                         
                         if parcel != nil, error == nil {
@@ -224,20 +198,6 @@ class RecurrentUploader {
                                 })
                             } catch {
                                 log("Failed to execute fetch request! Error is \(error.localizedDescription)")
-                            }
-                            
-                            if let reccurentUploader = self {
-                                if let index = reccurentUploader.createdParcels.index(where: {
-                                    object in
-                                    
-                                    if object.tntNumber != nil, object.sensorUUID != nil {
-                                        return object.tntNumber! == cdCreatedParcel.tntNumber && object.sensorUUID! == cdCreatedParcel.sensorMAC
-                                    } else {
-                                        return false
-                                    }
-                                }) {
-                                    reccurentUploader.createdParcels.remove(at: index)
-                                }
                             }
                         }
                     })

@@ -45,7 +45,8 @@ func log(_ message: String, function: String = #function, file: String = #file, 
     #if DEBUG
         let url = NSURL(fileURLWithPath: file)
         guard let filename = url.deletingPathExtension?.lastPathComponent else {
-            fatalError("Utils.log: failed to retrieve lastPathComponent")
+            log("Utils.log: failed to retrieve lastPathComponent")
+            return
         }
         print("\(message) [\(filename).\(function):\(line)]")
     #endif

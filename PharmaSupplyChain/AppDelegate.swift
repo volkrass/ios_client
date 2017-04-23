@@ -10,9 +10,10 @@ import UIKit
 import CoreData
 import Firebase
 import UXCam
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -34,6 +35,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let window = window {
             window.rootViewController = storyboard.instantiateViewController(withIdentifier: "RootViewControllerID") as? RootViewController
         }
+        
+        /* request permission to send notifications */
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
+        notificationCenter.getNotificationSettings(completionHandler: {
+            [unowned notificationCenter]
+            settings in
+            
+            if settings.authorizationStatus == .notDetermined {
+                notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {
+                    success, error in
+                    
+                    if !success {
+                        log("Notifications are disabled for the application")
+                    }
+                    if let error = error {
+                        log("Error requesting permission to send notifications: \(error.localizedDescription)")
+                    }
+                })
+            }
+        })
+        
+        /* resume pending uploads */
+        RecurrentUploader.shared.resumeDownloads()
         
         /* re-login user every time he starts the app */
         if let username = LoginManager.shared.getUsername(), let password = LoginManager.shared.getPassword() {
@@ -128,6 +153,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+    }
+    
+    // MARK: UNUserNotificationCenterDelegate
+    
+    /* called when deciding which options to use when notification is to be presented at foreground */
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
     }
 
 }

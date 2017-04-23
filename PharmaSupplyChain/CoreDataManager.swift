@@ -151,7 +151,7 @@ class CoreDataManager {
             if let fetchResults = try managedObjectContext.fetch(request) as? [UniqueManagedObject] {
                 return fetchResults
             } else {
-                fatalError("CoreDataManager.getRecords: failed to cast fetched results to [UniqueManagedObject]")
+                log("CoreDataManager.getRecords: failed to cast fetched results to [UniqueManagedObject]")
             }
         } catch {
             log("Error fetching records for \(request.entityName): \(error.localizedDescription)")
@@ -175,8 +175,8 @@ class CoreDataManager {
             if self.viewingContext.hasChanges {
                 do {
                     try self.viewingContext.save()
-                } catch let error {
-                    fatalError("CoreDataManager.clearData: failed saving to CoreData: \(error.localizedDescription)")
+                } catch {
+                    log("CoreDataManager.clearData: failed saving to CoreData: \(error.localizedDescription)")
                 }
             }
         }

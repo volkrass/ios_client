@@ -19,7 +19,7 @@ extension CDCreatedParcel {
     
     @NSManaged public var tntNumber: String
     @NSManaged public var sensorMAC: String
-    @NSManaged public var maxFailsTemp: Int
+    @NSManaged public var maxFailsTemp: Int16
     
     /* relationships */
     @NSManaged public var tempCategory: CDTempCategory

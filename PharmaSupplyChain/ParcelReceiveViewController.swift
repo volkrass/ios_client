@@ -80,7 +80,18 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
             
             if let parcelReceiveViewController = self {
                 if error != nil {
-                    parcelReceiveViewController.hideLoadingView()
+                    let alertController = UIAlertController(title: nil, message: "Failed to find sensor information! Please, try again later!", preferredStyle: .alert)
+                    let alertControllerWithDismiss = alertController.addDismissAction(WithHandler: {
+                        [weak self]
+                        _ in
+                        
+                        if let parcelReceiveViewController = self {
+                            alertController.dismiss(animated: true, completion: nil)
+                            _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
+                        }
+                    })
+                    
+                    parcelReceiveViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
                 } else if let sensorArray = sensorArray {
                     if !sensorArray.isEmpty {
                         parcelReceiveViewController.sensor = sensorArray[0]
@@ -188,7 +199,7 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
             }
         }
         guard let peripheralName = peripheral.name, peripheralName == sensor!.sensorMAC! else {
-            log("Wrong peripheral connected: \(peripheral.name)")
+            log("Wrong peripheral connected: \(peripheral.name ?? "<no_name>")")
             bluetoothManager!.disconnect(peripheral: peripheral)
             return
         }

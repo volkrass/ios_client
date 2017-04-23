@@ -36,7 +36,7 @@ class CreatedParcel : Mappable, CoreDataObject {
     public required init?(WithCoreDataObject object: CDCreatedParcel) {
         tntNumber = object.tntNumber
         sensorUUID = object.sensorMAC
-        maxFailsTemp = object.maxFailsTemp
+        maxFailsTemp = Int(object.maxFailsTemp)
         tempCategory = TemperatureCategory(WithCoreDataObject: object.tempCategory)
     }
 
@@ -47,7 +47,7 @@ class CreatedParcel : Mappable, CoreDataObject {
                 object.tempCategory = cdTempCategory
             }
             object.sensorMAC = sensorUUID
-            object.maxFailsTemp = maxFailsTemp
+            object.maxFailsTemp = Int16(maxFailsTemp)
             object.tntNumber = tntNumber
         }
     }

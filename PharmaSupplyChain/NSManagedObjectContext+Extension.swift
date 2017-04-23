@@ -28,7 +28,7 @@ extension NSManagedObjectContext {
                     try context.save()
                 } catch let error as NSError {
                     successfullySaved = false
-                    fatalError("NSManagedObjectContext.saveRecursively(): \(error.localizedDescription). Detailed information: \(error.userInfo.description)")
+                   log("NSManagedObjectContext.saveRecursively(): \(error.localizedDescription). Detailed information: \(error.userInfo.description)")
                 }
             } else {
                 successfullySaved = false
