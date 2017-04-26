@@ -47,10 +47,12 @@ class CoreDataManager {
         return storeURL
     }
     
-    /* NSManagedObjectContext for background, long-lived operations */
+    /* NSManagedObjectContext for background operations (use to avoid blocking background thread) */
     private var privateWriterContext: NSManagedObjectContext
+    
     /* NSManagedObjectContext for UI-related operations */
     var viewingContext: NSManagedObjectContext
+    
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator
     
     /* private initializer for singleton class */
@@ -154,7 +156,7 @@ class CoreDataManager {
                 log("CoreDataManager.getRecords: failed to cast fetched results to [UniqueManagedObject]")
             }
         } catch {
-            log("Error fetching records for \(request.entityName): \(error.localizedDescription)")
+            log("Error fetching records for \("Unknown Entity"): \(error.localizedDescription)")
         }
         return []
     }
@@ -193,7 +195,7 @@ class CoreDataManager {
             do {
                 totalObjects += try viewingContext.count(for: request)
             } catch let error {
-                log("CoreDataManager.objectCount(): failed retrieving object count for \(entityDescription.name). Error is \(error.localizedDescription)")
+                log("CoreDataManager.objectCount(): failed retrieving object count for \(entityDescription.name ?? "Unknown Entity"). Error is \(error.localizedDescription)")
             }
         }
         return totalObjects

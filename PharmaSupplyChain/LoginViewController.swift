@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
                         
                         if let loginViewController = self {
                             if let error = error {
-                                log("Error retrieving company defaults: \(error.message)")
+                                log("Error retrieving company defaults: \(error.message ?? "nil")")
                                 loginViewController.loginErrorLabel.text = "Failed to login! Please, try again!"
                             } else {
                                 if let companyDefaults = companyDefaults {

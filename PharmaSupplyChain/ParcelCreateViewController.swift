@@ -345,7 +345,7 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
             }
         }
         guard let peripheralName = peripheral.name, peripheralName == sensorMAC! else {
-            log("Wrong peripheral connected: \(peripheral.name)")
+            log("Wrong peripheral connected: \(peripheral.name ?? "UNKNOWN")")
             bluetoothManager!.disconnect(peripheral: peripheral)
             return
         }

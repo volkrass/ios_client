@@ -97,7 +97,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
                         [weak self]
                         timer in
                         
-                        log("Scan didn't find peripheral \(name) in \(BluetoothManager.scanTimeout) seconds! Finishing scan...")
+                        log("Scan didn't find peripheral \(name ?? "-") in \(BluetoothManager.scanTimeout) seconds! Finishing scan...")
                         timer.invalidate()
                         
                         if let bluetoothManager = self {
@@ -129,7 +129,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     // MARK: CBCentralManagerDelegate
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        log("\(peripheral.name) connected")
+        log("\(peripheral.name ?? "-") connected")
         
         if let scanTimer = scanTimer {
             scanTimer.invalidate()
@@ -142,7 +142,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        log("Failed to connect with \(peripheral.name): \(error?.localizedDescription)")
+        log("Failed to connect with \(peripheral.name ?? "-"): \(error?.localizedDescription ?? "nil")")
         if let bluetoothManagerDelegate = delegate {
             bluetoothManagerDelegate.bluetoothManagerPeripheralConnected(peripheral, false)
         }
@@ -166,7 +166,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         if let error = error {
-            log("Failed to disconnect peripheral \(peripheral.name): \((error as NSError).userInfo)")
+            log("Failed to disconnect peripheral \(peripheral.name ?? "-"): \((error as NSError).userInfo)")
         }
     }
     

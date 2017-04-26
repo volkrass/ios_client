@@ -361,7 +361,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             return
         }
         guard peripheral == sensor else {
-            log("Discovered services for wrong peripheral \(peripheral.name)")
+            log("Discovered services for wrong peripheral \(peripheral.name ?? "-")")
             return
         }
         
@@ -394,7 +394,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             return
         }
         guard peripheral == sensor else {
-            log("Discovered service characteristics for wrong peripheral \(peripheral.name)")
+            log("Discovered service characteristics for wrong peripheral \(peripheral.name ?? "-")")
             return
         }
         guard service.uuid == sensorServiceUUID || service.uuid == batteryLevelServiceUUID else {
@@ -446,7 +446,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         guard peripheral == sensor else {
-            log("Received write indication for wrong peripheral \(peripheral.name)")
+            log("Received write indication for wrong peripheral \(peripheral.name ?? "-")")
             return
         }
         guard characteristic.service.uuid == sensorServiceUUID || characteristic.service.uuid == batteryLevelServiceUUID else {
@@ -511,7 +511,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             return
         }
         guard peripheral == sensor else {
-            log("Updated value for characteristic on wrong peripheral: \(peripheral.name)")
+            log("Updated value for characteristic on wrong peripheral: \(peripheral.name ?? "-")")
             return
         }
         guard characteristic.service.uuid == sensorServiceUUID || characteristic.service.uuid == batteryLevelServiceUUID else {
@@ -531,7 +531,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                     }
                 }
             case contractIDUUID:
-                if let delegate = delegate, let contractIDValue = characteristic.value, !contractIDValue.isEmpty {
+                if let contractIDValue = characteristic.value, !contractIDValue.isEmpty {
                     /* handling zero-terminated string */
                     var contractIDBytes: [UInt8] = []
                     for byte in contractIDValue {
@@ -542,7 +542,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                         }
                     }
                     let contractIDData = Data(bytes: contractIDBytes)
-                    let contractID = String(data: contractIDData, encoding: .utf8)
+                    _ = String(data: contractIDData, encoding: .utf8)
+                    
+                    /* Characteristic is currently not in use */
                 }
             case isRecordingUUID:
                 if let isRecordingValue = characteristic.value, !isRecordingValue.isEmpty {

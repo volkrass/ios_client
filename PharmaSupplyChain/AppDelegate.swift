@@ -19,9 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        /* clear keychain if app was de-installed */
+        /* clear keychain if app was de-installed and installed again */
         if UserDefaults.standard.object(forKey: "FirstLaunch") == nil {
-            /* first launch detected */
             LoginManager.shared.clear()
             UserDefaults.standard.set(true, forKey: "FirstLaunch")
         }
@@ -70,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     if let error = error {
                         log("Error during login! Error is: \(error.message ?? "")")
                         /* if there is no internet and token isn't yet expired, present parcels screen */
-                        if error == ServerError.noInternet  {
+                        if let authTokenExpiry = LoginManager.shared.getAuthTokenExpiry(), authTokenExpiry < Date(), error == ServerError.noInternet {
                             if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
                                 appDelegate.window!.rootViewController = parcelsNavigationController
                             }
@@ -157,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: UNUserNotificationCenterDelegate
     
-    /* called when deciding which options to use when notification is to be presented at foreground */
+    /* called when deciding which options to use when notification is presented at foreground */
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
     }

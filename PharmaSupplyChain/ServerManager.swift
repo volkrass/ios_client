@@ -19,8 +19,8 @@ class ServerManager {
     
     // MARK: Constants
     
-    fileprivate let CORE_API_URL = "https://core.modum.io/api/"
-    fileprivate let DEV_API_URL = "http://dev.modum.io/api/"
+    static let CORE_API_URL = "https://core.modum.io/api/"
+    static let DEV_API_URL = "http://dev.modum.io/api/"
     
     // MARK: Properties
     
@@ -51,7 +51,7 @@ class ServerManager {
     func login(username: String, password: String, completionHandler: @escaping (ServerError?, LoginObject?) -> Void) {
         if let reachability = reachability {
             if reachability.isReachable {
-                Alamofire.request(DEV_API_URL + "login", method: .post, parameters: ["username" : username, "password" : password], encoding: JSONEncoding.default, headers: nil).validate().responseObject(completionHandler: {
+                Alamofire.request(ServerManager.DEV_API_URL + "login", method: .post, parameters: ["username" : username, "password" : password], encoding: JSONEncoding.default, headers: nil).validate().responseObject(completionHandler: {
                     (response: DataResponse<LoginObject>) -> Void in
                     
                     switch response.result {
@@ -87,7 +87,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "v2/parcels/web", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
+                    Alamofire.request(ServerManager.DEV_API_URL + "v2/parcels/web", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
                         (response: DataResponse<[Parcel]>) -> Void in
                         
                         switch response.result {
@@ -126,7 +126,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(keyPath: "measurements", completionHandler: {
+                    Alamofire.request(ServerManager.DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(keyPath: "measurements", completionHandler: {
                         (response: DataResponse<[TemperatureMeasurement]>) -> Void in
                         
                         switch response.result {
@@ -165,7 +165,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures/status", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                    Alamofire.request(ServerManager.DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures/status", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                         (response: DataResponse<SmartContractStatus>) -> Void in
                         
                         switch response.result {
@@ -205,7 +205,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "preparedshipments/tntnumber/\(tntNumber)", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                    Alamofire.request(ServerManager.DEV_API_URL + "preparedshipments/tntnumber/\(tntNumber)", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                         (response: DataResponse<PreparedShipment>) -> Void in
                         
                         switch response.result {
@@ -244,7 +244,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
+                    Alamofire.request(ServerManager.DEV_API_URL + "parcels/\(tntNumber)", method: .get, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseArray(completionHandler: {
                         (response: DataResponse<[Sensor]>) -> Void in
                         
                         switch response.result {
@@ -282,7 +282,7 @@ class ServerManager {
     func postTemperatureMeasurements(tntNumber: String, sensorID: String, measurements: TemperatureMeasurementsObject, backgroundUpload: Bool, completionHandler: @escaping (ServerError?, TemperatureMeasurementsObject?) -> Void) {
         if let authorizationHeader = authorizationHeader {
             if backgroundUpload {
-                sessionManager.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                sessionManager.request(ServerManager.DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                     (response: DataResponse<TemperatureMeasurementsObject>) -> Void in
                     
                     switch response.result {
@@ -302,7 +302,7 @@ class ServerManager {
                     }
                 })
             } else {
-                Alamofire.request(DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                Alamofire.request(ServerManager.DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                     (response: DataResponse<TemperatureMeasurementsObject>) -> Void in
                     
                     switch response.result {
@@ -336,7 +336,7 @@ class ServerManager {
         if let authorizationHeader = authorizationHeader {
             log("JSON parcel: \(parcel.toJSON())")
             if backgroundUpload {
-                sessionManager.request(DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                sessionManager.request(ServerManager.DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                     (response: DataResponse<Parcel>) -> Void in
                     
                     switch response.result {
@@ -356,7 +356,7 @@ class ServerManager {
                     }
                 })
             } else {
-                Alamofire.request(DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                Alamofire.request(ServerManager.DEV_API_URL + "v2/parcels/create", method: .post, parameters: parcel.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                     (response: DataResponse<Parcel>) -> Void in
                     
                     switch response.result {
@@ -390,7 +390,7 @@ class ServerManager {
         if let reachability = reachability {
             if reachability.isReachable {
                 if let authorizationHeader = authorizationHeader {
-                    Alamofire.request(DEV_API_URL + "/v1/company/defaults", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
+                    Alamofire.request(ServerManager.DEV_API_URL + "/v1/company/defaults", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                         (response: DataResponse<CompanyDefaults>) -> Void in
                         
                         switch response.result {

@@ -25,6 +25,10 @@ class LoginManager: NSObject {
             if let authToken = response.token {
                 UserDefaults.standard.set(authToken, forKey: "authToken")
             }
+            if let authTokenExpiry = response.expire {
+                let unixTimestamp = authTokenExpiry.timeIntervalSince1970
+                UserDefaults.standard.set(unixTimestamp, forKey: "authTokenExpiry")
+            }
         }
     }
     
@@ -42,6 +46,14 @@ class LoginManager: NSObject {
     
     func getAuthToken() -> String? {
         return UserDefaults.standard.string(forKey: "authToken")
+    }
+    
+    func getAuthTokenExpiry() -> Date? {
+        if UserDefaults.standard.double(forKey: "authTokenExpiry") != 0.0 {
+            return Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "authTokenExpiry"))
+        } else {
+            return nil
+        }
     }
     
     func clear() {
