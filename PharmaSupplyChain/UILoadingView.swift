@@ -8,6 +8,7 @@
 
 import UIKit
 
+/* Custom UI component acting as an overlay view indicating loading process */
 class UILoadingView : UIView {
     
     // MARK: Properties

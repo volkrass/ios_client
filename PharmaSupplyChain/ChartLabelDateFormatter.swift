@@ -8,6 +8,7 @@
 
 import Charts
 
+/* Custom formatter for LineChartView */
 class ChartLabelDateFormatter : NSObject, IAxisValueFormatter {
     
     // MARK: IAxisValueFormatter

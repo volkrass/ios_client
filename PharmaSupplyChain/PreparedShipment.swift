@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class PreparedShipment : Mappable/*, CoreDataObject */ {
+class PreparedShipment : Mappable {
     
     // MARK: Properties
     

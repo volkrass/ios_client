@@ -19,6 +19,7 @@ extension Date {
         return formatter
     }()
     
+    /* Returns DateComponents from current Date instance */
     func components() -> DateComponents {
         let calendar = Calendar.current
         return calendar.dateComponents(Set<Calendar.Component>([.year, .month, .weekOfMonth, .weekday, .day]), from:self)

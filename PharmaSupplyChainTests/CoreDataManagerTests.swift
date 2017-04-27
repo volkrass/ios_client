@@ -12,14 +12,13 @@ import CoreData
 
 class CoreDataManagerTests: XCTestCase {
     
-    fileprivate var coreDataManager: CoreDataManager?
+    fileprivate var coreDataManager: CoreDataManager!
     
     override func setUp() {
         super.setUp()
         let destinationURL = CoreDataManager.storeURL
         let testingBundle = Bundle.init(for: CoreDataManagerTests.self)
-        let sourceURL = testingBundle.url(forResource: "Test2", withExtension: "sqlite")
-        //try! FileManager.default.removeItem(at: destinationURL)
+        let sourceURL = testingBundle.url(forResource: "Test", withExtension: "sqlite")
         CoreDataManager.destroyPersistentStore(AtURL: destinationURL)
         try! FileManager.default.copyItem(at: sourceURL!, to: destinationURL)
         coreDataManager = CoreDataManager()
@@ -36,20 +35,20 @@ class CoreDataManagerTests: XCTestCase {
      Tests whether CoreDataManager.saveLocally(_: NSManagedObjectContext, _: Bool) actually writes to persistent store from viewing context
      */
     func testSaveFromViewingContext() {
-        let beforeInsertObjectCount = coreDataManager!.objectCount()
+        let beforeInsertObjectCount = coreDataManager.objectCount()
         XCTAssert(beforeInsertObjectCount == 0)
-        let objectCount = 10000
+        let objectCount = 1000
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext)
+        CoreDataManager.shared.saveLocally(managedContext: coreDataManager.viewingContext)
         sleep(1)
-        coreDataManager!.viewingContext.reset()
+        CoreDataManager.shared.viewingContext.reset()
         let request: NSFetchRequest<TestEntity> = TestEntity.fetchRequest()
         request.predicate = NSPredicate(value: true)
-        let fetchResults = try! coreDataManager!.viewingContext.fetch(request)
+        let fetchResults = try! coreDataManager.viewingContext.fetch(request)
         XCTAssert(fetchResults.count == objectCount)
     }
     
@@ -57,10 +56,10 @@ class CoreDataManagerTests: XCTestCase {
      Tests whether CoreDataManager.saveLocally(_: NSManagedObjectContext, _: Bool) actually writes to persistent store from background context
      */
     func testSaveFromBackgroundContext() {
-        let beforeInsertObjectCount = coreDataManager!.objectCount()
+        let beforeInsertObjectCount = coreDataManager.objectCount()
         XCTAssert(beforeInsertObjectCount == 0)
-        let objectCount = 10000
-        coreDataManager!.performBackgroundTask(WithBlock: {
+        let objectCount = 1000
+        coreDataManager.performBackgroundTask(WithBlock: {
             [unowned self]
             backgroundContext in
             
@@ -69,13 +68,13 @@ class CoreDataManagerTests: XCTestCase {
                 testEntityObject.name = "Test\(i)"
                 testEntityObject.createdAt = Date()
             }
-            self.coreDataManager!.saveLocally(managedContext: backgroundContext)
+            self.coreDataManager.saveLocally(managedContext: backgroundContext)
             sleep(1)
         })
         
         let request: NSFetchRequest<TestEntity> = TestEntity.fetchRequest()
         request.predicate = NSPredicate(value: true)
-        let fetchResults = try! coreDataManager!.viewingContext.fetch(request)
+        let fetchResults = try! coreDataManager.viewingContext.fetch(request)
         XCTAssert(fetchResults.count == objectCount)
     }
     
@@ -83,14 +82,14 @@ class CoreDataManagerTests: XCTestCase {
      Tests whether CoreDataManager.saveLocally(_: NSManagedObjectContext, _: Bool) returns completionHander(false) if writing to persistent store failed
     */
     func testSaveReturnsFalseCompletionHandler() {
-        let objectCount = 10000
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             /* non-optional 'createdAt' field isn't initialised on purpose, so saving to persisten fails with NSValidationError */
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext, WithCompletionHandler: {
+        coreDataManager.saveLocally(managedContext: coreDataManager.viewingContext, WithCompletionHandler: {
             success in
             
             XCTAssert(!success)
@@ -101,14 +100,14 @@ class CoreDataManagerTests: XCTestCase {
      Tests whether CoreDataManager.saveLocally(_: NSManagedObjectContext, _: Bool) returns completionHander(true) if writing to persistent store succeeded
     */
     func testSaveReturnsTrueCompletionHandler() {
-        let objectCount = 10000
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext, WithCompletionHandler: {
+        CoreDataManager.shared.saveLocally(managedContext: CoreDataManager.shared.viewingContext, WithCompletionHandler: {
             success in
             
             XCTAssert(success)
@@ -117,54 +116,54 @@ class CoreDataManagerTests: XCTestCase {
     
     /* Tests whether CoreDataManager.getRecords(ForObjectType _: ModelObjectType, WithPredicate _: NSPredicate) instance function returns same number of records as has been inserted for 'true' predicate */
     func testGetRecords1() {
-        let objectCount = 10000
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext)
+        coreDataManager.saveLocally(managedContext: CoreDataManager.shared.viewingContext)
         sleep(1)
-        let fetchResults = coreDataManager!.getRecords(ForEntityName: "TestEntity", WithPredicate: NSPredicate(value: true))
+        let fetchResults = coreDataManager.getRecords(ForEntityName: "TestEntity", WithPredicate: NSPredicate(value: true))
         XCTAssert(fetchResults.count == objectCount)
     }
     
     /* Tests whether CoreDataManager.getRecords(ForObjectType _: ModelObjectType, WithPredicate _: NSPredicate) instance function returns zero records if no records should match the given predicate */
     func testGetRecords2() {
-        let objectCount = 10000
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext)
+        coreDataManager.saveLocally(managedContext: CoreDataManager.shared.viewingContext)
         sleep(1)
-        let fetchResults = coreDataManager!.getRecords(ForEntityName: "TestEntity", WithPredicate: NSPredicate(format: "identifier == %@", ProcessInfo.processInfo.globallyUniqueString))
+        let fetchResults = coreDataManager.getRecords(ForEntityName: "TestEntity", WithPredicate: NSPredicate(format: "identifier == %@", ProcessInfo.processInfo.globallyUniqueString))
         XCTAssert(fetchResults.count == 0)
     }
     
     /* Tests whether CoreDataManager.getRecords(ForObjectType _: ModelObjectType, WithPredicate _: NSPredicate) instance function returns zero records if no records are saved in the database */
     func testGetRecords3() {
-        let fetchResults = coreDataManager!.getRecords(ForEntityName: "TestEntity", WithPredicate: NSPredicate(value: true))
+        let fetchResults = coreDataManager.getRecords(ForEntityName: "TestEntity", WithPredicate: NSPredicate(value: true))
         XCTAssert(fetchResults.count == 0)
     }
     
     /* Tests whether CoreDataManager.getAllRecords(InContext _: NSManagedObjectContext, ForObjectType _: ModelObjectType) fetches saved records correctly from background thread */
     func testGetAllRecordsStaticFromBackground() {
-        coreDataManager!.performBackgroundTask(WithBlock: {
+        coreDataManager.performBackgroundTask(WithBlock: {
             [unowned self]
             backgroundContext in
             
-            let objectCount = 10000
+            let objectCount = 1000
             /* populate database */
             for i in 1...objectCount {
                 let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: backgroundContext) as! TestEntity
                 testEntityObject.name = "Test\(i)"
                 testEntityObject.createdAt = Date()
             }
-            self.coreDataManager!.saveLocally(managedContext: backgroundContext)
+            self.coreDataManager.saveLocally(managedContext: backgroundContext)
             sleep(1)
             
             let fetchResults = CoreDataManager.getAllRecords(InContext: backgroundContext, ForEntityName: "TestEntity")
@@ -174,62 +173,62 @@ class CoreDataManagerTests: XCTestCase {
     
     /* Tests whether CoreDataManager.getAllRecords(InContext _: NSManagedObjectContext, ForObjectType _: ModelObjectType) fetches saved records correctly from main thread */
     func testGetAllRecordsStaticFromMain() {
-        let objectCount = 10000
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext)
+        coreDataManager.saveLocally(managedContext: coreDataManager.viewingContext)
         sleep(1)
         
-        let fetchResults = CoreDataManager.getAllRecords(InContext: coreDataManager!.viewingContext, ForEntityName: "TestEntity")
+        let fetchResults = CoreDataManager.getAllRecords(InContext: coreDataManager.viewingContext, ForEntityName: "TestEntity")
         XCTAssert(fetchResults.count == objectCount)
     }
     
     /* Tests CoreDataManager.objectCount() function */
     func testObjectCount() {
-        XCTAssert(coreDataManager!.objectCount() == 0)
-        let objectCount = 10000
+        XCTAssert(coreDataManager.objectCount() == 0)
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext)
+        coreDataManager.saveLocally(managedContext: coreDataManager.viewingContext)
         sleep(1)
 
-        let afterObjectCount = coreDataManager!.objectCount()
+        let afterObjectCount = coreDataManager.objectCount()
         XCTAssert(afterObjectCount == objectCount)
     }
     
     /* Tests CoreDataManager.clearData() function */
     func testClearData1() {
-        XCTAssert(coreDataManager!.objectCount() == 0)
-        coreDataManager!.clearData()
-        XCTAssert(coreDataManager!.objectCount() == 0)
+        XCTAssert(coreDataManager.objectCount() == 0)
+        CoreDataManager.shared.clearData()
+        XCTAssert(coreDataManager.objectCount() == 0)
     }
     
     /* Tests CoreDataManager.clearData() function */
     func testClearData2() {
-        XCTAssert(coreDataManager!.objectCount() == 0)
+        XCTAssert(coreDataManager.objectCount() == 0)
         
-        let objectCount = 10000
+        let objectCount = 1000
         /* populate database */
         for i in 1...objectCount {
-            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager!.viewingContext) as! TestEntity
+            let testEntityObject = NSEntityDescription.insertNewObject(forEntityName: "TestEntity", into: coreDataManager.viewingContext) as! TestEntity
             testEntityObject.name = "Test\(i)"
             testEntityObject.createdAt = Date()
         }
         
-        coreDataManager!.saveLocally(managedContext: coreDataManager!.viewingContext)
+        coreDataManager.saveLocally(managedContext: coreDataManager.viewingContext)
         sleep(1)
         
-        coreDataManager!.clearData()
+        coreDataManager.clearData()
 
-        XCTAssert(coreDataManager!.objectCount() == 0)
+        XCTAssert(coreDataManager.objectCount() == 0)
     }
     
     /* Tests CoreDataManager.destroyPersistentStore(AtURL _: NSURL) function whether it actually removes underlying persistent store and it's associated files from the disk */

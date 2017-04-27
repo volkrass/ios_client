@@ -7,6 +7,8 @@ PODS:
   - Charts (3.0.1):
     - Charts/Core (= 3.0.1)
   - Charts/Core (3.0.1)
+  - Firebase (3.9.0):
+    - Firebase/Core (= 3.9.0)
   - Firebase/Core (3.9.0):
     - FirebaseAnalytics (= 3.5.1)
     - FirebaseCore (= 3.4.4)
@@ -38,6 +40,7 @@ DEPENDENCIES:
   - AlamofireObjectMapper
   - AMPopTip
   - Charts
+  - Firebase
   - Firebase/Core
   - FoldingCell
   - ObjectMapper
@@ -75,6 +78,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
-PODFILE CHECKSUM: 060dcf763b054c409a423f2c7f27e3ace845aeb7
+PODFILE CHECKSUM: 3727c9edc452b51dced63aaedc031b7bce8b707c
 
 COCOAPODS: 1.2.0.beta.3

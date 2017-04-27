@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class Sensor : Mappable/*, CoreDataObject */ {
+class Sensor : Mappable {
     
     // MARK: Properties
     

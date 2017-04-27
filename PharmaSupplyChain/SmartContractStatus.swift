@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class SmartContractStatus : Mappable/*, CoreDataObject */ {
+class SmartContractStatus : Mappable {
     
     // MARK: Properties
     

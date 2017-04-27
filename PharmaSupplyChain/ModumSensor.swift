@@ -27,6 +27,7 @@ enum SensorError: Error {
     case notRecording
 }
 
+/* Class responsible for communication with Modum sensor device */
 class ModumSensor : NSObject, CBPeripheralDelegate {
     
     // MARK: Properties

@@ -8,13 +8,16 @@
 
 import ObjectMapper
 
-class LoginObject : Mappable/*, CoreDataObject */ {
+class LoginObject : Mappable {
     
     // MARK: Properties
     
     var expire: Date?
     var token: String?
     var user: User?
+    
+    /* For test purposes */
+    public init() {}
     
     // MARK: Mappable
     

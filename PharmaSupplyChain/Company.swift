@@ -8,12 +8,15 @@
 
 import ObjectMapper
 
-class Company : Mappable/*, CoreDataObject */ {
+class Company : Mappable {
     
     // MARK: Properties
     
     var id: Int?
     var name: String?
+    
+    /* For test purposes */
+    public init() {}
     
     // MARK: Mappable
     

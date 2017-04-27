@@ -20,16 +20,21 @@ class TemperatureMeasurementsObject : Mappable, CoreDataObject {
         guard timeInterval >= 1 else {
             return nil
         }
-        localInterpretationSuccess = true
-        for (index, measurement) in measurements.enumerated() {
-            let temperatureMeasurement = TemperatureMeasurement()
-            let temperature = measurement.getTemperature()
-            temperatureMeasurement.temperature = temperature
-            temperatureMeasurement.timestamp = startDate.addingTimeInterval(Double(index+1) * Double(timeInterval) * 60.0)
-            if let minTemp = tempCategory.minTemp, let maxTemp = tempCategory.maxTemp, temperature > Double(maxTemp) || temperature < Double(minTemp) {
-                localInterpretationSuccess = false
+        if measurements.isEmpty {
+            localInterpretationSuccess = false
+            return
+        } else {
+            localInterpretationSuccess = true
+            for (index, measurement) in measurements.enumerated() {
+                let temperatureMeasurement = TemperatureMeasurement()
+                let temperature = measurement.getTemperature()
+                temperatureMeasurement.temperature = temperature
+                temperatureMeasurement.timestamp = startDate.addingTimeInterval(Double(index+1) * Double(timeInterval) * 60.0)
+                if let minTemp = tempCategory.minTemp, let maxTemp = tempCategory.maxTemp, temperature > Double(maxTemp) || temperature < Double(minTemp) {
+                    localInterpretationSuccess = false
+                }
+                temperatureMeasurements.append(temperatureMeasurement)
             }
-            temperatureMeasurements.append(temperatureMeasurement)
         }
     }
     

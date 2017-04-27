@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class User : Mappable/*, CoreDataObject */ {
+class User : Mappable {
     
     // MARK: Properties
     
@@ -17,6 +17,9 @@ class User : Mappable/*, CoreDataObject */ {
     var role: String?
     var companyID: Int?
     var company: Company?
+    
+    /* For test purposes */
+    public init() {}
     
     // MARK: Mappable
     

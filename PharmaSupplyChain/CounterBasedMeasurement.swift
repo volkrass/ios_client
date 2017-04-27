@@ -8,7 +8,7 @@
 
 import Foundation
 
-/* Class representing temperature measurement that has been read out from sensor */
+/* Represents temperature measurement that has been read out from sensor */
 class CounterBasedMeasurement {
     
     // MARK: Properties

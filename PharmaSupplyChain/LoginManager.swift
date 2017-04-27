@@ -8,9 +8,14 @@
 
 import Foundation
 
+/* Singleton class response for storing user authentication data */
 class LoginManager: NSObject {
     
+    // MARK: Properties
+    
     static let shared: LoginManager = LoginManager()
+    
+    // MARK: Public functions
     
     func storeUser(username: String, password: String, response: LoginObject?, rememberMe: Bool) {
         /* if "Remember Me" is set, store "username", "authToken" and "companyName" only */
@@ -26,8 +31,7 @@ class LoginManager: NSObject {
                 UserDefaults.standard.set(authToken, forKey: "authToken")
             }
             if let authTokenExpiry = response.expire {
-                let unixTimestamp = authTokenExpiry.timeIntervalSince1970
-                UserDefaults.standard.set(unixTimestamp, forKey: "authTokenExpiry")
+                UserDefaults.standard.set(authTokenExpiry, forKey: "authTokenExpiry")
             }
         }
     }
@@ -49,11 +53,7 @@ class LoginManager: NSObject {
     }
     
     func getAuthTokenExpiry() -> Date? {
-        if UserDefaults.standard.double(forKey: "authTokenExpiry") != 0.0 {
-            return Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "authTokenExpiry"))
-        } else {
-            return nil
-        }
+        return UserDefaults.standard.object(forKey: "authTokenExpiry") as? Date
     }
     
     func clear() {

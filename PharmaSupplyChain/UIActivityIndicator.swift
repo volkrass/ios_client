@@ -9,7 +9,7 @@
 import UIKit
 
 /*
- Activity indicator UI component
+ Custom UI activity indicator component
  */
 class UIActivityIndicator : UIView {
     

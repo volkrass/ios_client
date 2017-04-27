@@ -11,7 +11,7 @@ import UIKit
 
 /* UI Constants */
 
-/* Device screen size for use in ViewControllers */
+/* Defines available iOS device screen sizes */
 enum ScreenSize : Int {
     /* iPhone 5, iPhone 5S, iPhone SE */
     case small = 0

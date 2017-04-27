@@ -8,10 +8,15 @@
 
 import ObjectMapper
 
+/* Converts server date format into Date and vice versa */
 class ServerDateTransform : TransformType {
+    
+    // MARK: Constants
     
     /* If date from the server-side is to set to nil, server automatically sets this value */
     static let serverNilDateString: String = "0001-01-01T00:34:08+00:34"
+    
+    // MARK: TransformType
     
     typealias Object = Date
     typealias JSON = String

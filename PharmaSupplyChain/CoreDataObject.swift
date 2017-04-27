@@ -8,6 +8,7 @@
 
 import CoreData
 
+/* All model objects that allow to be stored to or read from CoreData should conform to this protocol */
 protocol CoreDataObject {
     
     associatedtype T : UniqueManagedObject

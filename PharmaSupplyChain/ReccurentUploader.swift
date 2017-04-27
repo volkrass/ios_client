@@ -11,8 +11,8 @@ import CoreData
 import UserNotifications
 
 /* 
- Singleton class responsible for reccurently uploading data which failed to upload
- TemperatureMeasurementsObject or CreatedParcel objects that have failed to upload are stored in CoreData. Once they are uploaded, they are removed, thus, only those objects are stored in CoreData that should be uploaded.
+ Singleton class responsible for reccurently uploading TemperatureMeasurementsObject or CreatedParcel objects which failed to upload
+ Class also generates user notifications indicating which data failed to upload.
  */
 class RecurrentUploader {
     
@@ -24,6 +24,7 @@ class RecurrentUploader {
     
     private init() {}
     
+    /* call this function if there are any pending parcels or measurements to be uploaded upon application start-up */
     func resumeDownloads() {
         let allCreatedParcelsRequest = NSFetchRequest<CDCreatedParcel>(entityName: "CDCreatedParcel")
         allCreatedParcelsRequest.predicate = NSPredicate(value: true)
@@ -54,6 +55,11 @@ class RecurrentUploader {
         })
     }
     
+    /* Adds temperature measurements object for given @tntNumber and @sensorMAC to be uploaded in recurrent fashion:
+     - Notification is generated
+     - Object is persisted in CoreData
+     - New URL session is opened that attempts to upload the object at fixed time intervals
+     */
     func addMeasurementsToUpload(tntNumber: String, sensorMAC: String, measurements: TemperatureMeasurementsObject, notifyUser: Bool = true) {
         /* store object in CoreData */
         CoreDataManager.shared.performBackgroundTask(WithBlock: {
@@ -100,6 +106,7 @@ class RecurrentUploader {
                     ServerManager.shared.postTemperatureMeasurements(tntNumber: tntNumber, sensorID: sensorMAC, measurements: measurements, backgroundUpload: true, completionHandler: {
                         error, measurementsObject in
                         
+                        /* if completed successfully */
                         if measurementsObject != nil, error == nil {
                             /* remove notification */
                             UNUserNotificationCenter.current().removeNotification(identifier: "measurements_\(tntNumber)_\(sensorMAC)")
@@ -134,6 +141,11 @@ class RecurrentUploader {
         })
     }
     
+    /* Adds CreatedParcel object to be uploaded in recurrent fashion:
+     - Notification is generated
+     - Object is persisted in CoreData
+     - New URL session is opened that attempts to upload the object at fixed time intervals
+     */
     func addParcelToUpload(parcel: CreatedParcel, notifyUser: Bool = true) {
         /* store object in CoreData */
         CoreDataManager.shared.performBackgroundTask(WithBlock: {
@@ -174,6 +186,7 @@ class RecurrentUploader {
                     ServerManager.shared.createParcel(parcel: parcel, backgroundUpload: true, completionHandler: {
                         error, parcel in
                         
+                        /* if completed successfully */
                         if parcel != nil, error == nil {
                             /* remove notification */
                             UNUserNotificationCenter.current().removeNotification(identifier: "parcel_\(cdCreatedParcel.tntNumber)_\(cdCreatedParcel.sensorMAC)")

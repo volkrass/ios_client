@@ -24,6 +24,7 @@ protocol BluetoothManagerDelegate {
     
 }
 
+/* Convinience wrapper for CoreBluetooth CBCentralManager class */
 final class BluetoothManager : NSObject, CBCentralManagerDelegate {
     
     /* Bluetooth Manager is a singleton */
@@ -170,9 +171,7 @@ final class BluetoothManager : NSObject, CBCentralManagerDelegate {
         }
     }
     
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        /* TODO: react on change to Bluetooth state */
-    }
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {}
 
     // MARK: Helper methods
     

@@ -10,6 +10,7 @@ import UserNotifications
 
 extension UNUserNotificationCenter {
     
+    /* convinience method to remove both pending and delivered notifications from notification center */
     func removeNotification(identifier: String) {
         removeDeliveredNotifications(withIdentifiers: [identifier])
         removePendingNotificationRequests(withIdentifiers: [identifier])

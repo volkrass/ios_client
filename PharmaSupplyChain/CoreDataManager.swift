@@ -9,7 +9,7 @@
 import CoreData
 
 /*
- 
+ Singleton class
  The structure of CoreData access is as follows:
  CoreData Persistent Storage
  ^          ^
@@ -55,8 +55,8 @@ class CoreDataManager {
     
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator
     
-    /* private initializer for singleton class */
-    private init() {
+    /* Initializer left public purely for testing purposes */
+    public init() {
         /* Generates URL to the data model */
         guard let modelURL = Bundle.main.url(forResource: "PharmaSupplyChainDataModel", withExtension:"momd") else {
             fatalError("Error loading data model for Core Data from bundle")
