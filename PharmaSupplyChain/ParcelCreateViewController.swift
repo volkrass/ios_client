@@ -360,6 +360,7 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
         if let modumSensor = modumSensor {
             modumSensor.performSensorCheckBeforeSending()
         }
+        //modumSensor!.abortSending()
     }
     
     func modumSensorServiceUnsupported() {

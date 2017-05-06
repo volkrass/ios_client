@@ -70,6 +70,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     
     /********** Internal state structures **********/
     
+    /* variable that determines whether sensor is currently in the process of aborting send process */
+    fileprivate var isAbortingSending: Bool = false
+    
     /*
      Struct that tracks the check of sensor characteristics before writing shipment data to the sensor
      */
@@ -360,8 +363,13 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     
     /* if server error occured (for example, parcel with such TNT already exists), abort sending */
     func abortSending() {
-        if let isRecordingCharacteristic = isRecordingCharacteristic {
+        if isRecordingCharacteristic != nil {
+            isAbortingSending = true
             writeIsRecording(false)
+        } else {
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.abortSendingFailed)
+            }
         }
     }
     
@@ -506,6 +514,11 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                         sensor.readValue(for: characteristic)
                     } else if sensorDataRead != nil {
                         sensorDataRead!.didWriteIsRecording = true
+                    } else if isAbortingSending {
+                        isAbortingSending = false
+                        if let delegate = delegate {
+                            delegate.modumSensorAbortSendingCompleted()
+                        }
                     }
                 }
             case startTimeUUID:

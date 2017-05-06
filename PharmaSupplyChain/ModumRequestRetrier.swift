@@ -48,8 +48,11 @@ class ModumRequestRetrier : RequestRetrier {
                 completion(false, DEFAULT_TIME_INTERVAL)
             }
         } else {
-            completion(false, DEFAULT_TIME_INTERVAL)
+            if let timeInterval = timeInterval {
+                completion(true, timeInterval)
+            } else {
+                completion(true, DEFAULT_TIME_INTERVAL)
+            }
         }
     }
-    
 }

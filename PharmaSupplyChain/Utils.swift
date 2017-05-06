@@ -78,35 +78,51 @@ func getDeviceScreenSize() -> ScreenSize {
  Note: 'valid' MAC address strings are considered if MAC address is given without any separators
  */
 func isValidMacAddress(_ macAddressStr: String) -> Bool {
+    guard macAddressStr.characters.count == 17 else {
+        return false
+    }
+    var separatorIndex = macAddressStr.index(macAddressStr.endIndex, offsetBy: -3)
+    for _ in 0..<4 {
+        if macAddressStr[separatorIndex] != ":" {
+            return false
+        }
+        separatorIndex = macAddressStr.index(separatorIndex, offsetBy: -3)
+    }
+    
     let macString = macAddressStr.removeNonHexSymbols()
     guard macString.characters.count == 12 else {
         return false
     }
-    return macString.isValidHexString()
+    return true
 }
 
 /*
  Takes MAC address that isn't separated and adds ':' separators
  For example, 'A0F6E7842134' -> 'A0:F6:E7:84:21:34'
  Returns nil if input string doesn't represent valid MAC address
+ If input string already represents MAC address with separators, returns input string
  */
 func convertToMACAddressWithSeparators(_ macAddress: String) -> String? {
-    guard isValidMacAddress(macAddress) else {
-        return nil
-    }
-    var macAddressWithSepators = macAddress
-    var previousSeparatorIndex: String.Index?
-    for _ in 0..<5 {
-        var separatorIndex: String.Index!
-        if let previousIndex = previousSeparatorIndex {
-            separatorIndex = macAddress.index(previousIndex, offsetBy: -2)
-        } else {
-            separatorIndex = macAddress.index(macAddress.endIndex, offsetBy: -2)
+    if isValidMacAddress(macAddress) {
+        return macAddress
+    } else {
+        guard macAddress.isValidHexString() && macAddress.characters.count == 12 else {
+            return nil
         }
-        macAddressWithSepators.insert(":", at: separatorIndex)
-        previousSeparatorIndex = separatorIndex
+        var macAddressWithSepators = macAddress
+        var previousSeparatorIndex: String.Index?
+        for _ in 0..<5 {
+            var separatorIndex: String.Index!
+            if let previousIndex = previousSeparatorIndex {
+                separatorIndex = macAddress.index(previousIndex, offsetBy: -2)
+            } else {
+                separatorIndex = macAddress.index(macAddress.endIndex, offsetBy: -2)
+            }
+            macAddressWithSepators.insert(":", at: separatorIndex)
+            previousSeparatorIndex = separatorIndex
+        }
+        return macAddressWithSepators
     }
-    return macAddressWithSepators
 }
 
 /* Converts given value to byte array */
