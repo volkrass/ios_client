@@ -17,6 +17,8 @@ protocol ModumSensorDelegate {
     func modumSensorCheckBeforeReceivingPerformed()
     func modumSensorShipmentDataWritten()
     func modumSensorShipmentDataReceived(startTime: Date?, measurementsCount: UInt32?, interval: UInt8?, measurements: [CounterBasedMeasurement]?)
+    func modumSensorAbortSendingCompleted()
+    
 }
 
 enum SensorError: Error {
@@ -25,6 +27,8 @@ enum SensorError: Error {
     case selfCheckFailed
     case serviceUnavailable
     case notRecording
+    case connectionError
+    case abortSendingFailed
 }
 
 /* Class responsible for communication with Modum sensor device */
@@ -354,6 +358,13 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
         }
     }
     
+    /* if server error occured (for example, parcel with such TNT already exists), abort sending */
+    func abortSending() {
+        if let isRecordingCharacteristic = isRecordingCharacteristic {
+            writeIsRecording(false)
+        }
+    }
+    
     // MARK: CBPeriperhalDelegate
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -392,14 +403,23 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard error == nil else {
             log("Error discovering characteristics: \(error!.localizedDescription)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         guard peripheral == sensor else {
             log("Discovered service characteristics for wrong peripheral \(peripheral.name ?? "-")")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         guard service.uuid == sensorServiceUUID || service.uuid == batteryLevelServiceUUID else {
             log("Discovered characteristics for wrong service \(service.description)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         
@@ -448,10 +468,16 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         guard peripheral == sensor else {
             log("Received write indication for wrong peripheral \(peripheral.name ?? "-")")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         guard characteristic.service.uuid == sensorServiceUUID || characteristic.service.uuid == batteryLevelServiceUUID else {
             log("Received write indication for wrong service \(characteristic.service.description)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         
@@ -459,6 +485,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case contractIDUUID:
                 if let error = error {
                     log("Failed to write contract ID: \(error.localizedDescription)")
+                    if let delegate = delegate {
+                        delegate.modumSensorErrorOccured(.connectionError)
+                    }
                 } else {
                     if sensorDataWritten != nil {
                         sensorDataWritten!.didWriteContractID = true
@@ -467,6 +496,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case isRecordingUUID:
                 if let error = error {
                     log("Failed to write isRecording flag: \(error.localizedDescription)")
+                    if let delegate = delegate {
+                        delegate.modumSensorErrorOccured(.connectionError)
+                    }
                 } else {
                     if sensorDataWritten != nil {
                         sensorDataWritten!.didWriteIsRecording = true
@@ -479,6 +511,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case startTimeUUID:
                 if let error = error {
                     log("Failed to write startTime: \(error.localizedDescription)")
+                    if let delegate = delegate {
+                        delegate.modumSensorErrorOccured(.connectionError)
+                    }
                 } else {
                     if sensorDataWritten != nil {
                         sensorDataWritten!.didWriteStartTime = true
@@ -487,6 +522,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case recordingTimeIntervalUUID:
                 if let error = error {
                     log("Failed to write recording time interval: \(error.localizedDescription)")
+                    if let delegate = delegate {
+                        delegate.modumSensorErrorOccured(.connectionError)
+                    }
                 } else {
                     if sensorDataWritten != nil {
                         sensorDataWritten!.didWriteTimeInterval = true
@@ -495,6 +533,9 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
             case measurementsIndexUUID:
                 if let error = error {
                     log("Failed to write measurements read index: \(error.localizedDescription)")
+                    if let delegate = delegate {
+                        delegate.modumSensorErrorOccured(.connectionError)
+                    }
                 } else {
                     if let measurementsCharacteristic = measurementsCharacteristic {
                         sensor.readValue(for: measurementsCharacteristic)
@@ -509,14 +550,23 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard error == nil else {
             log("Error updating value for characteristic: \(characteristic.description): \((error! as NSError).userInfo)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         guard peripheral == sensor else {
             log("Updated value for characteristic on wrong peripheral: \(peripheral.name ?? "-")")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         guard characteristic.service.uuid == sensorServiceUUID || characteristic.service.uuid == batteryLevelServiceUUID else {
             log("Updated characteristic value for wrong service: \(characteristic.service.description)")
+            if let delegate = delegate {
+                delegate.modumSensorErrorOccured(.connectionError)
+            }
             return
         }
         
@@ -604,7 +654,7 @@ class ModumSensor : NSObject, CBPeripheralDelegate {
                             }
                         } else {
                             self.measurementsIndex = self.measurementsIndex! + UInt32(temperatureMeasurements.count)
-                            writeMeasurementsIndex(self.measurementsIndex!)
+                            writeMeasurementsIndex(measurementsIndex!)
                         }
                     }
                 }

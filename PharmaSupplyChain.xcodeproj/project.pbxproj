@@ -290,7 +290,6 @@
 				D2908F731E68E71A00C019CC /* CompanyTemperatureCategory.swift */,
 				D2908F751E69AE8200C019CC /* Sensor.swift */,
 				D2908F771E69B05F00C019CC /* LoginObject.swift */,
-				D2908F791E69B31100C019CC /* ServerError.swift */,
 				D2C857A71E7ACEB500348FFF /* User.swift */,
 				D2C857A91E7ACEC100348FFF /* Company.swift */,
 				D24808F51E8868E500A60F12 /* CreatedParcel.swift */,
@@ -432,6 +431,7 @@
 			children = (
 				D2908F7F1E6D5EE200C019CC /* Transform */,
 				D2F126DE1DBF78AF00964B7D /* ServerManager.swift */,
+				D2908F791E69B31100C019CC /* ServerError.swift */,
 				D2B7E67D1E97E5E30079D431 /* ModumRequestRetrier.swift */,
 				D253CC911E9E88420076589B /* ReccurentUploader.swift */,
 			);

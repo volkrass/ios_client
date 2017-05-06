@@ -29,9 +29,13 @@ class TemperatureMeasurementsObject : Mappable, CoreDataObject {
                 let temperatureMeasurement = TemperatureMeasurement()
                 let temperature = measurement.getTemperature()
                 temperatureMeasurement.temperature = temperature
-                temperatureMeasurement.timestamp = startDate.addingTimeInterval(Double(index+1) * Double(timeInterval) * 60.0)
-                if let minTemp = tempCategory.minTemp, let maxTemp = tempCategory.maxTemp, temperature > Double(maxTemp) || temperature < Double(minTemp) {
-                    localInterpretationSuccess = false
+                temperatureMeasurement.timestamp = startDate.addingTimeInterval(Double(index) * Double(timeInterval) * 60.0)
+                if localInterpretationSuccess! {
+                    if let minTemp = tempCategory.minTemp, let maxTemp = tempCategory.maxTemp {
+                        localInterpretationSuccess = temperature >= Double(minTemp) && temperature <= Double(maxTemp)
+                    } else {
+                        localInterpretationSuccess = false
+                    }
                 }
                 temperatureMeasurements.append(temperatureMeasurement)
             }

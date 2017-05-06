@@ -397,15 +397,12 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
     }
     
     func modumSensorShipmentDataWritten() {
-        if let modumSensor = modumSensor {
-            bluetoothManager!.disconnect(peripheral: modumSensor.sensor)
-        }
         DispatchQueue.main.async {
             [weak self] in
             
             if let parcelCreateViewController = self {
                 if let loadingView = parcelCreateViewController.loadingView {
-                    loadingView.setText(text: "Parcel created!")
+                    loadingView.setText(text: "Creating parcel...")
                 }
                 if let createdParcel = parcelCreateViewController.createdParcel {
                     ServerManager.shared.createParcel(parcel: createdParcel, backgroundUpload: false, completionHandler: {
@@ -414,12 +411,47 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                         
                         if let parcelCreateViewController = self {
                             if let error = error {
-                                log("Failed to upload parcel \(error)! Starting background upload...")
-                                parcelCreateViewController.loadingView?.setText(text: "Parcel will be uploaded in background mode...")
-                                parcelCreateViewController.loadingView?.stopAnimating()
-                                RecurrentUploader.shared.addParcelToUpload(parcel: createdParcel)
+                                log("Failed to upload parcel \(error.message ?? "-")!")
+                                if error == ServerError.noInternet || error == ServerError.defaultError {
+                                    parcelCreateViewController.loadingView?.setText(text: "Parcel will be uploaded in background mode...")
+                                    parcelCreateViewController.loadingView?.stopAnimating()
+                                    RecurrentUploader.shared.addParcelToUpload(parcel: createdParcel)
+                                    
+                                    /* disconnect from the sensor */
+                                    if let modumSensor = parcelCreateViewController.modumSensor {
+                                        parcelCreateViewController.bluetoothManager!.disconnect(peripheral: modumSensor.sensor)
+                                    }
+                                } else if error == ServerError.parcelTntAlreadyExists {
+                                    let parcelTntExistsAlertController = UIAlertController(title: nil, message: "Parcel with TNT \(createdParcel.tntNumber ?? "") already exists!", preferredStyle: .alert)
+                                    let alertControllerWithDismiss = parcelTntExistsAlertController.addDismissAction(WithHandler: {
+                                        [weak self]
+                                        _ in
+                                        
+                                        if let parcelCreateViewController = self {
+                                            parcelTntExistsAlertController.dismiss(animated: true, completion: nil)
+                                            _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
+                                        }
+                                    })
+                                    
+                                    parcelCreateViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
+                                    parcelCreateViewController.modumSensor!.abortSending()
+                                } else if error == ServerError.parcelMaxFailsIncorrect {
+                                    let parcelMaxFailsIncorrectAlertController = UIAlertController(title: nil, message: "Maximum temperature failures is set incorrectly!", preferredStyle: .alert)
+                                    let alertControllerWithDismiss = parcelMaxFailsIncorrectAlertController.addDismissAction(WithHandler: {
+                                        [weak self]
+                                        _ in
+                                        
+                                        if let parcelCreateViewController = self {
+                                            parcelMaxFailsIncorrectAlertController.dismiss(animated: true, completion: nil)
+                                            _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
+                                        }
+                                    })
+                                    
+                                    parcelCreateViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
+                                    parcelCreateViewController.modumSensor!.abortSending()
+                                }
                             }
-                            let after = DispatchTime.now() + 1.5
+                            let after = DispatchTime.now() + 0.5
                             DispatchQueue.main.asyncAfter(deadline: after, execute: {
                                 [weak self] in
                                 
@@ -492,20 +524,42 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                 })
                 
                 present(alertControllerWithDismiss, animated: true, completion: nil)
-            case .notRecording:
-                let notRecordingAlertController = UIAlertController(title: nil, message: "Sensor isn't currently in recording mode! Please, try another sensor.", preferredStyle: .alert)
-                let alertControllerWithDismiss = notRecordingAlertController.addDismissAction(WithHandler: {
+            case .connectionError:
+                let connectionErrorAlertController = UIAlertController(title: nil, message: "Connection to the sensor has failed! Please, try again", preferredStyle: .alert)
+                let alertControllerWithDismiss = connectionErrorAlertController.addDismissAction(WithHandler: {
                     [weak self]
                     _ in
                     
                     if let parcelCreateViewController = self {
-                        notRecordingAlertController.dismiss(animated: true, completion: nil)
+                        connectionErrorAlertController.dismiss(animated: true, completion: nil)
                         _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                     }
                 })
                 
                 present(alertControllerWithDismiss, animated: true, completion: nil)
+            case .abortSendingFailed:
+                let abortSendingFailedAlertController = UIAlertController(title: nil, message: "Failed to reset sensor! Please, contact your administrator or technical support team member!", preferredStyle: .alert)
+                let alertControllerWithDismiss = abortSendingFailedAlertController.addDismissAction(WithHandler: {
+                    [weak self]
+                    _ in
+                    
+                    if let parcelCreateViewController = self {
+                        abortSendingFailedAlertController.dismiss(animated: true, completion: nil)
+                        _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
+                    }
+                })
+                
+                present(alertControllerWithDismiss, animated: true, completion: nil)
+            case .notRecording:
+                /* This error is relevant only when receiving the parcel */
+                break
             }
+        }
+    }
+    
+    func modumSensorAbortSendingCompleted() {
+        if let modumSensor = modumSensor {
+            bluetoothManager!.disconnect(peripheral: modumSensor.sensor)
         }
     }
     

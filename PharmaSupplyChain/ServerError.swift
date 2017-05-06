@@ -10,8 +10,19 @@ import ObjectMapper
 
 class ServerError: Mappable, Equatable {
     
+    // MARK: Constants
+    
+    /* General errors */
     static let defaultError: ServerError = ServerError(code: nil, message: "Server error occured. Please, try again!")
     static let noInternet: ServerError = ServerError(code: nil, message: "No network connection!")
+    
+    /* Parcel creation errors */
+    static let parcelTntAlreadyExists: ServerError = ServerError(code: nil, message: "Parcel with this TNT number already exists!")
+    static let parcelMaxFailsIncorrect: ServerError = ServerError(code: nil, message: "Maximum allowed temperature failures is set incorrectly!")
+    
+    /* Measurement upload errors */
+    static let measurementsForParcelAlreadyExist: ServerError = ServerError(code: nil, message: "Measurements for parcel have already been uploaded!")
+    static let parcelWithTntNotExists: ServerError = ServerError(code: nil, message: "There is no matching parcel for which these measurements should be uploaded")
     
     // MARK: Properties
 

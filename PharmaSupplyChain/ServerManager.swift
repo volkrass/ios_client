@@ -249,7 +249,23 @@ class ServerManager {
                         
                         switch response.result {
                         case .success:
-                            completionHandler(nil, response.result.value)
+                            /* server sends sensor MAC with separators, however, clients expect it with no separators */
+                            if var sensorArray = response.result.value, !sensorArray.isEmpty {
+                                sensorArray = sensorArray.flatMap({
+                                    sensor in
+                                    
+                                    if let sensorMAC = sensor.sensorMAC {
+                                        sensor.sensorMAC = sensorMAC.removeNonHexSymbols()
+                                        return sensor
+                                    } else {
+                                        return nil
+                                    }
+                                })
+                                completionHandler(nil, sensorArray)
+                            } else {
+                                let error = ServerError(code: nil, message: "Empty sensor array received from the server")
+                                completionHandler(error, nil)
+                            }
                         case .failure(let error):
                             log("Error is \(error.localizedDescription)")
                             if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
@@ -280,7 +296,8 @@ class ServerManager {
      - @completionHandler returns ServerError object if error occured and SmartContractStatus object if it was returned
      */
     func postTemperatureMeasurements(tntNumber: String, sensorID: String, measurements: TemperatureMeasurementsObject, backgroundUpload: Bool, completionHandler: @escaping (ServerError?, TemperatureMeasurementsObject?) -> Void) {
-        if let authorizationHeader = authorizationHeader {
+        /* server requires MAC address to be submitted separated by ':' */
+        if let authorizationHeader = authorizationHeader, let sensorID = convertToMACAddressWithSeparators(sensorID) {
             if backgroundUpload {
                 sessionManager.request(ServerManager.DEV_API_URL + "parcels/\(tntNumber)/\(sensorID)/temperatures", method: .post, parameters: measurements.toJSON(), encoding: JSONEncoding.default, headers: ["Authorization" : authorizationHeader]).validate().responseObject(completionHandler: {
                     (response: DataResponse<TemperatureMeasurementsObject>) -> Void in
@@ -290,12 +307,14 @@ class ServerManager {
                         completionHandler(nil, response.result.value)
                     case .failure(let error):
                         log("Error is \(error.localizedDescription)")
-                        if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                            var serverError = ServerError(JSONString: errorResponseJSON)
-                            if serverError == nil {
-                                serverError = ServerError.defaultError
+                        if let httpResponse = response.response {
+                            if httpResponse.statusCode == 409 {
+                                completionHandler(ServerError.measurementsForParcelAlreadyExist, nil)
+                            } else if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8), let serverError = ServerError(JSONString: errorResponseJSON), let errorMessage = serverError.message, errorMessage == "Could not find parcel. Temperature measurements saved", httpResponse.statusCode == 404 {
+                                completionHandler(ServerError.parcelWithTntNotExists, nil)
+                            } else {
+                                completionHandler(ServerError.defaultError, nil)
                             }
-                            completionHandler(serverError, nil)
                         } else {
                             completionHandler(ServerError.defaultError, nil)
                         }
@@ -310,12 +329,14 @@ class ServerManager {
                         completionHandler(nil, response.result.value)
                     case .failure(let error):
                         log("Error is \(error.localizedDescription)")
-                        if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                            var serverError = ServerError(JSONString: errorResponseJSON)
-                            if serverError == nil {
-                                serverError = ServerError.defaultError
+                        if let httpResponse = response.response {
+                            if httpResponse.statusCode == 409 {
+                                completionHandler(ServerError.measurementsForParcelAlreadyExist, nil)
+                            } else if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8), let serverError = ServerError(JSONString: errorResponseJSON), let errorMessage = serverError.message, errorMessage == "Could not find parcel. Temperature measurements saved", httpResponse.statusCode == 404 {
+                                completionHandler(ServerError.parcelWithTntNotExists, nil)
+                            } else {
+                                completionHandler(ServerError.defaultError, nil)
                             }
-                            completionHandler(serverError, nil)
                         } else {
                             completionHandler(ServerError.defaultError, nil)
                         }
@@ -333,6 +354,10 @@ class ServerManager {
      - @completionHandler returns ServerError object if error occured
      */
     func createParcel(parcel: CreatedParcel, backgroundUpload: Bool, completionHandler: @escaping (ServerError?, Parcel?) -> Void) {
+        /* sensor requires sensor ID to have separators */
+        if let sensorUUID = parcel.sensorUUID {
+            parcel.sensorUUID = convertToMACAddressWithSeparators(sensorUUID)
+        }
         if let authorizationHeader = authorizationHeader {
             log("JSON parcel: \(parcel.toJSON())")
             if backgroundUpload {
@@ -344,12 +369,14 @@ class ServerManager {
                         completionHandler(nil, response.result.value)
                     case .failure(let error):
                         log("Error is \(error.localizedDescription)")
-                        if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                            var serverError = ServerError(JSONString: errorResponseJSON)
-                            if serverError == nil {
-                                serverError = ServerError.defaultError
+                        if let httpResponse = response.response {
+                            if httpResponse.statusCode == 409 {
+                                completionHandler(ServerError.parcelTntAlreadyExists, nil)
+                            } else if httpResponse.statusCode == 400 {
+                                completionHandler(ServerError.parcelMaxFailsIncorrect, nil)
+                            } else {
+                                completionHandler(ServerError.defaultError, nil)
                             }
-                            completionHandler(serverError, nil)
                         } else {
                             completionHandler(ServerError.defaultError, nil)
                         }
@@ -364,12 +391,14 @@ class ServerManager {
                         completionHandler(nil, response.result.value)
                     case .failure(let error):
                         log("Error is \(error.localizedDescription)")
-                        if let responseData = response.data, let errorResponseJSON = String(data: responseData, encoding: String.Encoding.utf8) {
-                            var serverError = ServerError(JSONString: errorResponseJSON)
-                            if serverError == nil {
-                                serverError = ServerError.defaultError
+                        if let httpResponse = response.response {
+                            if httpResponse.statusCode == 409 {
+                                completionHandler(ServerError.parcelTntAlreadyExists, nil)
+                            } else if httpResponse.statusCode == 400 {
+                                completionHandler(ServerError.parcelMaxFailsIncorrect, nil)
+                            } else {
+                                completionHandler(ServerError.defaultError, nil)
                             }
-                            completionHandler(serverError, nil)
                         } else {
                             completionHandler(ServerError.defaultError, nil)
                         }

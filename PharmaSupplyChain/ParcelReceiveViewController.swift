@@ -258,32 +258,6 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                 })
                 
                 present(alertControllerWithDismiss, animated: true, completion: nil)
-            case .recordingAlready:
-                let sensorIsRecordingAlertController = UIAlertController(title: nil, message: "This sensor is in recording mode! Please, try to use another sensor!", preferredStyle: .alert)
-                let alertControllerWithDismiss = sensorIsRecordingAlertController.addDismissAction(WithHandler: {
-                    [weak self]
-                    _ in
-                    
-                    if let parcelReceiveViewController = self {
-                        sensorIsRecordingAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
-                    }
-                })
-                
-                present(alertControllerWithDismiss, animated: true, completion: nil)
-            case .selfCheckFailed:
-                let sensorBrokenAlertController = UIAlertController(title: nil, message: "The sensor is broken! Please, try to use another sensor!", preferredStyle: .alert)
-                let alertControllerWithDismiss = sensorBrokenAlertController.addDismissAction(WithHandler: {
-                    [weak self]
-                    _ in
-                    
-                    if let parcelReceiveViewController = self {
-                        sensorBrokenAlertController.dismiss(animated: true, completion: nil)
-                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
-                    }
-                })
-                
-                present(alertControllerWithDismiss, animated: true, completion: nil)
             case .serviceUnavailable:
                 let serviceUnavailableAlertController = UIAlertController(title: nil, message: "Something went wrong! Try to create shipment again or use another sensor!", preferredStyle: .alert)
                 let alertControllerWithDismiss = serviceUnavailableAlertController.addDismissAction(WithHandler: {
@@ -310,6 +284,22 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                 })
                 
                 present(alertControllerWithDismiss, animated: true, completion: nil)
+            case .connectionError:
+                let connectionErrorAlertController = UIAlertController(title: nil, message: "Connection to the sensor has failed! Please, try again", preferredStyle: .alert)
+                let alertControllerWithDismiss = connectionErrorAlertController.addDismissAction(WithHandler: {
+                    [weak self]
+                    _ in
+                    
+                    if let parcelReceiveViewController = self {
+                        connectionErrorAlertController.dismiss(animated: true, completion: nil)
+                        _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
+                    }
+                })
+                
+                present(alertControllerWithDismiss, animated: true, completion: nil)
+            case .abortSendingFailed, .recordingAlready, .selfCheckFailed:
+                /* These errors can occur only during initiating parcel send */
+                break
             }
         }
     }
@@ -344,10 +334,38 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                             error, measurementsObject in
                             
                             if let parcelReceiveViewController = self {
-                                if error != nil {
-                                    parcelReceiveViewController.loadingView?.setText(text: "Failed uploading measurements to the server! Adding upload to background...")
-                                    parcelReceiveViewController.loadingView?.stopAnimating()
-                                    RecurrentUploader.shared.addMeasurementsToUpload(tntNumber: parcelReceiveViewController.tntNumber!, sensorMAC: parcelReceiveViewController.sensor!.sensorMAC!, measurements: temperatureMeasurementsObject)
+                                if let error = error {
+                                    if error == ServerError.defaultError || error == ServerError.noInternet {
+                                        parcelReceiveViewController.loadingView?.setText(text: "Failed uploading measurements to the server! Adding upload to background...")
+                                        parcelReceiveViewController.loadingView?.stopAnimating()
+                                        RecurrentUploader.shared.addMeasurementsToUpload(tntNumber: parcelReceiveViewController.tntNumber!, sensorMAC: parcelReceiveViewController.sensor!.sensorMAC!, measurements: temperatureMeasurementsObject)
+                                    } else if error == ServerError.parcelWithTntNotExists {
+                                        let parcelWithTntNotExistsAlertController = UIAlertController(title: nil, message: "Parcel with TNT \(parcelReceiveViewController.tntNumber!) is not found on server! Measurements are still saved!", preferredStyle: .alert)
+                                        let alertControllerWithDismiss = parcelWithTntNotExistsAlertController.addDismissAction(WithHandler: {
+                                            [weak self]
+                                            _ in
+                                            
+                                            if let parcelReceiveViewController = self {
+                                                parcelWithTntNotExistsAlertController.dismiss(animated: true, completion: nil)
+                                                _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
+                                            }
+                                        })
+                                        
+                                        parcelReceiveViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
+                                    } else if error == ServerError.measurementsForParcelAlreadyExist {
+                                        let measurementsForParcelExistAlertController = UIAlertController(title: nil, message: "Measurements have already been uploaded for the parcel with \(parcelReceiveViewController.tntNumber!)!", preferredStyle: .alert)
+                                        let alertControllerWithDismiss = measurementsForParcelExistAlertController.addDismissAction(WithHandler: {
+                                            [weak self]
+                                            _ in
+                                            
+                                            if let parcelReceiveViewController = self {
+                                                measurementsForParcelExistAlertController.dismiss(animated: true, completion: nil)
+                                                _ = parcelReceiveViewController.navigationController?.popToRootViewController(animated: true)
+                                            }
+                                        })
+                                        
+                                        parcelReceiveViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
+                                    }
                                 } else {
                                     parcelReceiveViewController.loadingView?.setText(text: "Uploaded measurements successfully!")
                                 }
@@ -367,6 +385,10 @@ class ParcelReceiveViewController : UIViewController, BluetoothManagerDelegate, 
                 }
             }
         }
+    }
+    
+    func modumSensorAbortSendingCompleted() {
+        /* Protocol requirement */
     }
     
     // MARK: Helper functions

@@ -69,7 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     if let error = error {
                         log("Error during login! Error is: \(error.message ?? "")")
                         /* if there is no internet and token isn't yet expired, present parcels screen */
-                        if let authTokenExpiry = LoginManager.shared.getAuthTokenExpiry(), authTokenExpiry < Date(), error == ServerError.noInternet {
+                        
+                        if let authTokenExpiry = LoginManager.shared.getAuthTokenExpiry(), authTokenExpiry > Date(), error == ServerError.noInternet {
                             if let parcelsNavigationController = storyboard.instantiateViewController(withIdentifier: "ParcelsNavigationController") as? UINavigationController {
                                 appDelegate.window!.rootViewController = parcelsNavigationController
                             }

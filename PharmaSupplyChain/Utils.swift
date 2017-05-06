@@ -85,6 +85,30 @@ func isValidMacAddress(_ macAddressStr: String) -> Bool {
     return macString.isValidHexString()
 }
 
+/*
+ Takes MAC address that isn't separated and adds ':' separators
+ For example, 'A0F6E7842134' -> 'A0:F6:E7:84:21:34'
+ Returns nil if input string doesn't represent valid MAC address
+ */
+func convertToMACAddressWithSeparators(_ macAddress: String) -> String? {
+    guard isValidMacAddress(macAddress) else {
+        return nil
+    }
+    var macAddressWithSepators = macAddress
+    var previousSeparatorIndex: String.Index?
+    for _ in 0..<5 {
+        var separatorIndex: String.Index!
+        if let previousIndex = previousSeparatorIndex {
+            separatorIndex = macAddress.index(previousIndex, offsetBy: -2)
+        } else {
+            separatorIndex = macAddress.index(macAddress.endIndex, offsetBy: -2)
+        }
+        macAddressWithSepators.insert(":", at: separatorIndex)
+        previousSeparatorIndex = separatorIndex
+    }
+    return macAddressWithSepators
+}
+
 /* Converts given value to byte array */
 func toByteArray<T>(_ value: T) -> [UInt8] {
     var value = value
