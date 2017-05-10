@@ -28,3 +28,18 @@ extension CDTempCategory {
     @NSManaged public var createdParcels: NSSet?
     
 }
+
+extension CDTempCategory {
+    
+    @objc(addCreatedParcelsObject:)
+    @NSManaged public func addToCreatedParcels(_ value: CDTempCategory)
+    
+    @objc(removeCreatedParcelsObject:)
+    @NSManaged public func removeFromCreatedParcels(_ value: CDTempCategory)
+    
+    @objc(addCreatedParcels:)
+    @NSManaged public func addToCreatedParcels(_ values: NSSet)
+    
+    @objc(removeCreatedParcels:)
+    @NSManaged public func removeFromCreatedParcels(_ values: NSSet)
+}

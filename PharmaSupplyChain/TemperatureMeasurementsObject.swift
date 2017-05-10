@@ -54,23 +54,37 @@ class TemperatureMeasurementsObject : Mappable, CoreDataObject {
     // MARK: CoreDataObject
     
     public required init?(WithCoreDataObject object: CDTempMeasurementsObject) {
-        temperatureMeasurements = object.measurements.flatMap{ TemperatureMeasurement(WithCoreDataObject: $0)}
+        for coreDataMeasurement in object.measurements {
+            if let cdMeasurement = coreDataMeasurement as? CDTempMeasurement {
+                if let measurement = TemperatureMeasurement(WithCoreDataObject: cdMeasurement) {
+                    temperatureMeasurements.append(measurement)
+                }
+            }
+        }
         localInterpretationSuccess = object.localInterpretationSuccess
     }
     
     public func toCoreDataObject(object: CDTempMeasurementsObject) {
         if let moc = object.managedObjectContext {
-            var cdTempMeasurements: [CDTempMeasurement] = []
-            for temperatureMeasurement in temperatureMeasurements {
-                if let cdTempMeasurement = NSEntityDescription.insertNewObject(forEntityName: "CDTempMeasurement", into: moc) as? CDTempMeasurement {
-                    temperatureMeasurement.toCoreDataObject(object: cdTempMeasurement)
-                    cdTempMeasurements.append(cdTempMeasurement)
+            moc.performAndWait({
+                [weak self] in
+                
+                if let tempMeasurementsObject = self {
+                    var cdTempMeasurements: [CDTempMeasurement] = []
+                    for temperatureMeasurement in tempMeasurementsObject.temperatureMeasurements {
+                        if let cdTempMeasurement = NSEntityDescription.insertNewObject(forEntityName: "CDTempMeasurement", into: moc) as? CDTempMeasurement {
+                            temperatureMeasurement.toCoreDataObject(object: cdTempMeasurement)
+                            cdTempMeasurements.append(cdTempMeasurement)
+                        }
+                    }
+                    
+                    object.addToMeasurements(NSSet(array: cdTempMeasurements))
+                    
+                    if let localInterpretationSuccess = tempMeasurementsObject.localInterpretationSuccess {
+                        object.localInterpretationSuccess = localInterpretationSuccess
+                    }
                 }
-            }
-            object.measurements = cdTempMeasurements
-        }
-        if let localInterpretationSuccess = localInterpretationSuccess {
-            object.localInterpretationSuccess = localInterpretationSuccess
+            })
         }
     }
     

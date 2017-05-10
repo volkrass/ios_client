@@ -1,4 +1,4 @@
-//
+ //
 //  ReccurentUploader.swift
 //  PharmaSupplyChain
 //
@@ -39,35 +39,40 @@ class RecurrentUploader {
                     let cdParcelsToUpload = try backgroundContext.fetch(allCreatedParcelsRequest)
                     for cdParcelToUpload in cdParcelsToUpload {
                         if let parcelToUpload = CreatedParcel(WithCoreDataObject: cdParcelToUpload) {
+                            
+                            let tntNumber = cdParcelToUpload.tntNumber
+                            let sensorMAC = cdParcelToUpload.sensorMAC
                             reccurentUploader.uploadParcel(parcel: parcelToUpload, completionHandler: {
                                 error, parcel in
                                 
                                 /* if completed successfully */
                                 if parcel != nil, error == nil {
                                     /* remove notification */
-                                    UNUserNotificationCenter.current().removeNotification(identifier: "parcel_\(cdParcelToUpload.tntNumber)_\(cdParcelToUpload.sensorMAC)")
+                                    UNUserNotificationCenter.current().removeNotification(identifier: "parcel_\(tntNumber)_\(sensorMAC)")
                                     
                                     /* remove object from CoreData */
                                     let parcelFetchRequest = NSFetchRequest<CDCreatedParcel>(entityName: "CDCreatedParcel")
-                                    parcelFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", cdParcelToUpload.tntNumber, cdParcelToUpload.sensorMAC)
-                                    do {
-                                        let results = try backgroundContext.fetch(parcelFetchRequest)
-                                        if results.count > 1 {
-                                            log("Objects with duplicated tntNumber and sensorMAC are found!")
-                                        }
-                                        for result in results {
-                                            backgroundContext.delete(result)
-                                        }
-                                        CoreDataManager.shared.saveLocally(managedContext: backgroundContext, WithCompletionHandler: {
-                                            success in
-                                            
-                                            if !success {
-                                                log("Failed to delete parcel object from CoreData!")
+                                    parcelFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", tntNumber, sensorMAC)
+                                    backgroundContext.performAndWait({
+                                        do {
+                                            let results = try backgroundContext.fetch(parcelFetchRequest)
+                                            if results.count > 1 {
+                                                log("Objects with duplicated tntNumber and sensorMAC are found!")
                                             }
-                                        })
-                                    } catch {
-                                        log("Failed to execute fetch request! Error is \(error.localizedDescription)")
-                                    }
+                                            for result in results {
+                                                backgroundContext.delete(result)
+                                            }
+                                            CoreDataManager.shared.saveLocally(managedContext: backgroundContext, WithCompletionHandler: {
+                                                success in
+                                                
+                                                if !success {
+                                                    log("Failed to delete parcel object from CoreData!")
+                                                }
+                                            })
+                                        } catch {
+                                            log("Failed to execute fetch request! Error is \(error.localizedDescription)")
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -75,35 +80,41 @@ class RecurrentUploader {
                     let cdTempMeasurementsToUpload = try backgroundContext.fetch(allTempMeasurementsObjectsRequest)
                     for cdTempMeasurementToUpload in cdTempMeasurementsToUpload {
                         if let tempMeasurementsObject = TemperatureMeasurementsObject(WithCoreDataObject: cdTempMeasurementToUpload.measurementsObject) {
-                            reccurentUploader.uploadMeasurements(tntNumber: cdTempMeasurementToUpload.tntNumber, sensorMAC: cdTempMeasurementToUpload.sensorMAC, measurements: tempMeasurementsObject, completionHandler: {
+                            
+                            let tntNumber = cdTempMeasurementToUpload.tntNumber
+                            let sensorMAC = cdTempMeasurementToUpload.sensorMAC
+                            
+                            reccurentUploader.uploadMeasurements(tntNumber: tntNumber, sensorMAC: sensorMAC, measurements: tempMeasurementsObject, completionHandler: {
                                 error, measurements in
                                 
                                 /* if completed successfully */
                                 if measurements != nil, error == nil {
                                     /* remove notification */
-                                    UNUserNotificationCenter.current().removeNotification(identifier: "measurements_\(cdTempMeasurementToUpload.tntNumber)_\(cdTempMeasurementToUpload.sensorMAC)")
+                                    UNUserNotificationCenter.current().removeNotification(identifier: "measurements_\(tntNumber)_\(sensorMAC)")
                                     
                                     /* remove object from CoreData */
                                     let measurementsFetchRequest = NSFetchRequest<CDTempMeasurementsUpload>(entityName: "CDTempMeasurementsUpload")
-                                    measurementsFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", cdTempMeasurementToUpload.tntNumber, cdTempMeasurementToUpload.sensorMAC)
-                                    do {
-                                        let results = try backgroundContext.fetch(measurementsFetchRequest)
-                                        if results.count > 1 {
-                                            log("Objects with duplicated tntNumber and sensorMAC are found!")
-                                        }
-                                        for result in results {
-                                            backgroundContext.delete(result)
-                                        }
-                                        CoreDataManager.shared.saveLocally(managedContext: backgroundContext, WithCompletionHandler: {
-                                            success in
-                                            
-                                            if !success {
-                                                log("Failed to delete temperature measurement upload from CoreData!")
+                                    measurementsFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", tntNumber, sensorMAC)
+                                    backgroundContext.performAndWait({
+                                        do {
+                                            let results = try backgroundContext.fetch(measurementsFetchRequest)
+                                            if results.count > 1 {
+                                                log("Objects with duplicated tntNumber and sensorMAC are found!")
                                             }
-                                        })
-                                    } catch {
-                                        log("Failed to execute fetch request! Error is \(error.localizedDescription)")
-                                    }
+                                            for result in results {
+                                                backgroundContext.delete(result)
+                                            }
+                                            CoreDataManager.shared.saveLocally(managedContext: backgroundContext, WithCompletionHandler: {
+                                                success in
+                                                
+                                                if !success {
+                                                    log("Failed to delete temperature measurement upload from CoreData!")
+                                                }
+                                            })
+                                        } catch {
+                                            log("Failed to execute fetch request! Error is \(error.localizedDescription)")
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -168,14 +179,16 @@ class RecurrentUploader {
                         reccurentUploader.uploadMeasurements(tntNumber: tntNumber, sensorMAC: sensorMAC, measurements: measurements, completionHandler: {
                             error, measurementsObject in
                             
-                            /* if completed successfully */
-                            if measurementsObject != nil, error == nil {
-                                /* remove notification */
-                                UNUserNotificationCenter.current().removeNotification(identifier: "measurements_\(tntNumber)_\(sensorMAC)")
-                                
-                                /* remove object from CoreData */
-                                let measurementsFetchRequest = NSFetchRequest<CDTempMeasurementsUpload>(entityName: "CDTempMeasurementsUpload")
-                                measurementsFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", tntNumber, sensorMAC)
+                            /* if completed successfully, just remove notification and the object from CoreData */
+                            /* if completed unsucessfully, remove notification and the object from CoreData and generate new notification with cause of error */
+                            
+                            /* remove notification */
+                            UNUserNotificationCenter.current().removeNotification(identifier: "measurements_\(tntNumber)_\(sensorMAC)")
+                            
+                            /* remove object from CoreData */
+                            let measurementsFetchRequest = NSFetchRequest<CDTempMeasurementsUpload>(entityName: "CDTempMeasurementsUpload")
+                            measurementsFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", tntNumber, sensorMAC)
+                            backgroundContext.performAndWait({
                                 do {
                                     let results = try backgroundContext.fetch(measurementsFetchRequest)
                                     if results.count > 1 {
@@ -193,6 +206,57 @@ class RecurrentUploader {
                                     })
                                 } catch {
                                     log("Failed to execute fetch request! Error is \(error.localizedDescription)")
+                                }
+                            })
+                            
+                            if let error = error {
+                                switch error {
+                                    case ServerError.measurementsForParcelAlreadyExist:
+                                        /* generate notification */
+                                        let notificationContent = UNMutableNotificationContent()
+                                        notificationContent.title = "Failed to upload"
+                                        notificationContent.body = "Temperature measurements for parcel with Track&Trace \(tntNumber) already exist!"
+                                        notificationContent.sound = UNNotificationSound.default()
+                                        let notificationRequest = UNNotificationRequest(identifier: "parcel_\(tntNumber)_\(sensorMAC)", content: notificationContent, trigger: nil)
+                                        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
+                                            settings in
+                                            
+                                            if settings.authorizationStatus == .authorized {
+                                                UNUserNotificationCenter.current().add(notificationRequest, withCompletionHandler: {
+                                                    error in
+                                                    
+                                                    if let error = error {
+                                                        log("Failed to add notification: \(error.localizedDescription)")
+                                                    }
+                                                })
+                                            } else {
+                                                log("No permission to add notifications! Aborting...")
+                                            }
+                                        })
+                                    case ServerError.parcelWithTntNotExists:
+                                        /* generate notification */
+                                        let notificationContent = UNMutableNotificationContent()
+                                        notificationContent.title = "Failed to upload"
+                                        notificationContent.body = "Parcel with Track&Trace \(tntNumber) doesn't exist!"
+                                        notificationContent.sound = UNNotificationSound.default()
+                                        let notificationRequest = UNNotificationRequest(identifier: "parcel_\(tntNumber)_\(sensorMAC)", content: notificationContent, trigger: nil)
+                                        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
+                                            settings in
+                                            
+                                            if settings.authorizationStatus == .authorized {
+                                                UNUserNotificationCenter.current().add(notificationRequest, withCompletionHandler: {
+                                                    error in
+                                                    
+                                                    if let error = error {
+                                                        log("Failed to add notification: \(error.localizedDescription)")
+                                                    }
+                                                })
+                                            } else {
+                                                log("No permission to add notifications! Aborting...")
+                                            }
+                                        })
+                                    default:
+                                        break
                                 }
                             }
                         })
@@ -217,6 +281,9 @@ class RecurrentUploader {
             let cdCreatedParcel = NSEntityDescription.insertNewObject(forEntityName: "CDCreatedParcel", into: backgroundContext) as! CDCreatedParcel
             parcel.toCoreDataObject(object: cdCreatedParcel)
             
+            let tntNumber = cdCreatedParcel.tntNumber
+            let sensorMAC = cdCreatedParcel.sensorMAC
+            
             CoreDataManager.shared.saveLocally(managedContext: backgroundContext, WithCompletionHandler: {
                 [weak self]
                 success in
@@ -227,9 +294,9 @@ class RecurrentUploader {
                             /* generate notification */
                             let notificationContent = UNMutableNotificationContent()
                             notificationContent.title = "Pending upload"
-                            notificationContent.body = "Parcel for Track&Trace \(cdCreatedParcel.tntNumber) failed to upload!"
+                            notificationContent.body = "Parcel for Track&Trace \(tntNumber) failed to upload!"
                             notificationContent.sound = UNNotificationSound.default()
-                            let notificationRequest = UNNotificationRequest(identifier: "parcel_\(cdCreatedParcel.tntNumber)_\(cdCreatedParcel.sensorMAC)", content: notificationContent, trigger: nil)
+                            let notificationRequest = UNNotificationRequest(identifier: "parcel_\(tntNumber)_\(sensorMAC)", content: notificationContent, trigger: nil)
                             UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
                                 settings in
                                 
@@ -250,14 +317,16 @@ class RecurrentUploader {
                         reccurentUploader.uploadParcel(parcel: parcel, completionHandler: {
                             error, parcel in
                             
-                            /* if completed successfully */
-                            if parcel != nil, error == nil {
-                                /* remove notification */
-                                UNUserNotificationCenter.current().removeNotification(identifier: "parcel_\(cdCreatedParcel.tntNumber)_\(cdCreatedParcel.sensorMAC)")
-                                
-                                /* remove object from CoreData */
-                                let parcelFetchRequest = NSFetchRequest<CDCreatedParcel>(entityName: "CDCreatedParcel")
-                                parcelFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", cdCreatedParcel.tntNumber, cdCreatedParcel.sensorMAC)
+                            /* if completed successfully, just remove notification and the object from CoreData */
+                            /* if completed unsucessfully, remove notification and the object from CoreData and generate new notification with cause of error */
+                            
+                            /* remove notification */
+                            UNUserNotificationCenter.current().removeNotification(identifier: "parcel_\(tntNumber)_\(sensorMAC)")
+                            
+                            /* remove object from CoreData */
+                            let parcelFetchRequest = NSFetchRequest<CDCreatedParcel>(entityName: "CDCreatedParcel")
+                            parcelFetchRequest.predicate = NSPredicate(format: "tntNumber == %@ AND sensorMAC == %@", tntNumber, sensorMAC)
+                            backgroundContext.performAndWait({
                                 do {
                                     let results = try backgroundContext.fetch(parcelFetchRequest)
                                     if results.count > 1 {
@@ -276,6 +345,58 @@ class RecurrentUploader {
                                 } catch {
                                     log("Failed to execute fetch request! Error is \(error.localizedDescription)")
                                 }
+                            })
+                            
+                            if let error = error {
+                                switch error {
+                                    case ServerError.parcelTntAlreadyExists:
+                                        /* generate notification */
+                                        let notificationContent = UNMutableNotificationContent()
+                                        notificationContent.title = "Failed to upload!"
+                                        notificationContent.body = "Parcel with Track&Trace \(tntNumber) already exists!"
+                                        notificationContent.sound = UNNotificationSound.default()
+                                        let notificationRequest = UNNotificationRequest(identifier: "parcel_\(tntNumber)_\(sensorMAC)", content: notificationContent, trigger: nil)
+                                        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
+                                            settings in
+                                            
+                                            if settings.authorizationStatus == .authorized {
+                                                UNUserNotificationCenter.current().add(notificationRequest, withCompletionHandler: {
+                                                    error in
+                                                    
+                                                    if let error = error {
+                                                        log("Failed to add notification: \(error.localizedDescription)")
+                                                    }
+                                                })
+                                            } else {
+                                                log("No permission to add notifications! Aborting...")
+                                            }
+                                        })
+                                    case ServerError.parcelMaxFailsIncorrect:
+                                        /* generate notification */
+                                        let notificationContent = UNMutableNotificationContent()
+                                        notificationContent.title = "Failed to upload"
+                                        notificationContent.body = "Parcel with Track&Trace \(tntNumber) has incorrect 'maxFailsTemp'!"
+                                        notificationContent.sound = UNNotificationSound.default()
+                                        let notificationRequest = UNNotificationRequest(identifier: "parcel_\(tntNumber)_\(sensorMAC)", content: notificationContent, trigger: nil)
+                                        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {
+                                            settings in
+                                            
+                                            if settings.authorizationStatus == .authorized {
+                                                UNUserNotificationCenter.current().add(notificationRequest, withCompletionHandler: {
+                                                    error in
+                                                    
+                                                    if let error = error {
+                                                        log("Failed to add notification: \(error.localizedDescription)")
+                                                    }
+                                                })
+                                            } else {
+                                                log("No permission to add notifications! Aborting...")
+                                            }
+                                        })
+                                    default:
+                                        break
+                                }
+                            
                             }
                         })
                     } else {

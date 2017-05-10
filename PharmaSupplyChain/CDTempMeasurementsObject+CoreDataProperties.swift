@@ -19,6 +19,21 @@ extension CDTempMeasurementsObject {
     
     @NSManaged public var localInterpretationSuccess: Bool
     
-    @NSManaged public var measurements: [CDTempMeasurement]
+    @NSManaged public var measurements: NSSet
     @NSManaged public var uploadObject: CDTempMeasurementsUpload?
+}
+
+extension CDTempMeasurementsObject {
+    
+    @objc(addMeasurementsObject:)
+    @NSManaged public func addToMeasurements(_ value: CDTempMeasurement)
+    
+    @objc(removeMeasurementsObject:)
+    @NSManaged public func removeFromMeasurements(_ value: CDTempMeasurement)
+    
+    @objc(addMeasurements:)
+    @NSManaged public func addToMeasurements(_ values: NSSet)
+    
+    @objc(removeMeasurements:)
+    @NSManaged public func removeFromMeasurements(_ values: NSSet)
 }

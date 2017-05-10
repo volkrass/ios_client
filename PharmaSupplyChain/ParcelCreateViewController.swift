@@ -183,7 +183,7 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
         }
         
         /* attempt to fetch prepared shipment details for scanned TNT. If they aren't available or there is no internet, suggest user to choose from CompanyDefaults. If those are non-available, abort sending parcel */
-        ServerManager.shared.getPreparedShipment(tntNumber: "", completionHandler: {
+        ServerManager.shared.getPreparedShipment(tntNumber: tntNumber, completionHandler: {
             [weak self]
             error, preparedShipment in
             
@@ -193,6 +193,9 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                 } else if let preparedShipment = preparedShipment {
                     if let category = preparedShipment.temperatureCategory {
                         parcelCreateViewController.createdParcel!.tempCategory = category
+                        
+                        /* Connect to sensor and write data from prepared shipment */
+                        parcelCreateViewController.bluetoothManager!.start()
                     } else {
                         let internalErrorAlertController = UIAlertController(title: nil, message: "Internal error occured! Please, try again!", preferredStyle: .alert)
                         let alertControllerWithDismiss = internalErrorAlertController.addDismissAction(WithHandler: {
@@ -207,8 +210,6 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                         
                         parcelCreateViewController.present(alertControllerWithDismiss, animated: true, completion: nil)
                     }
-                    /* Connect to sensor and write data from prepared shipment */
-                    parcelCreateViewController.bluetoothManager!.start()
                 }
             }
         })
@@ -360,7 +361,6 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
         if let modumSensor = modumSensor {
             modumSensor.performSensorCheckBeforeSending()
         }
-        //modumSensor!.abortSending()
     }
     
     func modumSensorServiceUnsupported() {
@@ -457,6 +457,7 @@ class ParcelCreateViewController : UIViewController, UIPickerViewDataSource, UIP
                                 [weak self] in
                                 
                                 if let parcelCreateViewController = self {
+                                    parcelCreateViewController.bluetoothManager!.disconnect(peripheral: parcelCreateViewController.modumSensor!.sensor)
                                     _ = parcelCreateViewController.navigationController?.popToRootViewController(animated: true)
                                 }
                             })

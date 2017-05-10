@@ -71,10 +71,11 @@ class CodeScannerViewController: UIViewController, AVCaptureMetadataOutputObject
             
             if metadataObject.type == AVMetadataObjectTypeQRCode, !isSensorMACDiscovered && !isReceivingParcel {
                 if metadataObject.stringValue != nil && !isSensorMACDiscovered {
-                    let scannedHexString = metadataObject.stringValue.removeNonHexSymbols()
-                    if isValidMacAddress(scannedHexString) {
+                    if isValidMacAddress(metadataObject.stringValue) {
                         isSensorMACDiscovered = true
-                        sensorMACAddress = scannedHexString
+                        
+                        /* Separator symbols, ':', are removed from MAC address because advertised Bluetooth name of the sensor doesn't contain them */
+                        sensorMACAddress = metadataObject.stringValue.removeNonHexSymbols()
                         if isContractIDDiscovered {
                             performSegue(withIdentifier: "goToParcelCreate", sender: self)
                         } else {
